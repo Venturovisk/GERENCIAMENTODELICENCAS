@@ -1,0 +1,202 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .wrap { padding: 1.5rem 0; }
+  .metric-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 1rem; }
+  .metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .metric-value { font-size: 28px; font-weight: 500; color: var(--color-text-primary); }
+  .metric-sub { font-size: 12px; color: var(--color-text-secondary); margin-top: 2px; }
+  .section-title { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+  .teams-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 1.5rem; }
+  .team-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.25rem; }
+  .team-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .team-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .team-count-badge { font-size: 13px; font-weight: 500; padding: 2px 10px; border-radius: 99px; }
+  .badge-lavinia { background: #E6F1FB; color: #0C447C; }
+  .badge-matheus { background: #E1F5EE; color: #085041; }
+  .badge-nay { background: #EEEDFE; color: #3C3489; }
+  .badge-gois { background: #FAEEDA; color: #633806; }
+  .member-list { list-style: none; }
+  .member-list li { font-size: 12px; color: var(--color-text-secondary); padding: 3px 0; display: flex; align-items: center; gap: 6px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .member-list li:last-child { border-bottom: none; }
+  .member-list li::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
+  .dot-lavinia::before { background: #378ADD; }
+  .dot-matheus::before { background: #1D9E75; }
+  .dot-nay::before { background: #7F77DD; }
+  .dot-gois::before { background: #BA7517; }
+  .chart-wrap { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 1.5rem; }
+  .license-section { background: var(--color-background-secondary); border-radius: var(--border-radius-lg); padding: 1.25rem; }
+  .license-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .license-label { font-size: 13px; color: var(--color-text-secondary); }
+  .license-input { width: 90px; text-align: center; font-size: 15px; font-weight: 500; border: 0.5px solid var(--color-border-secondary); border-radius: var(--border-radius-md); padding: 6px 8px; background: var(--color-background-primary); color: var(--color-text-primary); }
+  .license-result { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 0.5px solid var(--color-border-tertiary); }
+  .diff-ok { color: #0F6E56; font-weight: 500; font-size: 15px; }
+  .diff-over { color: #993C1D; font-weight: 500; font-size: 15px; }
+  .diff-neutral { color: var(--color-text-secondary); font-weight: 500; font-size: 15px; }
+  .bar-container { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .bar-row { display: flex; align-items: center; gap: 10px; }
+  .bar-label { font-size: 12px; color: var(--color-text-secondary); width: 110px; flex-shrink: 0; text-align: right; }
+  .bar-track { flex: 1; height: 16px; background: var(--color-background-secondary); border-radius: 8px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 8px; transition: width 0.4s ease; }
+  .bar-num { font-size: 12px; font-weight: 500; color: var(--color-text-primary); width: 20px; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Dashboard de usuários ativos no Corban/Vanguard por equipe</h2>
+
+  <div class="metric-grid">
+    <div class="metric">
+      <div class="metric-label">Total de usuários</div>
+      <div class="metric-value" id="total-users">51</div>
+      <div class="metric-sub">ativos no Corban</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Equipe Lavínia</div>
+      <div class="metric-value" style="color:#185FA5">11</div>
+      <div class="metric-sub">usuários</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Equipe Matheus</div>
+      <div class="metric-value" style="color:#0F6E56">13</div>
+      <div class="metric-sub">usuários</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Equipe Nay</div>
+      <div class="metric-value" style="color:#534AB7">11</div>
+      <div class="metric-sub">usuários</div>
+    </div>
+    <div class="metric">
+      <div class="metric-label">Góis Promotora</div>
+      <div class="metric-value" style="color:#854F0B">16</div>
+      <div class="metric-sub">usuários</div>
+    </div>
+  </div>
+
+  <div class="chart-wrap">
+    <div class="section-title">distribuição por equipe</div>
+    <div class="bar-container" id="bars"></div>
+  </div>
+
+  <div class="section-title">usuários por equipe</div>
+  <div class="teams-grid">
+    <div class="team-card">
+      <div class="team-header">
+        <span class="team-name">Equipe Lavínia</span>
+        <span class="team-count-badge badge-lavinia">11</span>
+      </div>
+      <ul class="member-list" id="lavinia-list"></ul>
+    </div>
+    <div class="team-card">
+      <div class="team-header">
+        <span class="team-name">Equipe Matheus</span>
+        <span class="team-count-badge badge-matheus">13</span>
+      </div>
+      <ul class="member-list" id="matheus-list"></ul>
+    </div>
+    <div class="team-card">
+      <div class="team-header">
+        <span class="team-name">Equipe Nay</span>
+        <span class="team-count-badge badge-nay">11</span>
+      </div>
+      <ul class="member-list" id="nay-list"></ul>
+    </div>
+    <div class="team-card">
+      <div class="team-header">
+        <span class="team-name">Góis Promotora</span>
+        <span class="team-count-badge badge-gois">16</span>
+      </div>
+      <ul class="member-list" id="gois-list"></ul>
+    </div>
+  </div>
+
+  <div class="license-section">
+    <div class="section-title" style="margin-bottom:14px">comparativo de licenças pagas</div>
+    <div class="license-row">
+      <span class="license-label">Usuários ativos detectados</span>
+      <span style="font-size:15px;font-weight:500;color:var(--color-text-primary)">51</span>
+    </div>
+    <div class="license-row" style="margin-bottom:0">
+      <span class="license-label">Licenças contratadas (editar)</span>
+      <input class="license-input" type="number" id="licenses" value="51" min="0" />
+    </div>
+    <div class="license-result">
+      <span style="font-size:13px;color:var(--color-text-secondary)">Diferença</span>
+      <span id="diff-label" class="diff-neutral">—</span>
+    </div>
+    <div id="diff-msg" style="font-size:12px;color:var(--color-text-secondary);margin-top:8px;text-align:right;"></div>
+  </div>
+</div>
+
+<script>
+const teams = {
+  lavinia: {
+    color: '#378ADD', cls: 'dot-lavinia',
+    members: ['Breno Morais Santos','Anny Karoline','Paulo Victor Silva','Ingryd Andrade dos Santos','Ruth Nielly dos Santos Araujo','Rayane Rodrigues dos Santos','Rayane Nascimento da Silva','Iris Lohany','Vitória Lima Santos','Isabelle Santana dos Reis','Ana Paula']
+  },
+  matheus: {
+    color: '#1D9E75', cls: 'dot-matheus',
+    members: ['Brendy Jheine','Candida Regina Azevedo Porto','Jenifer Janine Bento França','Luana Gonçalves Silva','Osvaldina dos Santos Dantas','Thainara Bento da Silva','Keylla Santos','Ana Clara Costa Santos','Milene Marcelino','Alderlainne Costa Rodrigues','Raquel Pereira','Stela Janice Carregosa Nascimento','Alisson de Jesus Souza']
+  },
+  nay: {
+    color: '#7F77DD', cls: 'dot-nay',
+    members: ['Camila Lima','Thainá Tavares de Oliveira','Thaiza Santos Gomes Nascimento','Fernanda Oliveira','Emanuelle Carvalho','Emilainny Freire Santos','Thaynara Aguiar dos Santos','Ana Caroline Oliveira Alves','Ingridy Kerolly Silva Santos','Micaele Jesus Nonato','Mayara Menezes Braz Ferreira']
+  },
+  gois: {
+    color: '#BA7517', cls: 'dot-gois',
+    members: ['Evelyn Dayana','Layane Silva Santos','Tauhany Moreira','Rosimary Vitorio','Cleidiane Oliveira','Laura Leticia','Daiane dos Santos','Laiane Conceicao','Maria Vitoria','Luiza Katiuce Santana Correia','Rafaela Santos','Raony Messias da Silva Cruz','Maria Veronica','Leticia Medonça','Brenda Eduarda','Catia Valeria']
+  }
+};
+
+const ids = { lavinia: 'lavinia-list', matheus: 'matheus-list', nay: 'nay-list', gois: 'gois-list' };
+const total = 51;
+
+Object.entries(teams).forEach(([key, t]) => {
+  const ul = document.getElementById(ids[key]);
+  t.members.forEach(m => {
+    const li = document.createElement('li');
+    li.className = t.cls;
+    li.textContent = m.charAt(0).toUpperCase() + m.slice(1).toLowerCase().replace(/\b\w/g, c => c.toUpperCase());
+    ul.appendChild(li);
+  });
+});
+
+const barsEl = document.getElementById('bars');
+const barData = [
+  { label: 'Góis Promotora', count: 16, color: '#BA7517' },
+  { label: 'Equipe Matheus', count: 13, color: '#1D9E75' },
+  { label: 'Eq. Lavínia', count: 11, color: '#378ADD' },
+  { label: 'Equipe Nay', count: 11, color: '#7F77DD' }
+];
+barData.forEach(b => {
+  const pct = Math.round((b.count / total) * 100);
+  barsEl.innerHTML += `<div class="bar-row">
+    <span class="bar-label">${b.label}</span>
+    <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${b.color}"></div></div>
+    <span class="bar-num">${b.count}</span>
+  </div>`;
+});
+
+function updateDiff() {
+  const licensed = parseInt(document.getElementById('licenses').value) || 0;
+  const diff = licensed - total;
+  const el = document.getElementById('diff-label');
+  const msg = document.getElementById('diff-msg');
+  if (diff > 0) {
+    el.textContent = `+${diff} licenças sobrando`;
+    el.className = 'diff-over';
+    msg.textContent = `Você pode estar pagando por ${diff} usuário(s) a mais do que o necessário.`;
+  } else if (diff < 0) {
+    el.textContent = `${diff} licenças faltando`;
+    el.className = 'diff-ok';
+    msg.textContent = `Atenção: faltam ${Math.abs(diff)} licenças para cobrir todos os usuários ativos.`;
+  } else {
+    el.textContent = 'Licenças exatas';
+    el.className = 'diff-neutral';
+    msg.textContent = 'O número de licenças coincide com os usuários ativos.';
+  }
+}
+document.getElementById('licenses').addEventListener('input', updateDiff);
+updateDiff();
+</script>
