@@ -1,0 +1,1181 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestão de Licenças Corban</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: #0a0f0d;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        .header {
+            background: linear-gradient(135deg, #1b443c, #0d2620);
+            padding: 20px 30px;
+            border-bottom: 3px solid #17c550;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 25px rgba(23, 197, 80, 0.15);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-icon {
+            width: 52px;
+            height: 52px;
+            background: linear-gradient(135deg, #17c550, #1b443c);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.3);
+        }
+
+        .header h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .header h1 span {
+            color: #17c550;
+        }
+
+        .header p {
+            font-size: 13px;
+            color: #6dbb8b;
+            margin-top: 2px;
+        }
+
+        .header-date {
+            font-size: 13px;
+            color: #6dbb8b;
+            text-align: right;
+        }
+
+        /* CARDS */
+        .summary-section {
+            padding: 30px 30px 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+            gap: 18px;
+        }
+
+        .summary-card {
+            background: linear-gradient(145deg, #122a24, #0e1f1a);
+            border-radius: 16px;
+            padding: 22px;
+            border: 1px solid #1b443c;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(23, 197, 80, 0.12);
+        }
+
+        .summary-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+        }
+
+        .card-green::before  { background: linear-gradient(90deg, #17c550, #1b443c); }
+        .card-red::before    { background: linear-gradient(90deg, #ef4444, #f97316); }
+        .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
+        .card-yellow::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
+        .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+
+        .summary-card .icon   { font-size: 30px; margin-bottom: 10px; }
+        .summary-card .number { font-size: 36px; font-weight: 800; color: #ffffff; }
+        .summary-card .label  { font-size: 13px; color: #6dbb8b; margin-top: 4px; }
+
+        /* CHARTS */
+        .charts-section {
+            padding: 0 30px 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 18px;
+        }
+
+        .chart-card {
+            background: linear-gradient(145deg, #122a24, #0e1f1a);
+            border-radius: 16px;
+            padding: 22px;
+            border: 1px solid #1b443c;
+        }
+
+        .chart-card h3 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
+
+        .bar-item { margin-bottom: 14px; }
+
+        .bar-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 13px;
+        }
+
+        .bar-label span:first-child { color: #b8d8c8; }
+        .bar-label span:last-child  { color: #17c550; font-weight: 600; }
+
+        .bar-track {
+            height: 10px;
+            background: #0a0f0d;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 0.8s ease;
+        }
+
+        .donut-list { display: flex; flex-direction: column; gap: 14px; }
+
+        .donut-item { display: flex; align-items: center; gap: 12px; }
+        .donut-color { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
+        .donut-label { flex: 1; font-size: 13px; color: #b8d8c8; }
+        .donut-val   { font-size: 14px; font-weight: 700; color: #ffffff; }
+        .donut-pct   { font-size: 12px; color: #6dbb8b; width: 42px; text-align: right; }
+
+        /* TIMELINE */
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+            align-items: flex-start;
+        }
+
+        .timeline-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .timeline-info { flex: 1; }
+        .timeline-info strong { font-size: 13px; color: #ffffff; display: block; }
+        .timeline-info span   { font-size: 11px; color: #6dbb8b; }
+
+        /* CONTROLS */
+        .controls {
+            padding: 20px 30px;
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 16px 12px 44px;
+            background: #122a24;
+            border: 1px solid #1b443c;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box input:focus {
+            border-color: #17c550;
+            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
+        }
+
+        .search-box::before {
+            content: '🔍';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+        }
+
+        .filter-select {
+            padding: 12px 16px;
+            background: #122a24;
+            border: 1px solid #1b443c;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 14px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.2s;
+            min-width: 180px;
+        }
+
+        .filter-select:focus {
+            border-color: #17c550;
+            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
+        }
+
+        .btn-add {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #17c550, #1b443c);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s, transform 0.2s;
+            white-space: nowrap;
+            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
+        }
+
+        .btn-add:hover { opacity: 0.9; transform: translateY(-2px); }
+
+        /* TABLE */
+        .table-section { padding: 0 30px 30px; }
+
+        .table-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .table-title { font-size: 16px; font-weight: 600; color: #ffffff; }
+        .table-count { font-size: 13px; color: #6dbb8b; }
+
+        .table-wrapper {
+            background: linear-gradient(145deg, #122a24, #0e1f1a);
+            border-radius: 16px;
+            border: 1px solid #1b443c;
+            overflow-x: auto;
+        }
+
+        table { width: 100%; border-collapse: collapse; min-width: 900px; }
+
+        thead { background: #0a1612; }
+
+        thead th {
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 11px;
+            font-weight: 700;
+            color: #6dbb8b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            border-top: 1px solid #1b443c44;
+            transition: background 0.2s;
+        }
+
+        tbody tr:hover { background: #1b443c33; }
+
+        tbody td {
+            padding: 14px 16px;
+            font-size: 13px;
+            color: #b8d8c8;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .cell-name { display: flex; align-items: center; gap: 12px; }
+        .name-info strong { display: block; color: #ffffff; font-size: 13px; }
+        .name-info span   { font-size: 11px; color: #6dbb8b; }
+
+        .badge-equipe {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        /* STATUS DO USUÁRIO */
+        .status-livre {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            background: #17c55018;
+            color: #17c550;
+            border: 1px solid #17c55040;
+        }
+
+        .status-livre .pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #17c550;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: 0.4; transform: scale(1.3); }
+        }
+
+        .status-em-uso {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #3b82f618;
+            color: #60a5fa;
+            border: 1px solid #3b82f640;
+        }
+
+        .status-em-uso .dot-blue {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3b82f6;
+        }
+
+        .user-transfer {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .user-transfer .arrow {
+            color: #17c550;
+            font-size: 16px;
+        }
+
+        .user-transfer .new-user {
+            background: #17c55018;
+            color: #17c550;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 11px;
+        }
+
+        .badge-desligado {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            background: #ef444418;
+            color: #f87171;
+            border: 1px solid #ef444425;
+        }
+
+        /* ACTIONS */
+        .action-btns { display: flex; gap: 6px; }
+
+        .btn-icon {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+
+        .btn-reatribuir { background: #17c55020; border: 1px solid #17c55030 !important; }
+        .btn-reatribuir:hover { background: #17c55040; }
+
+        .btn-liberar { background: #f59e0b20; border: 1px solid #f59e0b30 !important; }
+        .btn-liberar:hover { background: #f59e0b40; }
+
+        .btn-edit   { background: #3b82f620; border: 1px solid #3b82f630 !important; }
+        .btn-edit:hover { background: #3b82f640; }
+
+        .btn-delete { background: #ef444420; border: 1px solid #ef444430 !important; }
+        .btn-delete:hover { background: #ef444440; }
+
+        /* MODAL */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal {
+            background: linear-gradient(145deg, #122a24, #0e1f1a);
+            border-radius: 20px;
+            padding: 30px;
+            width: 100%;
+            max-width: 520px;
+            border: 1px solid #1b443c;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(23, 197, 80, 0.08);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-30px); opacity: 0; }
+            to   { transform: translateY(0); opacity: 1; }
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .modal-header h2 { font-size: 18px; color: #ffffff; }
+
+        .modal-close {
+            background: #1b443c;
+            border: none;
+            color: #6dbb8b;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .modal-close:hover { background: #ef4444; color: white; }
+
+        .form-group { margin-bottom: 18px; }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            color: #6dbb8b;
+            margin-bottom: 7px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 11px 14px;
+            background: #0a0f0d;
+            border: 1px solid #1b443c;
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 14px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            border-color: #17c550;
+            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+        .btn-save {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #17c550, #1b443c);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
+        }
+
+        .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+
+        /* TOAST */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #17c550;
+            color: white;
+            padding: 14px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 600;
+            box-shadow: 0 8px 30px rgba(23, 197, 80, 0.3);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 2000;
+        }
+
+        .toast.show { transform: translateY(0); opacity: 1; }
+
+        .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
+        .empty-state .empty-icon { font-size: 50px; margin-bottom: 15px; }
+
+        /* LEGEND */
+        .legend-bar {
+            padding: 0 30px 15px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            color: #6dbb8b;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px) {
+            .charts-section { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .controls { flex-direction: column; }
+            .search-box { min-width: 100%; }
+            .header { flex-direction: column; gap: 10px; }
+            .summary-section { grid-template-columns: 1fr 1fr; }
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #0a0f0d; }
+        ::-webkit-scrollbar-thumb { background: #1b443c; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #17c550; }
+    </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+    <div class="header-left">
+        <div class="header-icon">🔑</div>
+        <div>
+            <h1>Gestão de Licenças <span>Corban</span></h1>
+            <p>Controle de usuários desligados e reatribuição de licenças</p>
+        </div>
+    </div>
+    <div class="header-date" id="currentDate"></div>
+</div>
+
+<!-- CARDS -->
+<div class="summary-section">
+    <div class="summary-card card-green">
+        <div class="icon">👥</div>
+        <div class="number" id="totalDesligados">0</div>
+        <div class="label">Total Desligados</div>
+    </div>
+    <div class="summary-card card-red">
+        <div class="icon">🔓</div>
+        <div class="number" id="totalLivres">0</div>
+        <div class="label">Usuários Livres</div>
+    </div>
+    <div class="summary-card card-blue">
+        <div class="icon">🔄</div>
+        <div class="number" id="totalReatribuidos">0</div>
+        <div class="label">Reatribuídos</div>
+    </div>
+    <div class="summary-card card-yellow">
+        <div class="icon">💰</div>
+        <div class="number" id="economiaMes">0</div>
+        <div class="label">Licenças Economizadas</div>
+    </div>
+    <div class="summary-card card-purple">
+        <div class="icon">📊</div>
+        <div class="number" id="taxaAproveitamento">0%</div>
+        <div class="label">Taxa de Aproveitamento</div>
+    </div>
+</div>
+
+<!-- GRÁFICOS -->
+<div class="charts-section">
+    <div class="chart-card">
+        <h3>📊 Desligamentos por Equipe</h3>
+        <div id="barChart"></div>
+    </div>
+    <div class="chart-card">
+        <h3>🔑 Status das Licenças</h3>
+        <div class="donut-list" id="statusChart"></div>
+    </div>
+    <div class="chart-card">
+        <h3>🕐 Últimas Movimentações</h3>
+        <div id="timelineChart"></div>
+    </div>
+</div>
+
+<!-- LEGENDA -->
+<div class="legend-bar">
+    <div class="legend-item">
+        <span class="status-livre" style="padding:3px 8px;font-size:10px"><span class="pulse"></span> Livre</span>
+        Usuário disponível para reatribuição
+    </div>
+    <div class="legend-item">
+        <span class="status-em-uso" style="padding:3px 8px;font-size:10px"><span class="dot-blue"></span> Em uso</span>
+        Já reatribuído a outro colaborador
+    </div>
+</div>
+
+<!-- CONTROLES -->
+<div class="controls">
+    <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Buscar por nome, equipe ou novo usuário..." oninput="renderTable()">
+    </div>
+    <select class="filter-select" id="filterEquipe" onchange="renderTable()">
+        <option value="">Todas as Equipes</option>
+    </select>
+    <select class="filter-select" id="filterStatus" onchange="renderTable()">
+        <option value="">Todos os Status</option>
+        <option value="livre">🔓 Usuário Livre</option>
+        <option value="em_uso">🔄 Em Uso</option>
+    </select>
+    <button class="btn-add" onclick="openModal()">➕ Registrar Desligamento</button>
+</div>
+
+<!-- TABELA -->
+<div class="table-section">
+    <div class="table-header-row">
+        <div class="table-title">📋 Controle de Licenças — Colaboradores Desligados</div>
+        <div class="table-count" id="tableCount"></div>
+    </div>
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Colaborador Desligado</th>
+                    <th>Equipe</th>
+                    <th>Data Desligamento</th>
+                    <th>Status da Licença</th>
+                    <th>Reatribuído para</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+        </table>
+        <div class="empty-state" id="emptyState" style="display:none">
+            <div class="empty-icon">🔍</div>
+            <p>Nenhum registro encontrado.</p>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL REGISTRO -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalTitle">➕ Registrar Desligamento</h2>
+            <button class="modal-close" onclick="closeModal()">✕</button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Colaborador Desligado *</label>
+                <input type="text" id="inputNome" placeholder="Nome completo">
+            </div>
+            <div class="form-group">
+                <label>Equipe *</label>
+                <select id="inputEquipe">
+                    <option value="">Selecione...</option>
+                    <option value="Equipe Lavínia">Equipe Lavínia</option>
+                    <option value="Equipe Matheus">Equipe Matheus</option>
+                    <option value="Equipe Nayara">Equipe Nayara</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Data de Desligamento *</label>
+                <input type="date" id="inputData">
+            </div>
+            <div class="form-group">
+                <label>Cargo</label>
+                <input type="text" id="inputCargo" placeholder="Ex: Analista">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Status da Licença</label>
+                <select id="inputStatusLicenca" onchange="toggleNovoUsuario()">
+                    <option value="livre">🔓 Livre</option>
+                    <option value="em_uso">🔄 Reatribuído</option>
+                </select>
+            </div>
+            <div class="form-group" id="groupNovoUsuario" style="display:none">
+                <label>Novo Usuário *</label>
+                <input type="text" id="inputNovoUsuario" placeholder="Nome do novo colaborador">
+            </div>
+        </div>
+        <div class="form-group" id="groupDataReatribuicao" style="display:none">
+            <label>Data da Reatribuição</label>
+            <input type="date" id="inputDataReatribuicao">
+        </div>
+        <div class="form-group">
+            <label>Observações</label>
+            <input type="text" id="inputObs" placeholder="Alguma nota ou observação...">
+        </div>
+        <button class="btn-save" onclick="saveRegistro()">💾 Salvar Registro</button>
+    </div>
+</div>
+
+<!-- MODAL REATRIBUIR -->
+<div class="modal-overlay" id="modalReatribuir" onclick="closeModalReatribuirOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2>🔄 Reatribuir Licença</h2>
+            <button class="modal-close" onclick="closeModalReatribuir()">✕</button>
+        </div>
+        <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="reatribuirInfo"></p>
+        <div class="form-group">
+            <label>Novo Colaborador *</label>
+            <input type="text" id="reatribuirNome" placeholder="Nome do novo colaborador">
+        </div>
+        <div class="form-group">
+            <label>Data da Reatribuição</label>
+            <input type="date" id="reatribuirData">
+        </div>
+        <button class="btn-save" onclick="confirmarReatribuicao()">✅ Confirmar Reatribuição</button>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+    // ============ DADOS ============
+    let registros = [
+        { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",     equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",       equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "Transferência imediata" },
+        { id: 3, nome: "Pedro Almeida",        cargo: "Consultor",      equipe: "Equipe Nayara",  data: "2025-05-02", status: "em_uso", novoUsuario: "Camila Santos",    dataReatribuicao: "2025-05-05", obs: "" },
+        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",      equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "Aguardando novo colaborador" },
+        { id: 5, nome: "Fernando Silva",       cargo: "Supervisor",     equipe: "Equipe Matheus", data: "2025-06-01", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 6, nome: "Amanda Rodrigues",     cargo: "Analista",       equipe: "Equipe Nayara",  data: "2025-04-28", status: "em_uso", novoUsuario: "Lucas Martins",    dataReatribuicao: "2025-05-01", obs: "Reatribuído para nova contratação" },
+        { id: 7, nome: "Thiago Nascimento",    cargo: "Assistente",     equipe: "Equipe Lavínia", data: "2025-06-10", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 8, nome: "Bruna Martins",        cargo: "Coordenadora",   equipe: "Equipe Matheus", data: "2025-02-14", status: "em_uso", novoUsuario: "Rafaela Lima",     dataReatribuicao: "2025-02-20", obs: "" },
+    ];
+
+    let editId = null;
+    let reatribuirId = null;
+    let nextId = 9;
+
+    // CORES
+    const equipeColors = {
+        "Equipe Lavínia": "#8b5cf6",
+        "Equipe Matheus": "#3b82f6",
+        "Equipe Nayara":  "#ec4899",
+    };
+
+    // ============ DATE ============
+    function setDate() {
+        document.getElementById("currentDate").innerHTML =
+            new Date().toLocaleDateString("pt-BR", { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
+    }
+
+    function getInitials(name) {
+        return name.split(" ").slice(0,2).map(n => n[0]).join("").toUpperCase();
+    }
+
+    function formatDate(d) {
+        if (!d) return "—";
+        return new Date(d+"T00:00:00").toLocaleDateString("pt-BR");
+    }
+
+    // ============ CARDS ============
+    function updateSummary() {
+        const total   = registros.length;
+        const livres  = registros.filter(r => r.status === "livre").length;
+        const emUso   = registros.filter(r => r.status === "em_uso").length;
+        const taxa    = total > 0 ? Math.round((emUso / total) * 100) : 0;
+
+        document.getElementById("totalDesligados").textContent    = total;
+        document.getElementById("totalLivres").textContent        = livres;
+        document.getElementById("totalReatribuidos").textContent  = emUso;
+        document.getElementById("economiaMes").textContent        = emUso;
+        document.getElementById("taxaAproveitamento").textContent = taxa + "%";
+    }
+
+    // ============ BAR CHART ============
+    function updateBarChart() {
+        const counts = {};
+        registros.forEach(r => { counts[r.equipe] = (counts[r.equipe] || 0) + 1; });
+        const max = Math.max(...Object.values(counts), 1);
+
+        document.getElementById("barChart").innerHTML = Object.entries(counts)
+            .sort((a,b) => b[1]-a[1])
+            .map(([equipe, count]) => {
+                const pct   = Math.round((count/max)*100);
+                const color = equipeColors[equipe] || "#17c550";
+                return `
+                <div class="bar-item">
+                    <div class="bar-label">
+                        <span>${equipe}</span>
+                        <span>${count}</span>
+                    </div>
+                    <div class="bar-track">
+                        <div class="bar-fill" style="width:${pct}%;background:${color}"></div>
+                    </div>
+                </div>`;
+            }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
+    }
+
+    // ============ STATUS CHART ============
+    function updateStatusChart() {
+        const livres = registros.filter(r => r.status === "livre").length;
+        const emUso  = registros.filter(r => r.status === "em_uso").length;
+        const total  = registros.length || 1;
+
+        document.getElementById("statusChart").innerHTML = `
+            <div class="donut-item">
+                <div class="donut-color" style="background:#17c550"></div>
+                <div class="donut-label">🔓 Usuários Livres</div>
+                <div class="donut-val">${livres}</div>
+                <div class="donut-pct">${Math.round((livres/total)*100)}%</div>
+            </div>
+            <div class="donut-item">
+                <div class="donut-color" style="background:#3b82f6"></div>
+                <div class="donut-label">🔄 Reatribuídos</div>
+                <div class="donut-val">${emUso}</div>
+                <div class="donut-pct">${Math.round((emUso/total)*100)}%</div>
+            </div>
+            <div style="margin-top:16px;padding-top:16px;border-top:1px solid #1b443c44">
+                <div class="donut-item">
+                    <div class="donut-color" style="background:#f59e0b"></div>
+                    <div class="donut-label">💰 Licenças Economizadas</div>
+                    <div class="donut-val" style="color:#f59e0b">${emUso}</div>
+                    <div class="donut-pct"></div>
+                </div>
+            </div>
+        `;
+    }
+
+    // ============ TIMELINE ============
+    function updateTimeline() {
+        const sorted = [...registros].sort((a,b) => b.data.localeCompare(a.data)).slice(0,5);
+        document.getElementById("timelineChart").innerHTML = sorted.map(r => {
+            const isLivre = r.status === "livre";
+            const color   = isLivre ? "#17c550" : "#3b82f6";
+            const text    = isLivre
+                ? `${r.nome} — <b style="color:#17c550">Livre</b>`
+                : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
+            return `
+            <div class="timeline-item">
+                <div class="timeline-dot" style="background:${color}"></div>
+                <div class="timeline-info">
+                    <strong>${text}</strong>
+                    <span>${formatDate(r.data)} · ${r.equipe}</span>
+                </div>
+            </div>`;
+        }).join("") || "<p style='color:#1b443c'>Sem movimentações</p>";
+    }
+
+    // ============ FILTRO EQUIPE ============
+    function updateFilterEquipe() {
+        const sel = document.getElementById("filterEquipe");
+        const val = sel.value;
+        sel.innerHTML = `<option value="">Todas as Equipes</option>` +
+            ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"]
+            .map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+    }
+
+    // ============ TABELA ============
+    function renderTable() {
+        const search = document.getElementById("searchInput").value.toLowerCase();
+        const equipe = document.getElementById("filterEquipe").value;
+        const status = document.getElementById("filterStatus").value;
+
+        let filtrados = registros.filter(r => {
+            const s = r.nome.toLowerCase().includes(search) ||
+                      r.equipe.toLowerCase().includes(search) ||
+                      (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
+            const e = !equipe || r.equipe === equipe;
+            const st = !status || r.status === status;
+            return s && e && st;
+        });
+
+        document.getElementById("tableCount").textContent = `${filtrados.length} de ${registros.length} registros`;
+        document.getElementById("emptyState").style.display = filtrados.length ? "none" : "block";
+
+        document.getElementById("tableBody").innerHTML = filtrados.map((r, i) => {
+            const color    = equipeColors[r.equipe] || "#17c550";
+            const initials = getInitials(r.nome);
+            const isLivre  = r.status === "livre";
+
+            const statusHtml = isLivre
+                ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>`
+                : `<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
+
+            const reatribuidoHtml = isLivre
+                ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>`
+                : `<div class="user-transfer">
+                       <span class="arrow">→</span>
+                       <span class="new-user">${r.novoUsuario}</span>
+                       <span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span>
+                   </div>`;
+
+            const actionsHtml = isLivre
+                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})">🔄</button>
+                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})">✏️</button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})">🗑️</button>`
+                : `<button class="btn-icon btn-liberar" title="Liberar Licença" onclick="liberarLicenca(${r.id})">🔓</button>
+                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})">✏️</button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})">🗑️</button>`;
+
+            return `
+            <tr>
+                <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
+                <td>
+                    <div class="cell-name">
+                        <div class="avatar" style="background:${color}">${initials}</div>
+                        <div class="name-info">
+                            <strong>${r.nome}</strong>
+                            <span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">
+                        ${r.equipe}
+                    </span>
+                </td>
+                <td style="white-space:nowrap; color:#b8d8c8">📅 ${formatDate(r.data)}</td>
+                <td>${statusHtml}</td>
+                <td>${reatribuidoHtml}</td>
+                <td>
+                    <div class="action-btns">${actionsHtml}</div>
+                </td>
+            </tr>`;
+        }).join("");
+    }
+
+    // ============ TOGGLE NOVO USUARIO ============
+    function toggleNovoUsuario() {
+        const val = document.getElementById("inputStatusLicenca").value;
+        document.getElementById("groupNovoUsuario").style.display       = val === "em_uso" ? "block" : "none";
+        document.getElementById("groupDataReatribuicao").style.display  = val === "em_uso" ? "block" : "none";
+    }
+
+    // ============ MODAL PRINCIPAL ============
+    function openModal(id = null) {
+        editId = id;
+        const today = new Date().toISOString().split("T")[0];
+
+        if (id) {
+            const r = registros.find(x => x.id === id);
+            document.getElementById("modalTitle").textContent          = "✏️ Editar Registro";
+            document.getElementById("inputNome").value                 = r.nome;
+            document.getElementById("inputEquipe").value               = r.equipe;
+            document.getElementById("inputData").value                 = r.data;
+            document.getElementById("inputCargo").value                = r.cargo || "";
+            document.getElementById("inputStatusLicenca").value        = r.status;
+            document.getElementById("inputNovoUsuario").value          = r.novoUsuario || "";
+            document.getElementById("inputDataReatribuicao").value     = r.dataReatribuicao || "";
+            document.getElementById("inputObs").value                  = r.obs || "";
+        } else {
+            document.getElementById("modalTitle").textContent          = "➕ Registrar Desligamento";
+            document.getElementById("inputNome").value                 = "";
+            document.getElementById("inputEquipe").value               = "";
+            document.getElementById("inputData").value                 = today;
+            document.getElementById("inputCargo").value                = "";
+            document.getElementById("inputStatusLicenca").value        = "livre";
+            document.getElementById("inputNovoUsuario").value          = "";
+            document.getElementById("inputDataReatribuicao").value     = "";
+            document.getElementById("inputObs").value                  = "";
+        }
+
+        toggleNovoUsuario();
+        document.getElementById("modalOverlay").classList.add("active");
+    }
+
+    function closeModal() {
+        document.getElementById("modalOverlay").classList.remove("active");
+        editId = null;
+    }
+
+    function closeModalOutside(e) {
+        if (e.target === document.getElementById("modalOverlay")) closeModal();
+    }
+
+    // ============ SALVAR ============
+    function saveRegistro() {
+        const nome              = document.getElementById("inputNome").value.trim();
+        const equipe            = document.getElementById("inputEquipe").value;
+        const data              = document.getElementById("inputData").value;
+        const cargo             = document.getElementById("inputCargo").value.trim();
+        const status            = document.getElementById("inputStatusLicenca").value;
+        const novoUsuario       = document.getElementById("inputNovoUsuario").value.trim();
+        const dataReatribuicao  = document.getElementById("inputDataReatribuicao").value;
+        const obs               = document.getElementById("inputObs").value.trim();
+
+        if (!nome || !equipe || !data) {
+            showToast("⚠️ Preencha os campos obrigatórios!", "#f59e0b");
+            return;
+        }
+
+        if (status === "em_uso" && !novoUsuario) {
+            showToast("⚠️ Informe o novo usuário!", "#f59e0b");
+            return;
+        }
+
+        const obj = { nome, equipe, data, cargo, status, novoUsuario: status === "em_uso" ? novoUsuario : "", dataReatribuicao: status === "em_uso" ? dataReatribuicao : "", obs };
+
+        if (editId) {
+            const idx = registros.findIndex(r => r.id === editId);
+            registros[idx] = { id: editId, ...obj };
+            showToast("✅ Registro atualizado!");
+        } else {
+            registros.push({ id: nextId++, ...obj });
+            showToast("✅ Desligamento registrado!");
+        }
+
+        closeModal();
+        refreshAll();
+    }
+
+    // ============ REATRIBUIR ============
+    function openReatribuir(id) {
+        reatribuirId = id;
+        const r = registros.find(x => x.id === id);
+        document.getElementById("reatribuirInfo").textContent = `Reatribuir a licença de "${r.nome}" (${r.equipe}) para:`;
+        document.getElementById("reatribuirNome").value = "";
+        document.getElementById("reatribuirData").value = new Date().toISOString().split("T")[0];
+        document.getElementById("modalReatribuir").classList.add("active");
+    }
+
+    function closeModalReatribuir() {
+        document.getElementById("modalReatribuir").classList.remove("active");
+        reatribuirId = null;
+    }
+
+    function closeModalReatribuirOutside(e) {
+        if (e.target === document.getElementById("modalReatribuir")) closeModalReatribuir();
+    }
+
+    function confirmarReatribuicao() {
+        const nome = document.getElementById("reatribuirNome").value.trim();
+        const data = document.getElementById("reatribuirData").value;
+
+        if (!nome) {
+            showToast("⚠️ Informe o nome do novo colaborador!", "#f59e0b");
+            return;
+        }
+
+        const idx = registros.findIndex(r => r.id === reatribuirId);
+        registros[idx].status            = "em_uso";
+        registros[idx].novoUsuario       = nome;
+        registros[idx].dataReatribuicao  = data;
+
+        closeModalReatribuir();
+        showToast(`✅ Licença reatribuída para ${nome}!`);
+        refreshAll();
+    }
+
+    // ============ LIBERAR ============
+    function liberarLicenca(id) {
+        const r = registros.find(x => x.id === id);
+        if (confirm(`Deseja liberar a licença de "${r.nome}" (atualmente usada por ${r.novoUsuario})?`)) {
+            const idx = registros.findIndex(x => x.id === id);
+            registros[idx].status            = "livre";
+            registros[idx].novoUsuario       = "";
+            registros[idx].dataReatribuicao  = "";
+            showToast("🔓 Licença liberada com sucesso!");
+            refreshAll();
+        }
+    }
+
+    // ============ DELETAR ============
+    function deleteRegistro(id) {
+        const r = registros.find(x => x.id === id);
+        if (confirm(`Remover o registro de "${r.nome}"?`)) {
+            registros = registros.filter(x => x.id !== id);
+            showToast("🗑️ Registro removido.", "#ef4444");
+            refreshAll();
+        }
+    }
+
+    // ============ TOAST ============
+    function showToast(msg, color = "#17c550") {
+        const t = document.getElementById("toast");
+        t.textContent      = msg;
+        t.style.background = color;
+        t.classList.add("show");
+        setTimeout(() => t.classList.remove("show"), 3000);
+    }
+
+    // ============ REFRESH ============
+    function refreshAll() {
+        updateSummary();
+        updateBarChart();
+        updateStatusChart();
+        updateTimeline();
+        updateFilterEquipe();
+        renderTable();
+    }
+
+    // ============ INIT ============
+    setDate();
+    refreshAll();
+</script>
+</body>
+</html>
