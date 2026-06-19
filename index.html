@@ -4,161 +4,131 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gestão de Licenças Corban</title>
-    <!-- LUCIDE ICONS - ícones minimalistas -->
     <link href="https://unpkg.com/lucide-static@latest/font/lucide.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <!-- ✅ Biblioteca para exportar Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <!-- ✅ Biblioteca para exportar PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: #0a0f0d; color: #e2e8f0; min-height: 100vh; }
 
-        body {
-            background: #0a0f0d;
-            color: #e2e8f0;
-            min-height: 100vh;
-        }
-
-        /* ====== HEADER ====== */
+        /* HEADER */
         .header {
             background: linear-gradient(135deg, #1b443c, #0d2620);
             padding: 16px 30px;
             border-bottom: 3px solid #17c550;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            display: flex; align-items: center; justify-content: space-between;
             box-shadow: 0 4px 25px rgba(23, 197, 80, 0.15);
+            flex-wrap: wrap; gap: 15px;
         }
+        .header-left { display: flex; align-items: center; gap: 16px; }
+        .header-logo { width: 48px; height: 48px; border-radius: 12px; object-fit: contain; background: #fff; padding: 4px; }
+        .header h1 { font-size: 21px; font-weight: 700; color: #ffffff; }
+        .header h1 span { color: #17c550; }
+        .header p { font-size: 12px; color: #6dbb8b; margin-top: 2px; display: flex; align-items: center; gap: 5px; }
+        .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+        .header-date { font-size: 13px; color: #6dbb8b; display: flex; align-items: center; gap: 6px; }
 
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-
-        .header-logo {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
-            object-fit: contain;
-            background: #fff;
-            padding: 4px;
-        }
-
-        .header h1 {
-            font-size: 21px;
-            font-weight: 700;
-            color: #ffffff;
-        }
-
-        .header h1 span {
-            color: #17c550;
-        }
-
-        .header p {
-            font-size: 12px;
-            color: #6dbb8b;
-            margin-top: 2px;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .header-date {
-            font-size: 13px;
-            color: #6dbb8b;
-            text-align: right;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* ====== TABS NAVEGAÇÃO ====== */
-        .tabs-nav {
-            padding: 20px 30px 0;
-            display: flex;
-            gap: 6px;
-        }
-
-        .tab-btn {
-            padding: 10px 22px;
-            background: #122a24;
-            border: 1px solid #1b443c;
-            border-bottom: none;
-            border-radius: 10px 10px 0 0;
-            color: #6dbb8b;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
+        /* HEADER BUTTONS */
+        .header-btn {
+            padding: 8px 14px; background: #1b443c; border: 1px solid #17c55040;
+            border-radius: 8px; color: #17c550; cursor: pointer; font-size: 12px;
+            font-weight: 600; display: flex; align-items: center; gap: 6px;
             transition: all 0.2s;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        }
+        .header-btn:hover { background: #17c55020; border-color: #17c550; }
+        .header-btn.danger { color: #ef4444; border-color: #ef444440; }
+        .header-btn.danger:hover { background: #ef444420; border-color: #ef4444; }
+
+        /* ✅ ALERT BAR */
+        .alert-bar {
+            background: linear-gradient(90deg, #f59e0b25, #f9731625);
+            border-bottom: 1px solid #f59e0b40;
+            padding: 12px 30px;
+            display: flex; align-items: center; gap: 12px;
+            color: #fbbf24; font-size: 13px;
+        }
+        .alert-bar.hidden { display: none; }
+        .alert-bar strong { color: #fff; }
+        .alert-close {
+            margin-left: auto; background: transparent; border: none;
+            color: #fbbf24; cursor: pointer; font-size: 18px;
         }
 
-        .tab-btn:hover {
-            background: #1b443c55;
+        /* ✅ LICENÇAS CONTRATADAS */
+        .license-status-bar {
+            padding: 18px 30px;
+            background: linear-gradient(90deg, #122a24, #0e1f1a);
+            border-bottom: 1px solid #1b443c;
+            display: flex; align-items: center; justify-content: space-between;
+            gap: 20px; flex-wrap: wrap;
         }
-
-        .tab-btn.active {
-            background: #1b443c;
-            color: #17c550;
-            border-color: #17c550;
+        .license-info {
+            display: flex; align-items: center; gap: 16px; flex: 1; min-width: 300px;
         }
+        .license-info-text { flex: 1; }
+        .license-info-text h4 { color: #fff; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+        .license-info-text p { color: #6dbb8b; font-size: 12px; }
+        .license-progress-wrap {
+            flex: 1; min-width: 250px;
+            display: flex; flex-direction: column; gap: 6px;
+        }
+        .license-numbers {
+            display: flex; justify-content: space-between; font-size: 12px; color: #b8d8c8;
+        }
+        .license-numbers strong { color: #17c550; font-size: 14px; }
+        .license-bar {
+            height: 12px; background: #0a0f0d; border-radius: 6px; overflow: hidden;
+            border: 1px solid #1b443c;
+        }
+        .license-bar-fill {
+            height: 100%; border-radius: 6px;
+            background: linear-gradient(90deg, #17c550, #1b443c);
+            transition: width 0.8s ease;
+        }
+        .license-bar-fill.warning { background: linear-gradient(90deg, #f59e0b, #f97316); }
+        .license-bar-fill.danger { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+        .btn-config-licenca {
+            padding: 8px 14px; background: #17c55020; border: 1px solid #17c55040;
+            border-radius: 8px; color: #17c550; cursor: pointer; font-size: 12px;
+            font-weight: 600; display: flex; align-items: center; gap: 6px;
+        }
+        .btn-config-licenca:hover { background: #17c55030; }
 
+        /* TABS */
+        .tabs-nav { padding: 20px 30px 0; display: flex; gap: 6px; }
+        .tab-btn {
+            padding: 10px 22px; background: #122a24; border: 1px solid #1b443c;
+            border-bottom: none; border-radius: 10px 10px 0 0; color: #6dbb8b;
+            font-size: 13px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .tab-btn:hover { background: #1b443c55; }
+        .tab-btn.active { background: #1b443c; color: #17c550; border-color: #17c550; }
         .tab-btn .tab-count {
-            background: #17c55025;
-            color: #17c550;
-            padding: 2px 8px;
-            border-radius: 10px;
-            font-size: 11px;
-            font-weight: 700;
+            background: #17c55025; color: #17c550; padding: 2px 8px;
+            border-radius: 10px; font-size: 11px; font-weight: 700;
         }
+        .tab-btn.active .tab-count { background: #17c55040; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-        .tab-btn.active .tab-count {
-            background: #17c55040;
-        }
-
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* ====== CARDS ====== */
+        /* CARDS */
         .summary-section {
             padding: 25px 30px 10px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
-            gap: 16px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 16px;
         }
-
         .summary-card {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 16px;
-            padding: 20px;
-            border: 1px solid #1b443c;
-            position: relative;
-            overflow: hidden;
+            border-radius: 16px; padding: 20px; border: 1px solid #1b443c;
+            position: relative; overflow: hidden;
             transition: transform 0.25s, box-shadow 0.25s;
         }
-
-        .summary-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(23, 197, 80, 0.12);
-        }
-
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0;
-            height: 3px;
-        }
-
+        .summary-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(23, 197, 80, 0.12); }
+        .summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
         .card-green::before  { background: linear-gradient(90deg, #17c550, #1b443c); }
         .card-red::before    { background: linear-gradient(90deg, #ef4444, #f97316); }
         .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
@@ -166,77 +136,44 @@
         .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
         .card-orange::before { background: linear-gradient(90deg, #f97316, #fb923c); }
         .card-cyan::before   { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
+        .card-emerald::before{ background: linear-gradient(90deg, #10b981, #34d399); }
 
         .card-icon-wrap {
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 12px;
+            width: 40px; height: 40px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
         }
+        .card-icon-wrap.green   { background: #17c55018; color: #17c550; }
+        .card-icon-wrap.red     { background: #ef444418; color: #ef4444; }
+        .card-icon-wrap.blue    { background: #3b82f618; color: #3b82f6; }
+        .card-icon-wrap.yellow  { background: #f59e0b18; color: #f59e0b; }
+        .card-icon-wrap.purple  { background: #8b5cf618; color: #8b5cf6; }
+        .card-icon-wrap.orange  { background: #f9731618; color: #f97316; }
+        .card-icon-wrap.cyan    { background: #06b6d418; color: #06b6d4; }
+        .card-icon-wrap.emerald { background: #10b98118; color: #10b981; }
 
-        .card-icon-wrap.green  { background: #17c55018; color: #17c550; }
-        .card-icon-wrap.red    { background: #ef444418; color: #ef4444; }
-        .card-icon-wrap.blue   { background: #3b82f618; color: #3b82f6; }
-        .card-icon-wrap.yellow { background: #f59e0b18; color: #f59e0b; }
-        .card-icon-wrap.purple { background: #8b5cf618; color: #8b5cf6; }
-        .card-icon-wrap.orange { background: #f9731618; color: #f97316; }
-        .card-icon-wrap.cyan   { background: #06b6d418; color: #06b6d4; }
-
-        .summary-card .number { font-size: 32px; font-weight: 800; color: #ffffff; }
+        .summary-card .number { font-size: 30px; font-weight: 800; color: #ffffff; }
         .summary-card .label  { font-size: 12px; color: #6dbb8b; margin-top: 4px; }
+        .summary-card .sub-info { font-size: 11px; color: #17c550; margin-top: 6px; font-weight: 600; }
 
-        /* ====== CHARTS ====== */
+        /* CHARTS */
         .charts-section {
             padding: 0 30px 20px;
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 18px;
+            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;
         }
-
         .chart-card {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 16px;
-            padding: 22px;
-            border: 1px solid #1b443c;
+            border-radius: 16px; padding: 22px; border: 1px solid #1b443c;
         }
-
         .chart-card h3 {
-            font-size: 14px;
-            font-weight: 600;
-            color: #ffffff;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 14px; font-weight: 600; color: #ffffff;
+            margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
         }
-
         .bar-item { margin-bottom: 14px; }
-
-        .bar-label {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 13px;
-        }
-
+        .bar-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
         .bar-label span:first-child { color: #b8d8c8; }
         .bar-label span:last-child  { color: #17c550; font-weight: 600; }
-
-        .bar-track {
-            height: 10px;
-            background: #0a0f0d;
-            border-radius: 5px;
-            overflow: hidden;
-        }
-
-        .bar-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.8s ease;
-        }
+        .bar-track { height: 10px; background: #0a0f0d; border-radius: 5px; overflow: hidden; }
+        .bar-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
 
         .donut-list { display: flex; flex-direction: column; gap: 14px; }
         .donut-item { display: flex; align-items: center; gap: 12px; }
@@ -245,478 +182,198 @@
         .donut-val   { font-size: 14px; font-weight: 700; color: #ffffff; }
         .donut-pct   { font-size: 12px; color: #6dbb8b; width: 42px; text-align: right; }
 
-        /* TIMELINE */
-        .timeline-item {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 16px;
-            align-items: flex-start;
-        }
-
-        .timeline-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            margin-top: 5px;
-            flex-shrink: 0;
-        }
-
+        .timeline-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
+        .timeline-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
         .timeline-info { flex: 1; }
         .timeline-info strong { font-size: 13px; color: #ffffff; display: block; }
         .timeline-info span   { font-size: 11px; color: #6dbb8b; }
 
-        /* ====== CONTROLS ====== */
-        .controls {
-            padding: 20px 30px;
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .search-box {
-            flex: 1;
-            min-width: 250px;
-            position: relative;
-        }
-
+        /* CONTROLS */
+        .controls { padding: 20px 30px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+        .search-box { flex: 1; min-width: 250px; position: relative; }
         .search-box input {
-            width: 100%;
-            padding: 11px 16px 11px 42px;
-            background: #122a24;
-            border: 1px solid #1b443c;
-            border-radius: 10px;
-            color: #e2e8f0;
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+            width: 100%; padding: 11px 16px 11px 42px;
+            background: #122a24; border: 1px solid #1b443c; border-radius: 10px;
+            color: #e2e8f0; font-size: 13px; outline: none;
         }
-
-        .search-box input:focus {
-            border-color: #17c550;
-            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 13px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #6dbb8b;
-        }
-
+        .search-box input:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #6dbb8b; }
         .filter-select {
-            padding: 11px 14px;
-            background: #122a24;
-            border: 1px solid #1b443c;
-            border-radius: 10px;
-            color: #e2e8f0;
-            font-size: 13px;
-            outline: none;
-            cursor: pointer;
-            transition: border-color 0.2s;
-            min-width: 170px;
+            padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
+            border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none;
+            cursor: pointer; min-width: 170px;
         }
-
-        .filter-select:focus {
-            border-color: #17c550;
-            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
-        }
+        .filter-select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
 
         .btn-action {
-            padding: 11px 20px;
-            background: linear-gradient(135deg, #17c550, #1b443c);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.2s, transform 0.2s;
-            white-space: nowrap;
+            padding: 11px 20px; background: linear-gradient(135deg, #17c550, #1b443c);
+            border: none; border-radius: 10px; color: white; font-size: 13px;
+            font-weight: 600; cursor: pointer; white-space: nowrap;
             box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
-            display: flex;
-            align-items: center;
-            gap: 7px;
+            display: flex; align-items: center; gap: 7px;
         }
-
         .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-action.secondary { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
 
-        .btn-action.secondary {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+        /* EXPORT GROUP */
+        .export-group { display: flex; gap: 6px; }
+        .btn-export {
+            padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
+            border-radius: 10px; color: #b8d8c8; font-size: 12px;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
         }
+        .btn-export:hover { background: #1b443c; color: #17c550; border-color: #17c550; }
 
-        /* ====== TABLE ====== */
+        /* TABLE */
         .table-section { padding: 0 30px 30px; }
-
-        .table-header-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
-        }
-
-        .table-title {
-            font-size: 15px;
-            font-weight: 600;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        .table-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
+        .table-title { font-size: 15px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .table-count { font-size: 13px; color: #6dbb8b; }
-
         .table-wrapper {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 16px;
-            border: 1px solid #1b443c;
-            overflow-x: auto;
+            border-radius: 16px; border: 1px solid #1b443c; overflow-x: auto;
         }
-
         table { width: 100%; border-collapse: collapse; min-width: 900px; }
         thead { background: #0a1612; }
-
         thead th {
-            padding: 13px 16px;
-            text-align: left;
-            font-size: 11px;
-            font-weight: 700;
-            color: #6dbb8b;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            white-space: nowrap;
+            padding: 13px 16px; text-align: left; font-size: 11px;
+            font-weight: 700; color: #6dbb8b; text-transform: uppercase;
+            letter-spacing: 1px; white-space: nowrap;
         }
-
-        tbody tr {
-            border-top: 1px solid #1b443c44;
-            transition: background 0.2s;
-        }
-
+        tbody tr { border-top: 1px solid #1b443c44; transition: background 0.2s; }
         tbody tr:hover { background: #1b443c33; }
-
-        tbody td {
-            padding: 13px 16px;
-            font-size: 13px;
-            color: #b8d8c8;
-        }
+        tbody td { padding: 13px 16px; font-size: 13px; color: #b8d8c8; }
 
         .avatar {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: white;
-            flex-shrink: 0;
+            width: 36px; height: 36px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 700; font-size: 13px; color: white; flex-shrink: 0;
         }
-
         .cell-name { display: flex; align-items: center; gap: 12px; }
         .name-info strong { display: block; color: #ffffff; font-size: 13px; }
         .name-info span   { font-size: 11px; color: #6dbb8b; }
 
         .badge-equipe {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 4px 11px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
+            display: inline-flex; align-items: center; gap: 5px;
+            padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600;
         }
 
-        /* STATUS */
         .status-livre {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 700;
-            background: #17c55018;
-            color: #17c550;
-            border: 1px solid #17c55040;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700;
+            background: #17c55018; color: #17c550; border: 1px solid #17c55040;
         }
-
-        .status-livre .pulse {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #17c550;
-            animation: pulse 1.5s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50%      { opacity: 0.4; transform: scale(1.3); }
-        }
+        .status-livre .pulse { width: 8px; height: 8px; border-radius: 50%; background: #17c550; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
 
         .status-em-uso {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: #3b82f618;
-            color: #60a5fa;
-            border: 1px solid #3b82f640;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            background: #3b82f618; color: #60a5fa; border: 1px solid #3b82f640;
         }
-
-        .status-em-uso .dot-blue {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #3b82f6;
-        }
+        .status-em-uso .dot-blue { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; }
 
         .status-ferias {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 13px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            background: #f9731618;
-            color: #fb923c;
-            border: 1px solid #f9731640;
+            display: inline-flex; align-items: center; gap: 6px;
+            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
+            background: #f9731618; color: #fb923c; border: 1px solid #f9731640;
         }
+        .status-ferias .dot-orange { width: 8px; height: 8px; border-radius: 50%; background: #f97316; animation: pulse 2s infinite; }
 
-        .status-ferias .dot-orange {
-            width: 8px; height: 8px;
-            border-radius: 50%;
-            background: #f97316;
-            animation: pulse 2s infinite;
-        }
+        .user-transfer { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+        .user-transfer .new-user { background: #17c55018; color: #17c550; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
+        .user-transfer .temp-user { background: #f9731618; color: #fb923c; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
 
-        .user-transfer {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-        }
-
-        .user-transfer .new-user {
-            background: #17c55018;
-            color: #17c550;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 11px;
-        }
-
-        .user-transfer .temp-user {
-            background: #f9731618;
-            color: #fb923c;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-weight: 600;
-            font-size: 11px;
-        }
-
-        /* ACTIONS */
         .action-btns { display: flex; gap: 5px; }
-
         .btn-icon {
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            width: 32px; height: 32px; border-radius: 8px; border: none;
+            cursor: pointer; display: flex; align-items: center; justify-content: center;
             transition: all 0.2s;
         }
-
         .btn-reatribuir { background: #17c55020; border: 1px solid #17c55030 !important; color: #17c550; }
         .btn-reatribuir:hover { background: #17c55040; }
-
         .btn-liberar { background: #f59e0b20; border: 1px solid #f59e0b30 !important; color: #f59e0b; }
         .btn-liberar:hover { background: #f59e0b40; }
-
         .btn-retorno { background: #06b6d420; border: 1px solid #06b6d430 !important; color: #06b6d4; }
         .btn-retorno:hover { background: #06b6d440; }
-
         .btn-edit { background: #3b82f620; border: 1px solid #3b82f630 !important; color: #3b82f6; }
         .btn-edit:hover { background: #3b82f640; }
-
         .btn-delete { background: #ef444420; border: 1px solid #ef444430 !important; color: #ef4444; }
         .btn-delete:hover { background: #ef444440; }
 
-        /* ====== MODAL ====== */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
+        /* DIAS LIVRE BADGE */
+        .badge-dias-livre {
+            display: inline-block; padding: 2px 8px; border-radius: 8px;
+            font-size: 10px; font-weight: 700; margin-left: 6px;
         }
+        .badge-dias-livre.ok { background: #17c55025; color: #17c550; }
+        .badge-dias-livre.warning { background: #f59e0b25; color: #f59e0b; }
+        .badge-dias-livre.danger { background: #ef444425; color: #ef4444; }
 
+        /* MODAL */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.8); z-index: 1000;
+            align-items: center; justify-content: center;
+        }
         .modal-overlay.active { display: flex; }
-
         .modal {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 20px;
-            padding: 28px;
-            width: 100%;
-            max-width: 520px;
+            border-radius: 20px; padding: 28px; width: 100%; max-width: 520px;
             border: 1px solid #1b443c;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(23, 197, 80, 0.08);
-            animation: slideIn 0.3s ease;
-            max-height: 90vh;
-            overflow-y: auto;
+            animation: slideIn 0.3s ease; max-height: 90vh; overflow-y: auto;
         }
-
-        @keyframes slideIn {
-            from { transform: translateY(-30px); opacity: 0; }
-            to   { transform: translateY(0); opacity: 1; }
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 22px;
-        }
-
-        .modal-header h2 {
-            font-size: 17px;
-            color: #ffffff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
+        .modal-header h2 { font-size: 17px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .modal-close {
-            background: #1b443c;
-            border: none;
-            color: #6dbb8b;
-            width: 32px; height: 32px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s;
+            background: #1b443c; border: none; color: #6dbb8b;
+            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
         }
-
         .modal-close:hover { background: #ef4444; color: white; }
-
         .form-group { margin-bottom: 16px; }
-
         .form-group label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 11px;
-            color: #6dbb8b;
-            margin-bottom: 6px;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            display: flex; align-items: center; gap: 5px;
+            font-size: 11px; color: #6dbb8b; margin-bottom: 6px;
+            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
         }
-
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 10px 13px;
-            background: #0a0f0d;
-            border: 1px solid #1b443c;
-            border-radius: 10px;
-            color: #e2e8f0;
-            font-size: 13px;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
+        .form-group input, .form-group select {
+            width: 100%; padding: 10px 13px; background: #0a0f0d;
+            border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0;
+            font-size: 13px; outline: none;
         }
-
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: #17c550;
-            box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
-        }
-
+        .form-group input:focus, .form-group select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .form-hint { font-size: 11px; color: #6dbb8b; margin-top: 5px; }
 
         .btn-save {
-            width: 100%;
-            padding: 13px;
+            width: 100%; padding: 13px;
             background: linear-gradient(135deg, #17c550, #1b443c);
-            border: none;
-            border-radius: 10px;
-            color: white;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 8px;
-            transition: all 0.2s;
+            border: none; border-radius: 10px; color: white;
+            font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px;
             box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
         }
-
         .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
+        .btn-save.orange { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
 
-        .btn-save.orange {
-            background: linear-gradient(135deg, #f97316, #ea580c);
-            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
-        }
-
-        /* ====== TOAST ====== */
         .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #17c550;
-            color: white;
-            padding: 13px 22px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 600;
+            position: fixed; bottom: 30px; right: 30px;
+            background: #17c550; color: white; padding: 13px 22px;
+            border-radius: 12px; font-size: 13px; font-weight: 600;
             box-shadow: 0 8px 30px rgba(23, 197, 80, 0.3);
-            transform: translateY(100px);
-            opacity: 0;
-            transition: all 0.4s;
-            z-index: 2000;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            transform: translateY(100px); opacity: 0; transition: all 0.4s; z-index: 2000;
+            display: flex; align-items: center; gap: 8px;
         }
-
         .toast.show { transform: translateY(0); opacity: 1; }
 
         .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
+        .legend-bar { padding: 0 30px 15px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6dbb8b; }
 
-        /* LEGEND */
-        .legend-bar {
-            padding: 0 30px 15px;
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: #6dbb8b;
-        }
-
-        /* RESPONSIVE */
-        @media (max-width: 1024px) {
-            .charts-section { grid-template-columns: 1fr; }
-        }
-
+        @media (max-width: 1024px) { .charts-section { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             .controls { flex-direction: column; }
             .search-box { min-width: 100%; }
@@ -724,7 +381,6 @@
             .summary-section { grid-template-columns: 1fr 1fr; }
             .tabs-nav { overflow-x: auto; }
         }
-
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0a0f0d; }
         ::-webkit-scrollbar-thumb { background: #1b443c; border-radius: 4px; }
@@ -733,11 +389,10 @@
 </head>
 <body>
 
-<!-- ====== HEADER ====== -->
+<!-- HEADER -->
 <div class="header">
     <div class="header-left">
-        <!-- LOGO DA EMPRESA - substitua o src pelo caminho da sua logo -->
-        <img src="https://sistema.grupocapitalmais.com.br/assets/logo-Cf2iI064.png" alt="Logo" class="header-logo"
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Logo" class="header-logo"
              onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex'">
         <div id="fallbackLogo" style="display:none; width:48px;height:48px;background:linear-gradient(135deg,#17c550,#1b443c);border-radius:12px;align-items:center;justify-content:center;">
             <i data-lucide="key-round" style="width:24px;height:24px;color:white"></i>
@@ -747,32 +402,72 @@
             <p><i data-lucide="shield-check" style="width:13px;height:13px"></i> Controle de usuários e reatribuição de licenças</p>
         </div>
     </div>
-    <div class="header-date">
-        <i data-lucide="calendar" style="width:14px;height:14px"></i>
-        <span id="currentDate"></span>
+    <div class="header-right">
+        <div class="header-date">
+            <i data-lucide="calendar" style="width:14px;height:14px"></i>
+            <span id="currentDate"></span>
+        </div>
+        <button class="header-btn" onclick="fazerBackup()" title="Baixar backup">
+            <i data-lucide="download-cloud" style="width:14px;height:14px"></i> Backup
+        </button>
+        <button class="header-btn" onclick="document.getElementById('inputRestaurar').click()" title="Restaurar backup">
+            <i data-lucide="upload-cloud" style="width:14px;height:14px"></i> Restaurar
+        </button>
+        <input type="file" id="inputRestaurar" style="display:none" accept=".json" onchange="restaurarBackup(event)">
+        <button class="header-btn danger" onclick="resetarTudo()" title="Apagar tudo">
+            <i data-lucide="trash-2" style="width:14px;height:14px"></i> Resetar
+        </button>
     </div>
 </div>
 
-<!-- ====== TABS ====== -->
+<!-- ✅ BARRA DE ALERTAS -->
+<div class="alert-bar hidden" id="alertBar">
+    <i data-lucide="alert-triangle" style="width:18px;height:18px"></i>
+    <div id="alertContent"></div>
+    <button class="alert-close" onclick="document.getElementById('alertBar').classList.add('hidden')">×</button>
+</div>
+
+<!-- ✅ LICENÇAS CONTRATADAS -->
+<div class="license-status-bar">
+    <div class="license-info">
+        <div class="card-icon-wrap green"><i data-lucide="key-square" style="width:20px;height:20px"></i></div>
+        <div class="license-info-text">
+            <h4><i data-lucide="package" style="width:14px;height:14px"></i> Status das Licenças Corban</h4>
+            <p>Controle do total contratado x em uso atualmente</p>
+        </div>
+    </div>
+    <div class="license-progress-wrap">
+        <div class="license-numbers">
+            <span><strong id="licencasUsadas">0</strong> em uso</span>
+            <span id="licencasInfo">de <strong id="licencasTotal">0</strong> contratadas</span>
+            <span style="color:#17c550"><strong id="licencasDisponiveis">0</strong> disponíveis</span>
+        </div>
+        <div class="license-bar">
+            <div class="license-bar-fill" id="licencasBar" style="width:0%"></div>
+        </div>
+        <div style="font-size:11px;color:#fbbf24;margin-top:4px" id="licencasAlerta"></div>
+    </div>
+    <button class="btn-config-licenca" onclick="openModalConfig()">
+        <i data-lucide="settings" style="width:14px;height:14px"></i> Configurar
+    </button>
+</div>
+
+<!-- TABS -->
 <div class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab('desligados')">
+    <button class="tab-btn active" onclick="switchTab('desligados', event)">
         <i data-lucide="user-x" style="width:15px;height:15px"></i>
         Desligados
         <span class="tab-count" id="tabCountDesligados">0</span>
     </button>
-    <button class="tab-btn" onclick="switchTab('ferias')">
+    <button class="tab-btn" onclick="switchTab('ferias', event)">
         <i data-lucide="sun" style="width:15px;height:15px"></i>
         Férias
         <span class="tab-count" id="tabCountFerias">0</span>
     </button>
 </div>
 
-<!-- ================================================================ -->
-<!-- ==================== TAB DESLIGADOS ============================ -->
-<!-- ================================================================ -->
+<!-- TAB DESLIGADOS -->
 <div class="tab-content active" id="tab-desligados">
-
-    <!-- CARDS DESLIGADOS -->
     <div class="summary-section">
         <div class="summary-card card-green">
             <div class="card-icon-wrap green"><i data-lucide="users" style="width:20px;height:20px"></i></div>
@@ -789,10 +484,12 @@
             <div class="number" id="totalReatribuidos">0</div>
             <div class="label">Reatribuídos</div>
         </div>
-        <div class="summary-card card-yellow">
-            <div class="card-icon-wrap yellow"><i data-lucide="badge-dollar-sign" style="width:20px;height:20px"></i></div>
-            <div class="number" id="economiaMes">0</div>
-            <div class="label">Licenças Economizadas</div>
+        <!-- ✅ NOVO: ECONOMIA EM R$ -->
+        <div class="summary-card card-emerald">
+            <div class="card-icon-wrap emerald"><i data-lucide="banknote" style="width:20px;height:20px"></i></div>
+            <div class="number" id="economiaReais" style="font-size:22px">R$ 0,00</div>
+            <div class="label">Economia Total</div>
+            <div class="sub-info" id="economiaMensal">R$ 0,00/mês</div>
         </div>
         <div class="summary-card card-purple">
             <div class="card-icon-wrap purple"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
@@ -801,7 +498,6 @@
         </div>
     </div>
 
-    <!-- GRÁFICOS -->
     <div class="charts-section">
         <div class="chart-card">
             <h3><i data-lucide="bar-chart-3" style="width:16px;height:16px;color:#17c550"></i> Desligamentos por Equipe</h3>
@@ -817,7 +513,6 @@
         </div>
     </div>
 
-    <!-- LEGENDA -->
     <div class="legend-bar">
         <div class="legend-item">
             <span class="status-livre" style="padding:3px 8px;font-size:10px"><span class="pulse"></span> Livre</span>
@@ -829,7 +524,6 @@
         </div>
     </div>
 
-    <!-- CONTROLES DESLIGADOS -->
     <div class="controls">
         <div class="search-box">
             <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
@@ -843,12 +537,22 @@
             <option value="livre">Usuário Livre</option>
             <option value="em_uso">Em Uso</option>
         </select>
+
+        <!-- ✅ BOTÕES DE EXPORTAR -->
+        <div class="export-group">
+            <button class="btn-export" onclick="exportarExcel('desligados')" title="Exportar Excel">
+                <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
+            </button>
+            <button class="btn-export" onclick="exportarPDF('desligados')" title="Exportar PDF">
+                <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
+            </button>
+        </div>
+
         <button class="btn-action" onclick="openModal()">
             <i data-lucide="plus" style="width:16px;height:16px"></i> Registrar Desligamento
         </button>
     </div>
 
-    <!-- TABELA DESLIGADOS -->
     <div class="table-section">
         <div class="table-header-row">
             <div class="table-title">
@@ -879,12 +583,8 @@
     </div>
 </div>
 
-<!-- ================================================================ -->
-<!-- ====================== TAB FÉRIAS ============================== -->
-<!-- ================================================================ -->
+<!-- TAB FÉRIAS -->
 <div class="tab-content" id="tab-ferias">
-
-    <!-- CARDS FÉRIAS -->
     <div class="summary-section">
         <div class="summary-card card-orange">
             <div class="card-icon-wrap orange"><i data-lucide="sun" style="width:20px;height:20px"></i></div>
@@ -901,9 +601,14 @@
             <div class="number" id="feriasUsados">0</div>
             <div class="label">Temporariamente Reatribuídos</div>
         </div>
+        <!-- ✅ NOVO: Retornos próximos -->
+        <div class="summary-card card-yellow">
+            <div class="card-icon-wrap yellow"><i data-lucide="alarm-clock" style="width:20px;height:20px"></i></div>
+            <div class="number" id="retornosProximos">0</div>
+            <div class="label">Retornos em 7 dias</div>
+        </div>
     </div>
 
-    <!-- LEGENDA FÉRIAS -->
     <div class="legend-bar" style="padding-top:10px">
         <div class="legend-item">
             <span class="status-ferias" style="padding:3px 8px;font-size:10px"><span class="dot-orange"></span> Férias</span>
@@ -915,7 +620,6 @@
         </div>
     </div>
 
-    <!-- CONTROLES FÉRIAS -->
     <div class="controls">
         <div class="search-box">
             <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
@@ -927,12 +631,21 @@
             <option value="Equipe Matheus">Equipe Matheus</option>
             <option value="Equipe Nayara">Equipe Nayara</option>
         </select>
+
+        <div class="export-group">
+            <button class="btn-export" onclick="exportarExcel('ferias')" title="Exportar Excel">
+                <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
+            </button>
+            <button class="btn-export" onclick="exportarPDF('ferias')" title="Exportar PDF">
+                <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
+            </button>
+        </div>
+
         <button class="btn-action secondary" onclick="openModalFerias()">
             <i data-lucide="sun" style="width:16px;height:16px"></i> Registrar Férias
         </button>
     </div>
 
-    <!-- TABELA FÉRIAS -->
     <div class="table-section">
         <div class="table-header-row">
             <div class="table-title">
@@ -963,18 +676,16 @@
     </div>
 </div>
 
-<!-- ====== MODAL DESLIGAMENTO ====== -->
+<!-- MODAL DESLIGAMENTO -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal">
         <div class="modal-header">
             <h2 id="modalTitle"><i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Registrar Desligamento</h2>
-            <button class="modal-close" onclick="closeModal()">
-                <i data-lucide="x" style="width:16px;height:16px"></i>
-            </button>
+            <button class="modal-close" onclick="closeModal()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador Desligado *</label>
+                <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
                 <input type="text" id="inputNome" placeholder="Nome completo">
             </div>
             <div class="form-group">
@@ -989,7 +700,7 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Data de Desligamento *</label>
+                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Data Desligamento *</label>
                 <input type="date" id="inputData">
             </div>
             <div class="form-group">
@@ -1024,14 +735,12 @@
     </div>
 </div>
 
-<!-- ====== MODAL REATRIBUIR ====== -->
+<!-- MODAL REATRIBUIR -->
 <div class="modal-overlay" id="modalReatribuir" onclick="closeModalReatribuirOutside(event)">
     <div class="modal">
         <div class="modal-header">
             <h2><i data-lucide="refresh-cw" style="width:18px;height:18px;color:#17c550"></i> Reatribuir Licença</h2>
-            <button class="modal-close" onclick="closeModalReatribuir()">
-                <i data-lucide="x" style="width:16px;height:16px"></i>
-            </button>
+            <button class="modal-close" onclick="closeModalReatribuir()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
         </div>
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="reatribuirInfo"></p>
         <div class="form-group">
@@ -1043,19 +752,17 @@
             <input type="date" id="reatribuirData">
         </div>
         <button class="btn-save" onclick="confirmarReatribuicao()">
-            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar Reatribuição
+            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar
         </button>
     </div>
 </div>
 
-<!-- ====== MODAL FÉRIAS ====== -->
+<!-- MODAL FÉRIAS -->
 <div class="modal-overlay" id="modalFerias" onclick="closeModalFeriasOutside(event)">
     <div class="modal">
         <div class="modal-header">
             <h2><i data-lucide="sun" style="width:18px;height:18px;color:#f97316"></i> Registrar Férias</h2>
-            <button class="modal-close" onclick="closeModalFerias()">
-                <i data-lucide="x" style="width:16px;height:16px"></i>
-            </button>
+            <button class="modal-close" onclick="closeModalFerias()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -1074,7 +781,7 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Início das Férias *</label>
+                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Início *</label>
                 <input type="date" id="inputFeriasInicio">
             </div>
             <div class="form-group">
@@ -1084,14 +791,14 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label><i data-lucide="key-round" style="width:12px;height:12px"></i> Status da Licença</label>
+                <label><i data-lucide="key-round" style="width:12px;height:12px"></i> Status Licença</label>
                 <select id="inputFeriasStatus" onchange="toggleFeriasUsuario()">
                     <option value="livre">Livre</option>
-                    <option value="temp_uso">Emprestado Temporariamente</option>
+                    <option value="temp_uso">Emprestado</option>
                 </select>
             </div>
             <div class="form-group" id="groupFeriasUsuario" style="display:none">
-                <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Usando Temporariamente *</label>
+                <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Usando Temp. *</label>
                 <input type="text" id="inputFeriasUsuarioTemp" placeholder="Nome do colaborador temporário">
             </div>
         </div>
@@ -1100,19 +807,17 @@
             <input type="text" id="inputFeriasObs" placeholder="Alguma nota...">
         </div>
         <button class="btn-save orange" onclick="saveFeriasRegistro()">
-            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Registro de Férias
+            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Férias
         </button>
     </div>
 </div>
 
-<!-- ====== MODAL EMPRESTAR LICENÇA FÉRIAS ====== -->
+<!-- MODAL EMPRESTAR -->
 <div class="modal-overlay" id="modalEmprestar" onclick="closeModalEmprestarOutside(event)">
     <div class="modal">
         <div class="modal-header">
             <h2><i data-lucide="arrow-right-left" style="width:18px;height:18px;color:#f97316"></i> Emprestar Licença</h2>
-            <button class="modal-close" onclick="closeModalEmprestar()">
-                <i data-lucide="x" style="width:16px;height:16px"></i>
-            </button>
+            <button class="modal-close" onclick="closeModalEmprestar()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
         </div>
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="emprestarInfo"></p>
         <div class="form-group">
@@ -1120,61 +825,80 @@
             <input type="text" id="emprestarNome" placeholder="Quem vai usar temporariamente">
         </div>
         <button class="btn-save orange" onclick="confirmarEmprestimo()">
-            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar Empréstimo
+            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar
         </button>
     </div>
 </div>
 
-<!-- TOAST -->
+<!-- ✅ MODAL CONFIGURAR LICENÇAS -->
+<div class="modal-overlay" id="modalConfig" onclick="closeModalConfigOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2><i data-lucide="settings" style="width:18px;height:18px;color:#17c550"></i> Configurar Licenças</h2>
+            <button class="modal-close" onclick="closeModalConfig()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="package" style="width:12px;height:12px"></i> Total de Licenças Contratadas *</label>
+            <input type="number" id="inputTotalLicencas" placeholder="Ex: 50" min="0">
+            <div class="form-hint">Quantas licenças do sistema Corban a empresa contratou</div>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="dollar-sign" style="width:12px;height:12px"></i> Valor por Licença (R$/mês) *</label>
+            <input type="number" id="inputValorLicenca" placeholder="Ex: 150" min="0" step="0.01">
+            <div class="form-hint">Quanto custa cada licença mensalmente (para calcular economia)</div>
+        </div>
+        <button class="btn-save" onclick="salvarConfig()">
+            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Configurações
+        </button>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ LOCALSTORAGE - SALVAR/CARREGAR ============
+    // ============ LOCALSTORAGE ============
     function salvarDados() {
         localStorage.setItem('corban_registros', JSON.stringify(registros));
         localStorage.setItem('corban_ferias', JSON.stringify(ferias));
         localStorage.setItem('corban_nextId', nextId);
         localStorage.setItem('corban_nextFeriasId', nextFeriasId);
+        localStorage.setItem('corban_config', JSON.stringify(config));
     }
-
     function carregarDados() {
         const reg = localStorage.getItem('corban_registros');
         const fer = localStorage.getItem('corban_ferias');
         const nId = localStorage.getItem('corban_nextId');
         const nFId = localStorage.getItem('corban_nextFeriasId');
-
+        const cfg = localStorage.getItem('corban_config');
         if (reg) registros = JSON.parse(reg);
         if (fer) ferias = JSON.parse(fer);
         if (nId) nextId = parseInt(nId);
         if (nFId) nextFeriasId = parseInt(nFId);
+        if (cfg) config = JSON.parse(cfg);
     }
 
-    // ============ DADOS PADRÃO (só usa se não tiver nada salvo) ============
+    // ============ DADOS PADRÃO ============
     let registros = [
         { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",     equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "Transferência imediata" },
+        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",     equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "" },
         { id: 3, nome: "Pedro Almeida",        cargo: "Consultor",    equipe: "Equipe Nayara",  data: "2025-05-02", status: "em_uso", novoUsuario: "Camila Santos",    dataReatribuicao: "2025-05-05", obs: "" },
-        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",    equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "Aguardando novo colaborador" },
+        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",    equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
         { id: 5, nome: "Fernando Silva",       cargo: "Supervisor",   equipe: "Equipe Matheus", data: "2025-06-01", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
         { id: 6, nome: "Amanda Rodrigues",     cargo: "Analista",     equipe: "Equipe Nayara",  data: "2025-04-28", status: "em_uso", novoUsuario: "Lucas Martins",    dataReatribuicao: "2025-05-01", obs: "" },
-        { id: 7, nome: "Thiago Nascimento",    cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-06-10", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 8, nome: "Bruna Martins",        cargo: "Coordenadora", equipe: "Equipe Matheus", data: "2025-02-14", status: "em_uso", novoUsuario: "Rafaela Lima",     dataReatribuicao: "2025-02-20", obs: "" },
     ];
-
     let ferias = [
         { id: 1, nome: "Carla Mendes",    equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre",    usuarioTemp: "", obs: "" },
-        { id: 2, nome: "Diego Ferreira",   equipe: "Equipe Matheus", inicio: "2025-07-10", retorno: "2025-07-25", status: "temp_uso", usuarioTemp: "Ana Paula", obs: "Colaborador novo usando" },
-        { id: 3, nome: "Mariana Lopes",    equipe: "Equipe Nayara",  inicio: "2025-07-15", retorno: "2025-08-14", status: "livre",    usuarioTemp: "", obs: "" },
+        { id: 2, nome: "Diego Ferreira",   equipe: "Equipe Matheus", inicio: "2025-07-10", retorno: "2025-07-25", status: "temp_uso", usuarioTemp: "Ana Paula", obs: "" },
     ];
+    // ✅ CONFIGURAÇÕES
+    let config = {
+        totalLicencas: 50,
+        valorLicenca: 150.00
+    };
 
-    let editId = null;
-    let editFeriasId = null;
-    let reatribuirId = null;
-    let emprestarId = null;
-    let nextId = 9;
-    let nextFeriasId = 4;
+    let editId = null, editFeriasId = null, reatribuirId = null, emprestarId = null;
+    let nextId = 7, nextFeriasId = 3;
 
-    // CARREGA DADOS SALVOS (se existirem, substitui os padrão)
     carregarDados();
 
     const equipeColors = {
@@ -1183,36 +907,81 @@
         "Equipe Nayara":  "#ec4899",
     };
 
-    // ============ TABS ============
-    function switchTab(tab) {
+    // ============ UTILS ============
+    function switchTab(tab, ev) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
         document.getElementById('tab-' + tab).classList.add('active');
-        event.currentTarget.classList.add('active');
+        if (ev) ev.currentTarget.classList.add('active');
     }
-
-    // ============ UTILS ============
     function setDate() {
         document.getElementById("currentDate").textContent =
             new Date().toLocaleDateString("pt-BR", { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
     }
+    function getInitials(name) { return name.split(" ").slice(0,2).map(n => n[0]).join("").toUpperCase(); }
+    function formatDate(d) { if (!d) return "—"; return new Date(d+"T00:00:00").toLocaleDateString("pt-BR"); }
+    function daysUntil(d) { if (!d) return 0; const diff = new Date(d+"T00:00:00") - new Date(); return Math.ceil(diff / (1000*60*60*24)); }
+    function daysSince(d) { if (!d) return 0; const diff = new Date() - new Date(d+"T00:00:00"); return Math.floor(diff / (1000*60*60*24)); }
+    function formatMoney(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
-    function getInitials(name) {
-        return name.split(" ").slice(0,2).map(n => n[0]).join("").toUpperCase();
+    // ============ ✅ LICENÇAS CONTRATADAS ============
+    function updateLicencas() {
+        const emUso = registros.filter(r => r.status === "em_uso").length +
+                      ferias.filter(f => f.status === "temp_uso").length;
+        const total = config.totalLicencas || 0;
+        const disp = Math.max(0, total - emUso);
+        const pct = total > 0 ? (emUso / total) * 100 : 0;
+
+        document.getElementById("licencasUsadas").textContent = emUso;
+        document.getElementById("licencasTotal").textContent = total;
+        document.getElementById("licencasDisponiveis").textContent = disp;
+        const bar = document.getElementById("licencasBar");
+        bar.style.width = Math.min(pct, 100) + "%";
+        bar.classList.remove('warning', 'danger');
+        if (pct >= 90) bar.classList.add('danger');
+        else if (pct >= 75) bar.classList.add('warning');
+
+        const alerta = document.getElementById("licencasAlerta");
+        if (total === 0) alerta.textContent = "⚠️ Configure o total de licenças clicando em 'Configurar'";
+        else if (disp === 0) alerta.textContent = "🚨 ATENÇÃO: Todas as licenças estão em uso!";
+        else if (disp <= 3) alerta.textContent = `⚠️ Atenção: apenas ${disp} licença(s) disponível(is)`;
+        else alerta.textContent = "";
     }
 
-    function formatDate(d) {
-        if (!d) return "—";
-        return new Date(d+"T00:00:00").toLocaleDateString("pt-BR");
+    // ============ ✅ ALERTAS ============
+    function updateAlertas() {
+        const alertas = [];
+
+        // Férias retornando em até 3 dias
+        ferias.forEach(f => {
+            const dias = daysUntil(f.retorno);
+            if (dias >= 0 && dias <= 3) {
+                if (f.status === "temp_uso") {
+                    alertas.push(`<strong>${f.nome}</strong> retorna em ${dias} dia(s) — devolver licença de <strong>${f.usuarioTemp}</strong>`);
+                } else if (dias === 0) {
+                    alertas.push(`<strong>${f.nome}</strong> retorna hoje!`);
+                }
+            }
+        });
+
+        // Licenças livres há mais de 30 dias
+        registros.forEach(r => {
+            if (r.status === "livre" && daysSince(r.data) >= 30) {
+                alertas.push(`Licença de <strong>${r.nome}</strong> livre há ${daysSince(r.data)} dias — pode ser desperdício`);
+            }
+        });
+
+        const bar = document.getElementById("alertBar");
+        const content = document.getElementById("alertContent");
+        if (alertas.length > 0) {
+            bar.classList.remove("hidden");
+            content.innerHTML = alertas.slice(0, 3).join(" • ");
+        } else {
+            bar.classList.add("hidden");
+        }
     }
 
-    function daysUntil(d) {
-        if (!d) return 0;
-        const diff = new Date(d+"T00:00:00") - new Date();
-        return Math.ceil(diff / (1000*60*60*24));
-    }
-
-    // ============ CARDS DESLIGADOS ============
+    // ============ CARDS ============
     function updateSummary() {
         const total  = registros.length;
         const livres = registros.filter(r => r.status === "livre").length;
@@ -1222,81 +991,63 @@
         document.getElementById("totalDesligados").textContent    = total;
         document.getElementById("totalLivres").textContent        = livres;
         document.getElementById("totalReatribuidos").textContent  = emUso;
-        document.getElementById("economiaMes").textContent        = emUso;
         document.getElementById("taxaAproveitamento").textContent = taxa + "%";
         document.getElementById("tabCountDesligados").textContent = total;
-    }
 
-    // ============ CARDS FÉRIAS ============
+        // ✅ ECONOMIA EM R$
+        const economiaMensal = emUso * config.valorLicenca;
+        // Economia total acumulada (estimativa baseada em quanto tempo cada um está reatribuído)
+        let economiaTotal = 0;
+        registros.filter(r => r.status === "em_uso").forEach(r => {
+            const meses = Math.max(1, Math.floor(daysSince(r.dataReatribuicao || r.data) / 30));
+            economiaTotal += meses * config.valorLicenca;
+        });
+        document.getElementById("economiaReais").textContent = formatMoney(economiaTotal);
+        document.getElementById("economiaMensal").textContent = formatMoney(economiaMensal) + "/mês";
+    }
     function updateFeriasSummary() {
         const total  = ferias.length;
         const livres = ferias.filter(f => f.status === "livre").length;
         const usados = ferias.filter(f => f.status === "temp_uso").length;
+        const proximos = ferias.filter(f => {
+            const d = daysUntil(f.retorno);
+            return d >= 0 && d <= 7;
+        }).length;
 
         document.getElementById("totalFerias").textContent  = total;
         document.getElementById("feriasLivres").textContent = livres;
         document.getElementById("feriasUsados").textContent = usados;
+        document.getElementById("retornosProximos").textContent = proximos;
         document.getElementById("tabCountFerias").textContent = total;
     }
 
-    // ============ BAR CHART ============
+    // ============ CHARTS ============
     function updateBarChart() {
         const counts = {};
         registros.forEach(r => { counts[r.equipe] = (counts[r.equipe] || 0) + 1; });
         const max = Math.max(...Object.values(counts), 1);
-
-        document.getElementById("barChart").innerHTML = Object.entries(counts)
-            .sort((a,b) => b[1]-a[1])
-            .map(([equipe, count]) => {
-                const pct   = Math.round((count/max)*100);
-                const color = equipeColors[equipe] || "#17c550";
-                return `
-                <div class="bar-item">
-                    <div class="bar-label"><span>${equipe}</span><span>${count}</span></div>
-                    <div class="bar-track">
-                        <div class="bar-fill" style="width:${pct}%;background:${color}"></div>
-                    </div>
-                </div>`;
-            }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
+        document.getElementById("barChart").innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([equipe, count]) => {
+            const pct = Math.round((count/max)*100);
+            const color = equipeColors[equipe] || "#17c550";
+            return `<div class="bar-item">
+                <div class="bar-label"><span>${equipe}</span><span>${count}</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
+            </div>`;
+        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
     }
-
-    // ============ STATUS CHART ============
     function updateStatusChart() {
         const livres = registros.filter(r => r.status === "livre").length;
         const emUso  = registros.filter(r => r.status === "em_uso").length;
         const fLivres = ferias.filter(f => f.status === "livre").length;
         const total  = (registros.length + ferias.length) || 1;
-
         document.getElementById("statusChart").innerHTML = `
-            <div class="donut-item">
-                <div class="donut-color" style="background:#17c550"></div>
-                <div class="donut-label">Usuários Livres (Desligados)</div>
-                <div class="donut-val">${livres}</div>
-                <div class="donut-pct">${Math.round((livres/total)*100)}%</div>
-            </div>
-            <div class="donut-item">
-                <div class="donut-color" style="background:#3b82f6"></div>
-                <div class="donut-label">Reatribuídos</div>
-                <div class="donut-val">${emUso}</div>
-                <div class="donut-pct">${Math.round((emUso/total)*100)}%</div>
-            </div>
-            <div class="donut-item">
-                <div class="donut-color" style="background:#f97316"></div>
-                <div class="donut-label">Livres (Férias)</div>
-                <div class="donut-val">${fLivres}</div>
-                <div class="donut-pct">${Math.round((fLivres/total)*100)}%</div>
-            </div>
+            <div class="donut-item"><div class="donut-color" style="background:#17c550"></div><div class="donut-label">Livres (Desligados)</div><div class="donut-val">${livres}</div><div class="donut-pct">${Math.round((livres/total)*100)}%</div></div>
+            <div class="donut-item"><div class="donut-color" style="background:#3b82f6"></div><div class="donut-label">Reatribuídos</div><div class="donut-val">${emUso}</div><div class="donut-pct">${Math.round((emUso/total)*100)}%</div></div>
+            <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Livres (Férias)</div><div class="donut-val">${fLivres}</div><div class="donut-pct">${Math.round((fLivres/total)*100)}%</div></div>
             <div style="margin-top:14px;padding-top:14px;border-top:1px solid #1b443c44">
-                <div class="donut-item">
-                    <div class="donut-color" style="background:#f59e0b"></div>
-                    <div class="donut-label">Total Economizadas</div>
-                    <div class="donut-val" style="color:#f59e0b">${emUso + ferias.filter(f=>f.status==="temp_uso").length}</div>
-                    <div class="donut-pct"></div>
-                </div>
+                <div class="donut-item"><div class="donut-color" style="background:#f59e0b"></div><div class="donut-label">Total Economizadas</div><div class="donut-val" style="color:#f59e0b">${emUso + ferias.filter(f=>f.status==="temp_uso").length}</div><div class="donut-pct"></div></div>
             </div>`;
     }
-
-    // ============ TIMELINE ============
     function updateTimeline() {
         const allEvents = [
             ...registros.map(r => ({...r, tipo: 'desligamento'})),
@@ -1309,25 +1060,15 @@
                 const text = r.status === "livre"
                     ? `${r.nome} — <b style="color:#f97316">Férias (livre)</b>`
                     : `${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
-                return `<div class="timeline-item">
-                    <div class="timeline-dot" style="background:${color}"></div>
-                    <div class="timeline-info"><strong>${text}</strong>
-                    <span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
+                return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
             } else {
                 const isLivre = r.status === "livre";
                 const color = isLivre ? "#17c550" : "#3b82f6";
-                const text = isLivre
-                    ? `${r.nome} — <b style="color:#17c550">Livre</b>`
-                    : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
-                return `<div class="timeline-item">
-                    <div class="timeline-dot" style="background:${color}"></div>
-                    <div class="timeline-info"><strong>${text}</strong>
-                    <span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
+                const text = isLivre ? `${r.nome} — <b style="color:#17c550">Livre</b>` : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
+                return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
             }
         }).join("") || "<p style='color:#1b443c'>Sem movimentações</p>";
     }
-
-    // ============ FILTRO EQUIPE ============
     function updateFilterEquipe() {
         const sel = document.getElementById("filterEquipe");
         const val = sel.value;
@@ -1336,16 +1077,14 @@
             .map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
     }
 
-    // ============ TABELA DESLIGADOS ============
+    // ============ TABELAS ============
     function renderTable() {
         const search = document.getElementById("searchInput").value.toLowerCase();
         const equipe = document.getElementById("filterEquipe").value;
         const status = document.getElementById("filterStatus").value;
 
         let filtrados = registros.filter(r => {
-            const s = r.nome.toLowerCase().includes(search) ||
-                      r.equipe.toLowerCase().includes(search) ||
-                      (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
+            const s = r.nome.toLowerCase().includes(search) || r.equipe.toLowerCase().includes(search) || (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
             return s && (!equipe || r.equipe === equipe) && (!status || r.status === status);
         });
 
@@ -1356,18 +1095,24 @@
             const color = equipeColors[r.equipe] || "#17c550";
             const initials = getInitials(r.nome);
             const isLivre = r.status === "livre";
+            const diasLivre = daysSince(r.data);
+
+            // ✅ Badge de tempo livre
+            let badgeDias = "";
+            if (isLivre) {
+                let cls = "ok";
+                if (diasLivre > 30) cls = "danger";
+                else if (diasLivre > 15) cls = "warning";
+                badgeDias = `<span class="badge-dias-livre ${cls}">${diasLivre}d livre</span>`;
+            }
 
             const statusHtml = isLivre
-                ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>`
+                ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>${badgeDias}`
                 : `<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
 
             const reatribuidoHtml = isLivre
                 ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>`
-                : `<div class="user-transfer">
-                       <i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i>
-                       <span class="new-user">${r.novoUsuario}</span>
-                       <span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span>
-                   </div>`;
+                : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i><span class="new-user">${r.novoUsuario}</span><span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span></div>`;
 
             const actionsHtml = isLivre
                 ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button>
@@ -1377,18 +1122,9 @@
                    <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
 
-            return `
-            <tr>
+            return `<tr>
                 <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
-                <td>
-                    <div class="cell-name">
-                        <div class="avatar" style="background:${color}">${initials}</div>
-                        <div class="name-info">
-                            <strong>${r.nome}</strong>
-                            <span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span>
-                        </div>
-                    </div>
-                </td>
+                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${r.nome}</strong><span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span></div></div></td>
                 <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td>
                 <td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td>
                 <td>${statusHtml}</td>
@@ -1396,19 +1132,14 @@
                 <td><div class="action-btns">${actionsHtml}</div></td>
             </tr>`;
         }).join("");
-
         lucide.createIcons();
     }
-
-    // ============ TABELA FÉRIAS ============
     function renderFeriasTable() {
         const search = document.getElementById("searchFerias").value.toLowerCase();
         const equipe = document.getElementById("filterEquipeFerias").value;
 
         let filtrados = ferias.filter(f => {
-            const s = f.nome.toLowerCase().includes(search) ||
-                      f.equipe.toLowerCase().includes(search) ||
-                      (f.usuarioTemp && f.usuarioTemp.toLowerCase().includes(search));
+            const s = f.nome.toLowerCase().includes(search) || f.equipe.toLowerCase().includes(search) || (f.usuarioTemp && f.usuarioTemp.toLowerCase().includes(search));
             return s && (!equipe || f.equipe === equipe);
         });
 
@@ -1425,14 +1156,9 @@
             const statusHtml = isLivre
                 ? `<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>`
                 : `<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
-
             const usandoHtml = isLivre
                 ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>`
-                : `<div class="user-transfer">
-                       <i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i>
-                       <span class="temp-user">${f.usuarioTemp}</span>
-                   </div>`;
-
+                : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i><span class="temp-user">${f.usuarioTemp}</span></div>`;
             const actionsHtml = isLivre
                 ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button>
                    <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
@@ -1441,18 +1167,9 @@
                    <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
 
-            return `
-            <tr>
+            return `<tr>
                 <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
-                <td>
-                    <div class="cell-name">
-                        <div class="avatar" style="background:${color}">${initials}</div>
-                        <div class="name-info">
-                            <strong>${f.nome}</strong>
-                            <span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span>
-                        </div>
-                    </div>
-                </td>
+                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${f.nome}</strong><span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span></div></div></td>
                 <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td>
                 <td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td>
                 <td>${statusHtml}</td>
@@ -1460,36 +1177,33 @@
                 <td><div class="action-btns">${actionsHtml}</div></td>
             </tr>`;
         }).join("");
-
         lucide.createIcons();
     }
 
-    // ============ TOGGLES ============
+    // ============ TOGGLES E MODAIS ============
     function toggleNovoUsuario() {
         const val = document.getElementById("inputStatusLicenca").value;
         document.getElementById("groupNovoUsuario").style.display      = val === "em_uso" ? "block" : "none";
         document.getElementById("groupDataReatribuicao").style.display = val === "em_uso" ? "block" : "none";
     }
-
     function toggleFeriasUsuario() {
         const val = document.getElementById("inputFeriasStatus").value;
         document.getElementById("groupFeriasUsuario").style.display = val === "temp_uso" ? "block" : "none";
     }
 
-    // ============ MODAL DESLIGAMENTO ============
     function openModal(id = null) {
         editId = id;
         const today = new Date().toISOString().split("T")[0];
         if (id) {
             const r = registros.find(x => x.id === id);
-            document.getElementById("inputNome").value             = r.nome;
-            document.getElementById("inputEquipe").value           = r.equipe;
-            document.getElementById("inputData").value             = r.data;
-            document.getElementById("inputCargo").value            = r.cargo || "";
-            document.getElementById("inputStatusLicenca").value    = r.status;
-            document.getElementById("inputNovoUsuario").value      = r.novoUsuario || "";
+            document.getElementById("inputNome").value = r.nome;
+            document.getElementById("inputEquipe").value = r.equipe;
+            document.getElementById("inputData").value = r.data;
+            document.getElementById("inputCargo").value = r.cargo || "";
+            document.getElementById("inputStatusLicenca").value = r.status;
+            document.getElementById("inputNovoUsuario").value = r.novoUsuario || "";
             document.getElementById("inputDataReatribuicao").value = r.dataReatribuicao || "";
-            document.getElementById("inputObs").value              = r.obs || "";
+            document.getElementById("inputObs").value = r.obs || "";
         } else {
             document.getElementById("inputNome").value = "";
             document.getElementById("inputEquipe").value = "";
@@ -1504,7 +1218,6 @@
         document.getElementById("modalOverlay").classList.add("active");
         lucide.createIcons();
     }
-
     function closeModal() { document.getElementById("modalOverlay").classList.remove("active"); editId = null; }
     function closeModalOutside(e) { if (e.target === document.getElementById("modalOverlay")) closeModal(); }
 
@@ -1517,10 +1230,8 @@
         const novoUsuario = document.getElementById("inputNovoUsuario").value.trim();
         const dataReatribuicao = document.getElementById("inputDataReatribuicao").value;
         const obs = document.getElementById("inputObs").value.trim();
-
-        if (!nome || !equipe || !data) { showToast("Preencha os campos obrigatórios!", "#f59e0b"); return; }
+        if (!nome || !equipe || !data) { showToast("Preencha os obrigatórios!", "#f59e0b"); return; }
         if (status === "em_uso" && !novoUsuario) { showToast("Informe o novo usuário!", "#f59e0b"); return; }
-
         const obj = { nome, equipe, data, cargo, status, novoUsuario: status==="em_uso"?novoUsuario:"", dataReatribuicao: status==="em_uso"?dataReatribuicao:"", obs };
         if (editId) {
             registros[registros.findIndex(r => r.id === editId)] = { id: editId, ...obj };
@@ -1530,11 +1241,10 @@
             showToast("Desligamento registrado!");
         }
         closeModal();
-        salvarDados(); // ✅ SALVA NO NAVEGADOR
+        salvarDados();
         refreshAll();
     }
 
-    // ============ MODAL FÉRIAS ============
     function openModalFerias(id = null) {
         editFeriasId = id;
         const today = new Date().toISOString().split("T")[0];
@@ -1560,7 +1270,6 @@
         document.getElementById("modalFerias").classList.add("active");
         lucide.createIcons();
     }
-
     function closeModalFerias() { document.getElementById("modalFerias").classList.remove("active"); editFeriasId = null; }
     function closeModalFeriasOutside(e) { if (e.target === document.getElementById("modalFerias")) closeModalFerias(); }
 
@@ -1572,24 +1281,21 @@
         const status = document.getElementById("inputFeriasStatus").value;
         const usuarioTemp = document.getElementById("inputFeriasUsuarioTemp").value.trim();
         const obs = document.getElementById("inputFeriasObs").value.trim();
-
-        if (!nome || !equipe || !inicio || !retorno) { showToast("Preencha os campos obrigatórios!", "#f59e0b"); return; }
-        if (status === "temp_uso" && !usuarioTemp) { showToast("Informe o colaborador temporário!", "#f59e0b"); return; }
-
+        if (!nome || !equipe || !inicio || !retorno) { showToast("Preencha os obrigatórios!", "#f59e0b"); return; }
+        if (status === "temp_uso" && !usuarioTemp) { showToast("Informe o temporário!", "#f59e0b"); return; }
         const obj = { nome, equipe, inicio, retorno, status, usuarioTemp: status==="temp_uso"?usuarioTemp:"", obs };
         if (editFeriasId) {
             ferias[ferias.findIndex(f => f.id === editFeriasId)] = { id: editFeriasId, ...obj };
-            showToast("Registro de férias atualizado!");
+            showToast("Férias atualizada!");
         } else {
             ferias.push({ id: nextFeriasId++, ...obj });
-            showToast("Férias registradas!");
+            showToast("Férias registrada!");
         }
         closeModalFerias();
-        salvarDados(); // ✅ SALVA NO NAVEGADOR
+        salvarDados();
         refreshAll();
     }
 
-    // ============ REATRIBUIR ============
     function openReatribuir(id) {
         reatribuirId = id;
         const r = registros.find(x => x.id === id);
@@ -1599,10 +1305,8 @@
         document.getElementById("modalReatribuir").classList.add("active");
         lucide.createIcons();
     }
-
     function closeModalReatribuir() { document.getElementById("modalReatribuir").classList.remove("active"); reatribuirId = null; }
     function closeModalReatribuirOutside(e) { if (e.target === document.getElementById("modalReatribuir")) closeModalReatribuir(); }
-
     function confirmarReatribuicao() {
         const nome = document.getElementById("reatribuirNome").value.trim();
         const data = document.getElementById("reatribuirData").value;
@@ -1612,24 +1316,21 @@
         registros[idx].novoUsuario = nome;
         registros[idx].dataReatribuicao = data;
         closeModalReatribuir();
-        showToast(`Licença reatribuída para ${nome}!`);
-        salvarDados(); // ✅ SALVA NO NAVEGADOR
+        showToast(`Reatribuída para ${nome}!`);
+        salvarDados();
         refreshAll();
     }
 
-    // ============ EMPRESTAR (FÉRIAS) ============
     function openEmprestar(id) {
         emprestarId = id;
         const f = ferias.find(x => x.id === id);
-        document.getElementById("emprestarInfo").textContent = `Emprestar a licença de "${f.nome}" (${f.equipe}) temporariamente para:`;
+        document.getElementById("emprestarInfo").textContent = `Emprestar licença de "${f.nome}" (${f.equipe}) para:`;
         document.getElementById("emprestarNome").value = "";
         document.getElementById("modalEmprestar").classList.add("active");
         lucide.createIcons();
     }
-
     function closeModalEmprestar() { document.getElementById("modalEmprestar").classList.remove("active"); emprestarId = null; }
     function closeModalEmprestarOutside(e) { if (e.target === document.getElementById("modalEmprestar")) closeModalEmprestar(); }
-
     function confirmarEmprestimo() {
         const nome = document.getElementById("emprestarNome").value.trim();
         if (!nome) { showToast("Informe o nome!", "#f59e0b"); return; }
@@ -1637,66 +1338,202 @@
         ferias[idx].status = "temp_uso";
         ferias[idx].usuarioTemp = nome;
         closeModalEmprestar();
-        showToast(`Licença emprestada para ${nome}!`);
-        salvarDados(); // ✅ SALVA NO NAVEGADOR
+        showToast(`Emprestada para ${nome}!`);
+        salvarDados();
         refreshAll();
     }
 
     function devolverLicencaFerias(id) {
         const f = ferias.find(x => x.id === id);
-        if (confirm(`Devolver a licença de "${f.nome}" (usada por ${f.usuarioTemp})?`)) {
+        if (confirm(`Devolver licença de "${f.nome}"?`)) {
             const idx = ferias.findIndex(x => x.id === id);
-            ferias[idx].status = "livre";
-            ferias[idx].usuarioTemp = "";
-            showToast("Licença devolvida!");
-            salvarDados(); // ✅ SALVA NO NAVEGADOR
-            refreshAll();
+            ferias[idx].status = "livre"; ferias[idx].usuarioTemp = "";
+            showToast("Devolvida!"); salvarDados(); refreshAll();
         }
     }
-
     function retornoFerias(id) {
         const f = ferias.find(x => x.id === id);
-        if (confirm(`"${f.nome}" retornou de férias? O registro será removido.`)) {
+        if (confirm(`"${f.nome}" retornou? Será removido.`)) {
             ferias = ferias.filter(x => x.id !== id);
-            showToast("Colaborador retornou! Registro removido.");
-            salvarDados(); // ✅ SALVA NO NAVEGADOR
-            refreshAll();
+            showToast("Retornou!"); salvarDados(); refreshAll();
         }
     }
-
-    // ============ LIBERAR / DELETAR ============
     function liberarLicenca(id) {
         const r = registros.find(x => x.id === id);
-        if (confirm(`Liberar a licença de "${r.nome}" (usada por ${r.novoUsuario})?`)) {
+        if (confirm(`Liberar licença de "${r.nome}"?`)) {
             const idx = registros.findIndex(x => x.id === id);
-            registros[idx].status = "livre";
-            registros[idx].novoUsuario = "";
-            registros[idx].dataReatribuicao = "";
-            showToast("Licença liberada!");
-            salvarDados(); // ✅ SALVA NO NAVEGADOR
-            refreshAll();
+            registros[idx].status = "livre"; registros[idx].novoUsuario = ""; registros[idx].dataReatribuicao = "";
+            showToast("Liberada!"); salvarDados(); refreshAll();
         }
     }
-
     function deleteRegistro(id) {
-        if (confirm(`Remover este registro?`)) {
+        if (confirm("Remover este registro?")) {
             registros = registros.filter(x => x.id !== id);
-            showToast("Registro removido.", "#ef4444");
-            salvarDados(); // ✅ SALVA NO NAVEGADOR
-            refreshAll();
+            showToast("Removido.", "#ef4444"); salvarDados(); refreshAll();
         }
     }
-
     function deleteFeriasRegistro(id) {
-        if (confirm(`Remover este registro de férias?`)) {
+        if (confirm("Remover este registro?")) {
             ferias = ferias.filter(x => x.id !== id);
-            showToast("Registro removido.", "#ef4444");
-            salvarDados(); // ✅ SALVA NO NAVEGADOR
-            refreshAll();
+            showToast("Removido.", "#ef4444"); salvarDados(); refreshAll();
         }
     }
 
-    // ============ TOAST ============
+    // ============ ✅ CONFIG LICENÇAS ============
+    function openModalConfig() {
+        document.getElementById("inputTotalLicencas").value = config.totalLicencas;
+        document.getElementById("inputValorLicenca").value = config.valorLicenca;
+        document.getElementById("modalConfig").classList.add("active");
+        lucide.createIcons();
+    }
+    function closeModalConfig() { document.getElementById("modalConfig").classList.remove("active"); }
+    function closeModalConfigOutside(e) { if (e.target === document.getElementById("modalConfig")) closeModalConfig(); }
+    function salvarConfig() {
+        const total = parseInt(document.getElementById("inputTotalLicencas").value) || 0;
+        const valor = parseFloat(document.getElementById("inputValorLicenca").value) || 0;
+        config.totalLicencas = total;
+        config.valorLicenca = valor;
+        salvarDados();
+        closeModalConfig();
+        showToast("Configurações salvas!");
+        refreshAll();
+    }
+
+    // ============ ✅ EXPORTAR EXCEL ============
+    function exportarExcel(tipo) {
+        const wb = XLSX.utils.book_new();
+        if (tipo === 'desligados') {
+            const dados = registros.map(r => ({
+                "Nome": r.nome,
+                "Cargo": r.cargo || "",
+                "Equipe": r.equipe,
+                "Data Desligamento": formatDate(r.data),
+                "Status": r.status === "livre" ? "Livre" : "Em Uso",
+                "Reatribuído para": r.novoUsuario || "",
+                "Data Reatribuição": formatDate(r.dataReatribuicao),
+                "Observações": r.obs || ""
+            }));
+            const ws = XLSX.utils.json_to_sheet(dados);
+            XLSX.utils.book_append_sheet(wb, ws, "Desligados");
+        } else {
+            const dados = ferias.map(f => ({
+                "Nome": f.nome,
+                "Equipe": f.equipe,
+                "Início Férias": formatDate(f.inicio),
+                "Retorno": formatDate(f.retorno),
+                "Status": f.status === "livre" ? "Livre" : "Emprestado",
+                "Usando Temporariamente": f.usuarioTemp || "",
+                "Observações": f.obs || ""
+            }));
+            const ws = XLSX.utils.json_to_sheet(dados);
+            XLSX.utils.book_append_sheet(wb, ws, "Férias");
+        }
+        const hoje = new Date().toISOString().split("T")[0];
+        XLSX.writeFile(wb, `Corban_${tipo}_${hoje}.xlsx`);
+        showToast("Excel exportado!");
+    }
+
+    // ============ ✅ EXPORTAR PDF ============
+    function exportarPDF(tipo) {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const hoje = new Date().toLocaleDateString("pt-BR");
+
+        // Cabeçalho
+        doc.setFillColor(27, 68, 60);
+        doc.rect(0, 0, 220, 25, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(16);
+        doc.text("Gestão de Licenças Corban", 14, 13);
+        doc.setFontSize(9);
+        doc.text(`Relatório de ${tipo === 'desligados' ? 'Desligados' : 'Férias'} • Gerado em ${hoje}`, 14, 20);
+
+        if (tipo === 'desligados') {
+            const corpo = registros.map(r => [
+                r.nome,
+                r.equipe,
+                formatDate(r.data),
+                r.status === "livre" ? "Livre" : "Em Uso",
+                r.novoUsuario || "—"
+            ]);
+            doc.autoTable({
+                startY: 32,
+                head: [["Colaborador", "Equipe", "Data", "Status", "Reatribuído"]],
+                body: corpo,
+                theme: 'striped',
+                headStyles: { fillColor: [23, 197, 80], textColor: 255 },
+                styles: { fontSize: 9 }
+            });
+        } else {
+            const corpo = ferias.map(f => [
+                f.nome, f.equipe,
+                `${formatDate(f.inicio)} → ${formatDate(f.retorno)}`,
+                f.status === "livre" ? "Livre" : "Emprestado",
+                f.usuarioTemp || "—"
+            ]);
+            doc.autoTable({
+                startY: 32,
+                head: [["Colaborador", "Equipe", "Período", "Status", "Temporário"]],
+                body: corpo,
+                theme: 'striped',
+                headStyles: { fillColor: [249, 115, 22], textColor: 255 },
+                styles: { fontSize: 9 }
+            });
+        }
+
+        doc.save(`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.pdf`);
+        showToast("PDF exportado!");
+    }
+
+    // ============ ✅ BACKUP / RESTAURAR ============
+    function fazerBackup() {
+        const backup = {
+            registros, ferias, config,
+            nextId, nextFeriasId,
+            data: new Date().toISOString()
+        };
+        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
+        const a = document.createElement("a");
+        a.href = URL.createObjectURL(blob);
+        a.download = `corban_backup_${new Date().toISOString().split("T")[0]}.json`;
+        a.click();
+        showToast("Backup baixado!");
+    }
+    function restaurarBackup(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            try {
+                const dados = JSON.parse(e.target.result);
+                if (confirm("Restaurar backup? Os dados atuais serão substituídos.")) {
+                    if (dados.registros) registros = dados.registros;
+                    if (dados.ferias) ferias = dados.ferias;
+                    if (dados.config) config = dados.config;
+                    if (dados.nextId) nextId = dados.nextId;
+                    if (dados.nextFeriasId) nextFeriasId = dados.nextFeriasId;
+                    salvarDados();
+                    refreshAll();
+                    showToast("Backup restaurado!");
+                }
+            } catch (err) {
+                showToast("Arquivo inválido!", "#ef4444");
+            }
+        };
+        reader.readAsText(file);
+        event.target.value = "";
+    }
+
+    // ============ ✅ RESETAR TUDO ============
+    function resetarTudo() {
+        if (confirm("⚠️ ATENÇÃO: Isso vai apagar TODOS os dados! Deseja continuar?")) {
+            if (confirm("Tem certeza absoluta? Esta ação NÃO pode ser desfeita!")) {
+                localStorage.clear();
+                location.reload();
+            }
+        }
+    }
+
     function showToast(msg, color = "#17c550") {
         const t = document.getElementById("toast");
         t.innerHTML = `<i data-lucide="check-circle" style="width:16px;height:16px"></i> ${msg}`;
@@ -1706,7 +1543,6 @@
         setTimeout(() => t.classList.remove("show"), 3000);
     }
 
-    // ============ REFRESH ============
     function refreshAll() {
         updateSummary();
         updateFeriasSummary();
@@ -1716,9 +1552,10 @@
         updateFilterEquipe();
         renderTable();
         renderFeriasTable();
+        updateLicencas();
+        updateAlertas();
     }
 
-    // ============ INIT ============
     setDate();
     refreshAll();
     lucide.createIcons();
