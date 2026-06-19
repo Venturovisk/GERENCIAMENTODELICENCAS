@@ -1129,7 +1129,27 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ DADOS DESLIGADOS ============
+    // ============ LOCALSTORAGE - SALVAR/CARREGAR ============
+    function salvarDados() {
+        localStorage.setItem('corban_registros', JSON.stringify(registros));
+        localStorage.setItem('corban_ferias', JSON.stringify(ferias));
+        localStorage.setItem('corban_nextId', nextId);
+        localStorage.setItem('corban_nextFeriasId', nextFeriasId);
+    }
+
+    function carregarDados() {
+        const reg = localStorage.getItem('corban_registros');
+        const fer = localStorage.getItem('corban_ferias');
+        const nId = localStorage.getItem('corban_nextId');
+        const nFId = localStorage.getItem('corban_nextFeriasId');
+
+        if (reg) registros = JSON.parse(reg);
+        if (fer) ferias = JSON.parse(fer);
+        if (nId) nextId = parseInt(nId);
+        if (nFId) nextFeriasId = parseInt(nFId);
+    }
+
+    // ============ DADOS PADRÃO (só usa se não tiver nada salvo) ============
     let registros = [
         { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
         { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",     equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "Transferência imediata" },
@@ -1141,7 +1161,6 @@
         { id: 8, nome: "Bruna Martins",        cargo: "Coordenadora", equipe: "Equipe Matheus", data: "2025-02-14", status: "em_uso", novoUsuario: "Rafaela Lima",     dataReatribuicao: "2025-02-20", obs: "" },
     ];
 
-    // ============ DADOS FÉRIAS ============
     let ferias = [
         { id: 1, nome: "Carla Mendes",    equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre",    usuarioTemp: "", obs: "" },
         { id: 2, nome: "Diego Ferreira",   equipe: "Equipe Matheus", inicio: "2025-07-10", retorno: "2025-07-25", status: "temp_uso", usuarioTemp: "Ana Paula", obs: "Colaborador novo usando" },
@@ -1154,6 +1173,9 @@
     let emprestarId = null;
     let nextId = 9;
     let nextFeriasId = 4;
+
+    // CARREGA DADOS SALVOS (se existirem, substitui os padrão)
+    carregarDados();
 
     const equipeColors = {
         "Equipe Lavínia": "#8b5cf6",
@@ -1413,10 +1435,10 @@
 
             const actionsHtml = isLivre
                 ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-retorno" title="Retorno de Férias" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
-                : `<button class="btn-icon btn-liberar" title="Devolver Licença" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-retorno" title="Retorno de Férias" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+                : `<button class="btn-icon btn-liberar" title="Devolver" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
 
             return `
@@ -1442,7 +1464,7 @@
         lucide.createIcons();
     }
 
-    // ============ TOGGLE FIELDS ============
+    // ============ TOGGLES ============
     function toggleNovoUsuario() {
         const val = document.getElementById("inputStatusLicenca").value;
         document.getElementById("groupNovoUsuario").style.display      = val === "em_uso" ? "block" : "none";
@@ -1508,6 +1530,7 @@
             showToast("Desligamento registrado!");
         }
         closeModal();
+        salvarDados(); // ✅ SALVA NO NAVEGADOR
         refreshAll();
     }
 
@@ -1562,10 +1585,11 @@
             showToast("Férias registradas!");
         }
         closeModalFerias();
+        salvarDados(); // ✅ SALVA NO NAVEGADOR
         refreshAll();
     }
 
-    // ============ REATRIBUIR (DESLIGADOS) ============
+    // ============ REATRIBUIR ============
     function openReatribuir(id) {
         reatribuirId = id;
         const r = registros.find(x => x.id === id);
@@ -1589,6 +1613,7 @@
         registros[idx].dataReatribuicao = data;
         closeModalReatribuir();
         showToast(`Licença reatribuída para ${nome}!`);
+        salvarDados(); // ✅ SALVA NO NAVEGADOR
         refreshAll();
     }
 
@@ -1613,6 +1638,7 @@
         ferias[idx].usuarioTemp = nome;
         closeModalEmprestar();
         showToast(`Licença emprestada para ${nome}!`);
+        salvarDados(); // ✅ SALVA NO NAVEGADOR
         refreshAll();
     }
 
@@ -1623,6 +1649,7 @@
             ferias[idx].status = "livre";
             ferias[idx].usuarioTemp = "";
             showToast("Licença devolvida!");
+            salvarDados(); // ✅ SALVA NO NAVEGADOR
             refreshAll();
         }
     }
@@ -1632,11 +1659,12 @@
         if (confirm(`"${f.nome}" retornou de férias? O registro será removido.`)) {
             ferias = ferias.filter(x => x.id !== id);
             showToast("Colaborador retornou! Registro removido.");
+            salvarDados(); // ✅ SALVA NO NAVEGADOR
             refreshAll();
         }
     }
 
-    // ============ LIBERAR / DELETAR (DESLIGADOS) ============
+    // ============ LIBERAR / DELETAR ============
     function liberarLicenca(id) {
         const r = registros.find(x => x.id === id);
         if (confirm(`Liberar a licença de "${r.nome}" (usada por ${r.novoUsuario})?`)) {
@@ -1645,6 +1673,7 @@
             registros[idx].novoUsuario = "";
             registros[idx].dataReatribuicao = "";
             showToast("Licença liberada!");
+            salvarDados(); // ✅ SALVA NO NAVEGADOR
             refreshAll();
         }
     }
@@ -1653,6 +1682,7 @@
         if (confirm(`Remover este registro?`)) {
             registros = registros.filter(x => x.id !== id);
             showToast("Registro removido.", "#ef4444");
+            salvarDados(); // ✅ SALVA NO NAVEGADOR
             refreshAll();
         }
     }
@@ -1661,6 +1691,7 @@
         if (confirm(`Remover este registro de férias?`)) {
             ferias = ferias.filter(x => x.id !== id);
             showToast("Registro removido.", "#ef4444");
+            salvarDados(); // ✅ SALVA NO NAVEGADOR
             refreshAll();
         }
     }
