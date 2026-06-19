@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gestão de Licenças Corban</title>
+    <!-- LUCIDE ICONS - ícones minimalistas -->
+    <link href="https://unpkg.com/lucide-static@latest/font/lucide.css" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <style>
         * {
             margin: 0;
@@ -18,10 +21,10 @@
             min-height: 100vh;
         }
 
-        /* HEADER */
+        /* ====== HEADER ====== */
         .header {
             background: linear-gradient(135deg, #1b443c, #0d2620);
-            padding: 20px 30px;
+            padding: 16px 30px;
             border-bottom: 3px solid #17c550;
             display: flex;
             align-items: center;
@@ -32,23 +35,20 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
-        .header-icon {
-            width: 52px;
-            height: 52px;
-            background: linear-gradient(135deg, #17c550, #1b443c);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.3);
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            object-fit: contain;
+            background: #fff;
+            padding: 4px;
         }
 
         .header h1 {
-            font-size: 22px;
+            font-size: 21px;
             font-weight: 700;
             color: #ffffff;
         }
@@ -58,29 +58,89 @@
         }
 
         .header p {
-            font-size: 13px;
+            font-size: 12px;
             color: #6dbb8b;
             margin-top: 2px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
         }
 
         .header-date {
             font-size: 13px;
             color: #6dbb8b;
             text-align: right;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        /* CARDS */
+        /* ====== TABS NAVEGAÇÃO ====== */
+        .tabs-nav {
+            padding: 20px 30px 0;
+            display: flex;
+            gap: 6px;
+        }
+
+        .tab-btn {
+            padding: 10px 22px;
+            background: #122a24;
+            border: 1px solid #1b443c;
+            border-bottom: none;
+            border-radius: 10px 10px 0 0;
+            color: #6dbb8b;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: #1b443c55;
+        }
+
+        .tab-btn.active {
+            background: #1b443c;
+            color: #17c550;
+            border-color: #17c550;
+        }
+
+        .tab-btn .tab-count {
+            background: #17c55025;
+            color: #17c550;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .tab-btn.active .tab-count {
+            background: #17c55040;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* ====== CARDS ====== */
         .summary-section {
-            padding: 30px 30px 10px;
+            padding: 25px 30px 10px;
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(185px, 1fr));
+            gap: 16px;
         }
 
         .summary-card {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
             border-radius: 16px;
-            padding: 22px;
+            padding: 20px;
             border: 1px solid #1b443c;
             position: relative;
             overflow: hidden;
@@ -95,9 +155,7 @@
         .summary-card::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
+            top: 0; left: 0; right: 0;
             height: 3px;
         }
 
@@ -106,12 +164,31 @@
         .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
         .card-yellow::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
         .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
+        .card-orange::before { background: linear-gradient(90deg, #f97316, #fb923c); }
+        .card-cyan::before   { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
 
-        .summary-card .icon   { font-size: 30px; margin-bottom: 10px; }
-        .summary-card .number { font-size: 36px; font-weight: 800; color: #ffffff; }
-        .summary-card .label  { font-size: 13px; color: #6dbb8b; margin-top: 4px; }
+        .card-icon-wrap {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+        }
 
-        /* CHARTS */
+        .card-icon-wrap.green  { background: #17c55018; color: #17c550; }
+        .card-icon-wrap.red    { background: #ef444418; color: #ef4444; }
+        .card-icon-wrap.blue   { background: #3b82f618; color: #3b82f6; }
+        .card-icon-wrap.yellow { background: #f59e0b18; color: #f59e0b; }
+        .card-icon-wrap.purple { background: #8b5cf618; color: #8b5cf6; }
+        .card-icon-wrap.orange { background: #f9731618; color: #f97316; }
+        .card-icon-wrap.cyan   { background: #06b6d418; color: #06b6d4; }
+
+        .summary-card .number { font-size: 32px; font-weight: 800; color: #ffffff; }
+        .summary-card .label  { font-size: 12px; color: #6dbb8b; margin-top: 4px; }
+
+        /* ====== CHARTS ====== */
         .charts-section {
             padding: 0 30px 20px;
             display: grid;
@@ -127,10 +204,13 @@
         }
 
         .chart-card h3 {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             color: #ffffff;
             margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .bar-item { margin-bottom: 14px; }
@@ -159,7 +239,6 @@
         }
 
         .donut-list { display: flex; flex-direction: column; gap: 14px; }
-
         .donut-item { display: flex; align-items: center; gap: 12px; }
         .donut-color { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
         .donut-label { flex: 1; font-size: 13px; color: #b8d8c8; }
@@ -186,11 +265,11 @@
         .timeline-info strong { font-size: 13px; color: #ffffff; display: block; }
         .timeline-info span   { font-size: 11px; color: #6dbb8b; }
 
-        /* CONTROLS */
+        /* ====== CONTROLS ====== */
         .controls {
             padding: 20px 30px;
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
             align-items: center;
         }
@@ -203,12 +282,12 @@
 
         .search-box input {
             width: 100%;
-            padding: 12px 16px 12px 44px;
+            padding: 11px 16px 11px 42px;
             background: #122a24;
             border: 1px solid #1b443c;
             border-radius: 10px;
             color: #e2e8f0;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
@@ -218,26 +297,25 @@
             box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
         }
 
-        .search-box::before {
-            content: '🔍';
+        .search-icon {
             position: absolute;
-            left: 14px;
+            left: 13px;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 16px;
+            color: #6dbb8b;
         }
 
         .filter-select {
-            padding: 12px 16px;
+            padding: 11px 14px;
             background: #122a24;
             border: 1px solid #1b443c;
             border-radius: 10px;
             color: #e2e8f0;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             cursor: pointer;
             transition: border-color 0.2s;
-            min-width: 180px;
+            min-width: 170px;
         }
 
         .filter-select:focus {
@@ -245,23 +323,31 @@
             box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
         }
 
-        .btn-add {
-            padding: 12px 24px;
+        .btn-action {
+            padding: 11px 20px;
             background: linear-gradient(135deg, #17c550, #1b443c);
             border: none;
             border-radius: 10px;
             color: white;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
             transition: opacity 0.2s, transform 0.2s;
             white-space: nowrap;
             box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
+            display: flex;
+            align-items: center;
+            gap: 7px;
         }
 
-        .btn-add:hover { opacity: 0.9; transform: translateY(-2px); }
+        .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
 
-        /* TABLE */
+        .btn-action.secondary {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+        }
+
+        /* ====== TABLE ====== */
         .table-section { padding: 0 30px 30px; }
 
         .table-header-row {
@@ -271,7 +357,15 @@
             margin-bottom: 15px;
         }
 
-        .table-title { font-size: 16px; font-weight: 600; color: #ffffff; }
+        .table-title {
+            font-size: 15px;
+            font-weight: 600;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
         .table-count { font-size: 13px; color: #6dbb8b; }
 
         .table-wrapper {
@@ -282,11 +376,10 @@
         }
 
         table { width: 100%; border-collapse: collapse; min-width: 900px; }
-
         thead { background: #0a1612; }
 
         thead th {
-            padding: 14px 16px;
+            padding: 13px 16px;
             text-align: left;
             font-size: 11px;
             font-weight: 700;
@@ -304,20 +397,20 @@
         tbody tr:hover { background: #1b443c33; }
 
         tbody td {
-            padding: 14px 16px;
+            padding: 13px 16px;
             font-size: 13px;
             color: #b8d8c8;
         }
 
         .avatar {
-            width: 38px;
-            height: 38px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             color: white;
             flex-shrink: 0;
         }
@@ -330,18 +423,18 @@
             display: inline-flex;
             align-items: center;
             gap: 5px;
-            padding: 5px 12px;
+            padding: 4px 11px;
             border-radius: 20px;
             font-size: 11px;
             font-weight: 600;
         }
 
-        /* STATUS DO USUÁRIO */
+        /* STATUS */
         .status-livre {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
+            padding: 5px 13px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 700;
@@ -351,8 +444,7 @@
         }
 
         .status-livre .pulse {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
             background: #17c550;
             animation: pulse 1.5s infinite;
@@ -367,7 +459,7 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 14px;
+            padding: 5px 13px;
             border-radius: 20px;
             font-size: 12px;
             font-weight: 600;
@@ -377,10 +469,29 @@
         }
 
         .status-em-uso .dot-blue {
-            width: 8px;
-            height: 8px;
+            width: 8px; height: 8px;
             border-radius: 50%;
             background: #3b82f6;
+        }
+
+        .status-ferias {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            background: #f9731618;
+            color: #fb923c;
+            border: 1px solid #f9731640;
+        }
+
+        .status-ferias .dot-orange {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: #f97316;
+            animation: pulse 2s infinite;
         }
 
         .user-transfer {
@@ -388,11 +499,6 @@
             align-items: center;
             gap: 8px;
             font-size: 12px;
-        }
-
-        .user-transfer .arrow {
-            color: #17c550;
-            font-size: 16px;
         }
 
         .user-transfer .new-user {
@@ -404,48 +510,45 @@
             font-size: 11px;
         }
 
-        .badge-desligado {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 11px;
+        .user-transfer .temp-user {
+            background: #f9731618;
+            color: #fb923c;
+            padding: 3px 10px;
+            border-radius: 12px;
             font-weight: 600;
-            background: #ef444418;
-            color: #f87171;
-            border: 1px solid #ef444425;
+            font-size: 11px;
         }
 
         /* ACTIONS */
-        .action-btns { display: flex; gap: 6px; }
+        .action-btns { display: flex; gap: 5px; }
 
         .btn-icon {
-            width: 34px;
-            height: 34px;
+            width: 32px; height: 32px;
             border-radius: 8px;
             border: none;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
             transition: all 0.2s;
         }
 
-        .btn-reatribuir { background: #17c55020; border: 1px solid #17c55030 !important; }
+        .btn-reatribuir { background: #17c55020; border: 1px solid #17c55030 !important; color: #17c550; }
         .btn-reatribuir:hover { background: #17c55040; }
 
-        .btn-liberar { background: #f59e0b20; border: 1px solid #f59e0b30 !important; }
+        .btn-liberar { background: #f59e0b20; border: 1px solid #f59e0b30 !important; color: #f59e0b; }
         .btn-liberar:hover { background: #f59e0b40; }
 
-        .btn-edit   { background: #3b82f620; border: 1px solid #3b82f630 !important; }
+        .btn-retorno { background: #06b6d420; border: 1px solid #06b6d430 !important; color: #06b6d4; }
+        .btn-retorno:hover { background: #06b6d440; }
+
+        .btn-edit { background: #3b82f620; border: 1px solid #3b82f630 !important; color: #3b82f6; }
         .btn-edit:hover { background: #3b82f640; }
 
-        .btn-delete { background: #ef444420; border: 1px solid #ef444430 !important; }
+        .btn-delete { background: #ef444420; border: 1px solid #ef444430 !important; color: #ef4444; }
         .btn-delete:hover { background: #ef444440; }
 
-        /* MODAL */
+        /* ====== MODAL ====== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -461,12 +564,14 @@
         .modal {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
             border-radius: 20px;
-            padding: 30px;
+            padding: 28px;
             width: 100%;
             max-width: 520px;
             border: 1px solid #1b443c;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(23, 197, 80, 0.08);
             animation: slideIn 0.3s ease;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         @keyframes slideIn {
@@ -478,17 +583,22 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
         }
 
-        .modal-header h2 { font-size: 18px; color: #ffffff; }
+        .modal-header h2 {
+            font-size: 17px;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
 
         .modal-close {
             background: #1b443c;
             border: none;
             color: #6dbb8b;
-            width: 34px;
-            height: 34px;
+            width: 32px; height: 32px;
             border-radius: 8px;
             cursor: pointer;
             font-size: 18px;
@@ -500,13 +610,15 @@
 
         .modal-close:hover { background: #ef4444; color: white; }
 
-        .form-group { margin-bottom: 18px; }
+        .form-group { margin-bottom: 16px; }
 
         .form-group label {
-            display: block;
-            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 11px;
             color: #6dbb8b;
-            margin-bottom: 7px;
+            margin-bottom: 6px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
@@ -515,12 +627,12 @@
         .form-group input,
         .form-group select {
             width: 100%;
-            padding: 11px 14px;
+            padding: 10px 13px;
             background: #0a0f0d;
             border: 1px solid #1b443c;
             border-radius: 10px;
             color: #e2e8f0;
-            font-size: 14px;
+            font-size: 13px;
             outline: none;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
@@ -531,47 +643,58 @@
             box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15);
         }
 
-        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 
         .btn-save {
             width: 100%;
-            padding: 14px;
+            padding: 13px;
             background: linear-gradient(135deg, #17c550, #1b443c);
             border: none;
             border-radius: 10px;
             color: white;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
             transition: all 0.2s;
             box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
 
         .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* TOAST */
+        .btn-save.orange {
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+        }
+
+        /* ====== TOAST ====== */
         .toast {
             position: fixed;
             bottom: 30px;
             right: 30px;
             background: #17c550;
             color: white;
-            padding: 14px 24px;
+            padding: 13px 22px;
             border-radius: 12px;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 600;
             box-shadow: 0 8px 30px rgba(23, 197, 80, 0.3);
             transform: translateY(100px);
             opacity: 0;
             transition: all 0.4s;
             z-index: 2000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .toast.show { transform: translateY(0); opacity: 1; }
 
         .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
-        .empty-state .empty-icon { font-size: 50px; margin-bottom: 15px; }
 
         /* LEGEND */
         .legend-bar {
@@ -599,9 +722,9 @@
             .search-box { min-width: 100%; }
             .header { flex-direction: column; gap: 10px; }
             .summary-section { grid-template-columns: 1fr 1fr; }
+            .tabs-nav { overflow-x: auto; }
         }
 
-        /* SCROLLBAR */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0a0f0d; }
         ::-webkit-scrollbar-thumb { background: #1b443c; border-radius: 4px; }
@@ -610,133 +733,252 @@
 </head>
 <body>
 
-<!-- HEADER -->
+<!-- ====== HEADER ====== -->
 <div class="header">
     <div class="header-left">
-        <div class="header-icon">🔑</div>
+        <!-- LOGO DA EMPRESA - substitua o src pelo caminho da sua logo -->
+        <img src="https://i.imgur.com/8Km9tLL.png" alt="Logo" class="header-logo"
+             onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex'">
+        <div id="fallbackLogo" style="display:none; width:48px;height:48px;background:linear-gradient(135deg,#17c550,#1b443c);border-radius:12px;align-items:center;justify-content:center;">
+            <i data-lucide="key-round" style="width:24px;height:24px;color:white"></i>
+        </div>
         <div>
             <h1>Gestão de Licenças <span>Corban</span></h1>
-            <p>Controle de usuários desligados e reatribuição de licenças</p>
+            <p><i data-lucide="shield-check" style="width:13px;height:13px"></i> Controle de usuários e reatribuição de licenças</p>
         </div>
     </div>
-    <div class="header-date" id="currentDate"></div>
-</div>
-
-<!-- CARDS -->
-<div class="summary-section">
-    <div class="summary-card card-green">
-        <div class="icon">👥</div>
-        <div class="number" id="totalDesligados">0</div>
-        <div class="label">Total Desligados</div>
-    </div>
-    <div class="summary-card card-red">
-        <div class="icon">🔓</div>
-        <div class="number" id="totalLivres">0</div>
-        <div class="label">Usuários Livres</div>
-    </div>
-    <div class="summary-card card-blue">
-        <div class="icon">🔄</div>
-        <div class="number" id="totalReatribuidos">0</div>
-        <div class="label">Reatribuídos</div>
-    </div>
-    <div class="summary-card card-yellow">
-        <div class="icon">💰</div>
-        <div class="number" id="economiaMes">0</div>
-        <div class="label">Licenças Economizadas</div>
-    </div>
-    <div class="summary-card card-purple">
-        <div class="icon">📊</div>
-        <div class="number" id="taxaAproveitamento">0%</div>
-        <div class="label">Taxa de Aproveitamento</div>
+    <div class="header-date">
+        <i data-lucide="calendar" style="width:14px;height:14px"></i>
+        <span id="currentDate"></span>
     </div>
 </div>
 
-<!-- GRÁFICOS -->
-<div class="charts-section">
-    <div class="chart-card">
-        <h3>📊 Desligamentos por Equipe</h3>
-        <div id="barChart"></div>
-    </div>
-    <div class="chart-card">
-        <h3>🔑 Status das Licenças</h3>
-        <div class="donut-list" id="statusChart"></div>
-    </div>
-    <div class="chart-card">
-        <h3>🕐 Últimas Movimentações</h3>
-        <div id="timelineChart"></div>
-    </div>
+<!-- ====== TABS ====== -->
+<div class="tabs-nav">
+    <button class="tab-btn active" onclick="switchTab('desligados')">
+        <i data-lucide="user-x" style="width:15px;height:15px"></i>
+        Desligados
+        <span class="tab-count" id="tabCountDesligados">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('ferias')">
+        <i data-lucide="sun" style="width:15px;height:15px"></i>
+        Férias
+        <span class="tab-count" id="tabCountFerias">0</span>
+    </button>
 </div>
 
-<!-- LEGENDA -->
-<div class="legend-bar">
-    <div class="legend-item">
-        <span class="status-livre" style="padding:3px 8px;font-size:10px"><span class="pulse"></span> Livre</span>
-        Usuário disponível para reatribuição
-    </div>
-    <div class="legend-item">
-        <span class="status-em-uso" style="padding:3px 8px;font-size:10px"><span class="dot-blue"></span> Em uso</span>
-        Já reatribuído a outro colaborador
-    </div>
-</div>
+<!-- ================================================================ -->
+<!-- ==================== TAB DESLIGADOS ============================ -->
+<!-- ================================================================ -->
+<div class="tab-content active" id="tab-desligados">
 
-<!-- CONTROLES -->
-<div class="controls">
-    <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Buscar por nome, equipe ou novo usuário..." oninput="renderTable()">
+    <!-- CARDS DESLIGADOS -->
+    <div class="summary-section">
+        <div class="summary-card card-green">
+            <div class="card-icon-wrap green"><i data-lucide="users" style="width:20px;height:20px"></i></div>
+            <div class="number" id="totalDesligados">0</div>
+            <div class="label">Total Desligados</div>
+        </div>
+        <div class="summary-card card-red">
+            <div class="card-icon-wrap red"><i data-lucide="lock-open" style="width:20px;height:20px"></i></div>
+            <div class="number" id="totalLivres">0</div>
+            <div class="label">Usuários Livres</div>
+        </div>
+        <div class="summary-card card-blue">
+            <div class="card-icon-wrap blue"><i data-lucide="refresh-cw" style="width:20px;height:20px"></i></div>
+            <div class="number" id="totalReatribuidos">0</div>
+            <div class="label">Reatribuídos</div>
+        </div>
+        <div class="summary-card card-yellow">
+            <div class="card-icon-wrap yellow"><i data-lucide="badge-dollar-sign" style="width:20px;height:20px"></i></div>
+            <div class="number" id="economiaMes">0</div>
+            <div class="label">Licenças Economizadas</div>
+        </div>
+        <div class="summary-card card-purple">
+            <div class="card-icon-wrap purple"><i data-lucide="trending-up" style="width:20px;height:20px"></i></div>
+            <div class="number" id="taxaAproveitamento">0%</div>
+            <div class="label">Taxa de Aproveitamento</div>
+        </div>
     </div>
-    <select class="filter-select" id="filterEquipe" onchange="renderTable()">
-        <option value="">Todas as Equipes</option>
-    </select>
-    <select class="filter-select" id="filterStatus" onchange="renderTable()">
-        <option value="">Todos os Status</option>
-        <option value="livre">🔓 Usuário Livre</option>
-        <option value="em_uso">🔄 Em Uso</option>
-    </select>
-    <button class="btn-add" onclick="openModal()">➕ Registrar Desligamento</button>
-</div>
 
-<!-- TABELA -->
-<div class="table-section">
-    <div class="table-header-row">
-        <div class="table-title">📋 Controle de Licenças — Colaboradores Desligados</div>
-        <div class="table-count" id="tableCount"></div>
+    <!-- GRÁFICOS -->
+    <div class="charts-section">
+        <div class="chart-card">
+            <h3><i data-lucide="bar-chart-3" style="width:16px;height:16px;color:#17c550"></i> Desligamentos por Equipe</h3>
+            <div id="barChart"></div>
+        </div>
+        <div class="chart-card">
+            <h3><i data-lucide="key-round" style="width:16px;height:16px;color:#17c550"></i> Status das Licenças</h3>
+            <div class="donut-list" id="statusChart"></div>
+        </div>
+        <div class="chart-card">
+            <h3><i data-lucide="clock" style="width:16px;height:16px;color:#17c550"></i> Últimas Movimentações</h3>
+            <div id="timelineChart"></div>
+        </div>
     </div>
-    <div class="table-wrapper">
-        <table>
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Colaborador Desligado</th>
-                    <th>Equipe</th>
-                    <th>Data Desligamento</th>
-                    <th>Status da Licença</th>
-                    <th>Reatribuído para</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody"></tbody>
-        </table>
-        <div class="empty-state" id="emptyState" style="display:none">
-            <div class="empty-icon">🔍</div>
-            <p>Nenhum registro encontrado.</p>
+
+    <!-- LEGENDA -->
+    <div class="legend-bar">
+        <div class="legend-item">
+            <span class="status-livre" style="padding:3px 8px;font-size:10px"><span class="pulse"></span> Livre</span>
+            Disponível para reatribuição
+        </div>
+        <div class="legend-item">
+            <span class="status-em-uso" style="padding:3px 8px;font-size:10px"><span class="dot-blue"></span> Em uso</span>
+            Reatribuído a outro colaborador
+        </div>
+    </div>
+
+    <!-- CONTROLES DESLIGADOS -->
+    <div class="controls">
+        <div class="search-box">
+            <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
+            <input type="text" id="searchInput" placeholder="Buscar por nome, equipe ou novo usuário..." oninput="renderTable()">
+        </div>
+        <select class="filter-select" id="filterEquipe" onchange="renderTable()">
+            <option value="">Todas as Equipes</option>
+        </select>
+        <select class="filter-select" id="filterStatus" onchange="renderTable()">
+            <option value="">Todos os Status</option>
+            <option value="livre">Usuário Livre</option>
+            <option value="em_uso">Em Uso</option>
+        </select>
+        <button class="btn-action" onclick="openModal()">
+            <i data-lucide="plus" style="width:16px;height:16px"></i> Registrar Desligamento
+        </button>
+    </div>
+
+    <!-- TABELA DESLIGADOS -->
+    <div class="table-section">
+        <div class="table-header-row">
+            <div class="table-title">
+                <i data-lucide="clipboard-list" style="width:18px;height:18px;color:#17c550"></i>
+                Controle de Licenças — Colaboradores Desligados
+            </div>
+            <div class="table-count" id="tableCount"></div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Colaborador Desligado</th>
+                        <th>Equipe</th>
+                        <th>Data Desligamento</th>
+                        <th>Status da Licença</th>
+                        <th>Reatribuído para</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+            <div class="empty-state" id="emptyState" style="display:none">
+                <p style="font-size:14px">Nenhum registro encontrado.</p>
+            </div>
         </div>
     </div>
 </div>
 
-<!-- MODAL REGISTRO -->
+<!-- ================================================================ -->
+<!-- ====================== TAB FÉRIAS ============================== -->
+<!-- ================================================================ -->
+<div class="tab-content" id="tab-ferias">
+
+    <!-- CARDS FÉRIAS -->
+    <div class="summary-section">
+        <div class="summary-card card-orange">
+            <div class="card-icon-wrap orange"><i data-lucide="sun" style="width:20px;height:20px"></i></div>
+            <div class="number" id="totalFerias">0</div>
+            <div class="label">Em Férias</div>
+        </div>
+        <div class="summary-card card-green">
+            <div class="card-icon-wrap green"><i data-lucide="lock-open" style="width:20px;height:20px"></i></div>
+            <div class="number" id="feriasLivres">0</div>
+            <div class="label">Usuários Livres (Férias)</div>
+        </div>
+        <div class="summary-card card-cyan">
+            <div class="card-icon-wrap cyan"><i data-lucide="user-check" style="width:20px;height:20px"></i></div>
+            <div class="number" id="feriasUsados">0</div>
+            <div class="label">Temporariamente Reatribuídos</div>
+        </div>
+    </div>
+
+    <!-- LEGENDA FÉRIAS -->
+    <div class="legend-bar" style="padding-top:10px">
+        <div class="legend-item">
+            <span class="status-ferias" style="padding:3px 8px;font-size:10px"><span class="dot-orange"></span> Férias</span>
+            Colaborador em férias — licença disponível temporariamente
+        </div>
+        <div class="legend-item">
+            <span class="status-em-uso" style="padding:3px 8px;font-size:10px"><span class="dot-blue"></span> Temp.</span>
+            Licença emprestada temporariamente
+        </div>
+    </div>
+
+    <!-- CONTROLES FÉRIAS -->
+    <div class="controls">
+        <div class="search-box">
+            <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
+            <input type="text" id="searchFerias" placeholder="Buscar por nome ou equipe..." oninput="renderFeriasTable()">
+        </div>
+        <select class="filter-select" id="filterEquipeFerias" onchange="renderFeriasTable()">
+            <option value="">Todas as Equipes</option>
+            <option value="Equipe Lavínia">Equipe Lavínia</option>
+            <option value="Equipe Matheus">Equipe Matheus</option>
+            <option value="Equipe Nayara">Equipe Nayara</option>
+        </select>
+        <button class="btn-action secondary" onclick="openModalFerias()">
+            <i data-lucide="sun" style="width:16px;height:16px"></i> Registrar Férias
+        </button>
+    </div>
+
+    <!-- TABELA FÉRIAS -->
+    <div class="table-section">
+        <div class="table-header-row">
+            <div class="table-title">
+                <i data-lucide="sun" style="width:18px;height:18px;color:#f97316"></i>
+                Controle de Licenças — Colaboradores em Férias
+            </div>
+            <div class="table-count" id="feriasTableCount"></div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Colaborador em Férias</th>
+                        <th>Equipe</th>
+                        <th>Período</th>
+                        <th>Status da Licença</th>
+                        <th>Usando Temporariamente</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="feriasTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="feriasEmptyState" style="display:none">
+                <p style="font-size:14px">Nenhum colaborador em férias.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ====== MODAL DESLIGAMENTO ====== -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal">
         <div class="modal-header">
-            <h2 id="modalTitle">➕ Registrar Desligamento</h2>
-            <button class="modal-close" onclick="closeModal()">✕</button>
+            <h2 id="modalTitle"><i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Registrar Desligamento</h2>
+            <button class="modal-close" onclick="closeModal()">
+                <i data-lucide="x" style="width:16px;height:16px"></i>
+            </button>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Colaborador Desligado *</label>
+                <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador Desligado *</label>
                 <input type="text" id="inputNome" placeholder="Nome completo">
             </div>
             <div class="form-group">
-                <label>Equipe *</label>
+                <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
                 <select id="inputEquipe">
                     <option value="">Selecione...</option>
                     <option value="Equipe Lavínia">Equipe Lavínia</option>
@@ -747,56 +989,139 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Data de Desligamento *</label>
+                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Data de Desligamento *</label>
                 <input type="date" id="inputData">
             </div>
             <div class="form-group">
-                <label>Cargo</label>
+                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo</label>
                 <input type="text" id="inputCargo" placeholder="Ex: Analista">
             </div>
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label>Status da Licença</label>
+                <label><i data-lucide="key-round" style="width:12px;height:12px"></i> Status da Licença</label>
                 <select id="inputStatusLicenca" onchange="toggleNovoUsuario()">
-                    <option value="livre">🔓 Livre</option>
-                    <option value="em_uso">🔄 Reatribuído</option>
+                    <option value="livre">Livre</option>
+                    <option value="em_uso">Reatribuído</option>
                 </select>
             </div>
             <div class="form-group" id="groupNovoUsuario" style="display:none">
-                <label>Novo Usuário *</label>
+                <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Usuário *</label>
                 <input type="text" id="inputNovoUsuario" placeholder="Nome do novo colaborador">
             </div>
         </div>
         <div class="form-group" id="groupDataReatribuicao" style="display:none">
-            <label>Data da Reatribuição</label>
+            <label><i data-lucide="calendar-check" style="width:12px;height:12px"></i> Data da Reatribuição</label>
             <input type="date" id="inputDataReatribuicao">
         </div>
         <div class="form-group">
-            <label>Observações</label>
+            <label><i data-lucide="message-square" style="width:12px;height:12px"></i> Observações</label>
             <input type="text" id="inputObs" placeholder="Alguma nota ou observação...">
         </div>
-        <button class="btn-save" onclick="saveRegistro()">💾 Salvar Registro</button>
+        <button class="btn-save" onclick="saveRegistro()">
+            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Registro
+        </button>
     </div>
 </div>
 
-<!-- MODAL REATRIBUIR -->
+<!-- ====== MODAL REATRIBUIR ====== -->
 <div class="modal-overlay" id="modalReatribuir" onclick="closeModalReatribuirOutside(event)">
     <div class="modal">
         <div class="modal-header">
-            <h2>🔄 Reatribuir Licença</h2>
-            <button class="modal-close" onclick="closeModalReatribuir()">✕</button>
+            <h2><i data-lucide="refresh-cw" style="width:18px;height:18px;color:#17c550"></i> Reatribuir Licença</h2>
+            <button class="modal-close" onclick="closeModalReatribuir()">
+                <i data-lucide="x" style="width:16px;height:16px"></i>
+            </button>
         </div>
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="reatribuirInfo"></p>
         <div class="form-group">
-            <label>Novo Colaborador *</label>
+            <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Colaborador *</label>
             <input type="text" id="reatribuirNome" placeholder="Nome do novo colaborador">
         </div>
         <div class="form-group">
-            <label>Data da Reatribuição</label>
+            <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Data da Reatribuição</label>
             <input type="date" id="reatribuirData">
         </div>
-        <button class="btn-save" onclick="confirmarReatribuicao()">✅ Confirmar Reatribuição</button>
+        <button class="btn-save" onclick="confirmarReatribuicao()">
+            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar Reatribuição
+        </button>
+    </div>
+</div>
+
+<!-- ====== MODAL FÉRIAS ====== -->
+<div class="modal-overlay" id="modalFerias" onclick="closeModalFeriasOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2><i data-lucide="sun" style="width:18px;height:18px;color:#f97316"></i> Registrar Férias</h2>
+            <button class="modal-close" onclick="closeModalFerias()">
+                <i data-lucide="x" style="width:16px;height:16px"></i>
+            </button>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
+                <input type="text" id="inputFeriasNome" placeholder="Nome completo">
+            </div>
+            <div class="form-group">
+                <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
+                <select id="inputFeriasEquipe">
+                    <option value="">Selecione...</option>
+                    <option value="Equipe Lavínia">Equipe Lavínia</option>
+                    <option value="Equipe Matheus">Equipe Matheus</option>
+                    <option value="Equipe Nayara">Equipe Nayara</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Início das Férias *</label>
+                <input type="date" id="inputFeriasInicio">
+            </div>
+            <div class="form-group">
+                <label><i data-lucide="calendar-check" style="width:12px;height:12px"></i> Retorno *</label>
+                <input type="date" id="inputFeriasRetorno">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="key-round" style="width:12px;height:12px"></i> Status da Licença</label>
+                <select id="inputFeriasStatus" onchange="toggleFeriasUsuario()">
+                    <option value="livre">Livre</option>
+                    <option value="temp_uso">Emprestado Temporariamente</option>
+                </select>
+            </div>
+            <div class="form-group" id="groupFeriasUsuario" style="display:none">
+                <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Usando Temporariamente *</label>
+                <input type="text" id="inputFeriasUsuarioTemp" placeholder="Nome do colaborador temporário">
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="message-square" style="width:12px;height:12px"></i> Observações</label>
+            <input type="text" id="inputFeriasObs" placeholder="Alguma nota...">
+        </div>
+        <button class="btn-save orange" onclick="saveFeriasRegistro()">
+            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Registro de Férias
+        </button>
+    </div>
+</div>
+
+<!-- ====== MODAL EMPRESTAR LICENÇA FÉRIAS ====== -->
+<div class="modal-overlay" id="modalEmprestar" onclick="closeModalEmprestarOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2><i data-lucide="arrow-right-left" style="width:18px;height:18px;color:#f97316"></i> Emprestar Licença</h2>
+            <button class="modal-close" onclick="closeModalEmprestar()">
+                <i data-lucide="x" style="width:16px;height:16px"></i>
+            </button>
+        </div>
+        <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="emprestarInfo"></p>
+        <div class="form-group">
+            <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador Temporário *</label>
+            <input type="text" id="emprestarNome" placeholder="Quem vai usar temporariamente">
+        </div>
+        <button class="btn-save orange" onclick="confirmarEmprestimo()">
+            <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar Empréstimo
+        </button>
     </div>
 </div>
 
@@ -804,32 +1129,49 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ DADOS ============
+    // ============ DADOS DESLIGADOS ============
     let registros = [
-        { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",     equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",       equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "Transferência imediata" },
-        { id: 3, nome: "Pedro Almeida",        cargo: "Consultor",      equipe: "Equipe Nayara",  data: "2025-05-02", status: "em_uso", novoUsuario: "Camila Santos",    dataReatribuicao: "2025-05-05", obs: "" },
-        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",      equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "Aguardando novo colaborador" },
-        { id: 5, nome: "Fernando Silva",       cargo: "Supervisor",     equipe: "Equipe Matheus", data: "2025-06-01", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 6, nome: "Amanda Rodrigues",     cargo: "Analista",       equipe: "Equipe Nayara",  data: "2025-04-28", status: "em_uso", novoUsuario: "Lucas Martins",    dataReatribuicao: "2025-05-01", obs: "Reatribuído para nova contratação" },
-        { id: 7, nome: "Thiago Nascimento",    cargo: "Assistente",     equipe: "Equipe Lavínia", data: "2025-06-10", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 8, nome: "Bruna Martins",        cargo: "Coordenadora",   equipe: "Equipe Matheus", data: "2025-02-14", status: "em_uso", novoUsuario: "Rafaela Lima",     dataReatribuicao: "2025-02-20", obs: "" },
+        { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",     equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "Transferência imediata" },
+        { id: 3, nome: "Pedro Almeida",        cargo: "Consultor",    equipe: "Equipe Nayara",  data: "2025-05-02", status: "em_uso", novoUsuario: "Camila Santos",    dataReatribuicao: "2025-05-05", obs: "" },
+        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",    equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "Aguardando novo colaborador" },
+        { id: 5, nome: "Fernando Silva",       cargo: "Supervisor",   equipe: "Equipe Matheus", data: "2025-06-01", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 6, nome: "Amanda Rodrigues",     cargo: "Analista",     equipe: "Equipe Nayara",  data: "2025-04-28", status: "em_uso", novoUsuario: "Lucas Martins",    dataReatribuicao: "2025-05-01", obs: "" },
+        { id: 7, nome: "Thiago Nascimento",    cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-06-10", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
+        { id: 8, nome: "Bruna Martins",        cargo: "Coordenadora", equipe: "Equipe Matheus", data: "2025-02-14", status: "em_uso", novoUsuario: "Rafaela Lima",     dataReatribuicao: "2025-02-20", obs: "" },
+    ];
+
+    // ============ DADOS FÉRIAS ============
+    let ferias = [
+        { id: 1, nome: "Carla Mendes",    equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre",    usuarioTemp: "", obs: "" },
+        { id: 2, nome: "Diego Ferreira",   equipe: "Equipe Matheus", inicio: "2025-07-10", retorno: "2025-07-25", status: "temp_uso", usuarioTemp: "Ana Paula", obs: "Colaborador novo usando" },
+        { id: 3, nome: "Mariana Lopes",    equipe: "Equipe Nayara",  inicio: "2025-07-15", retorno: "2025-08-14", status: "livre",    usuarioTemp: "", obs: "" },
     ];
 
     let editId = null;
+    let editFeriasId = null;
     let reatribuirId = null;
+    let emprestarId = null;
     let nextId = 9;
+    let nextFeriasId = 4;
 
-    // CORES
     const equipeColors = {
         "Equipe Lavínia": "#8b5cf6",
         "Equipe Matheus": "#3b82f6",
         "Equipe Nayara":  "#ec4899",
     };
 
-    // ============ DATE ============
+    // ============ TABS ============
+    function switchTab(tab) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+        event.currentTarget.classList.add('active');
+    }
+
+    // ============ UTILS ============
     function setDate() {
-        document.getElementById("currentDate").innerHTML =
+        document.getElementById("currentDate").textContent =
             new Date().toLocaleDateString("pt-BR", { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
     }
 
@@ -842,18 +1184,37 @@
         return new Date(d+"T00:00:00").toLocaleDateString("pt-BR");
     }
 
-    // ============ CARDS ============
+    function daysUntil(d) {
+        if (!d) return 0;
+        const diff = new Date(d+"T00:00:00") - new Date();
+        return Math.ceil(diff / (1000*60*60*24));
+    }
+
+    // ============ CARDS DESLIGADOS ============
     function updateSummary() {
-        const total   = registros.length;
-        const livres  = registros.filter(r => r.status === "livre").length;
-        const emUso   = registros.filter(r => r.status === "em_uso").length;
-        const taxa    = total > 0 ? Math.round((emUso / total) * 100) : 0;
+        const total  = registros.length;
+        const livres = registros.filter(r => r.status === "livre").length;
+        const emUso  = registros.filter(r => r.status === "em_uso").length;
+        const taxa   = total > 0 ? Math.round((emUso / total) * 100) : 0;
 
         document.getElementById("totalDesligados").textContent    = total;
         document.getElementById("totalLivres").textContent        = livres;
         document.getElementById("totalReatribuidos").textContent  = emUso;
         document.getElementById("economiaMes").textContent        = emUso;
         document.getElementById("taxaAproveitamento").textContent = taxa + "%";
+        document.getElementById("tabCountDesligados").textContent = total;
+    }
+
+    // ============ CARDS FÉRIAS ============
+    function updateFeriasSummary() {
+        const total  = ferias.length;
+        const livres = ferias.filter(f => f.status === "livre").length;
+        const usados = ferias.filter(f => f.status === "temp_uso").length;
+
+        document.getElementById("totalFerias").textContent  = total;
+        document.getElementById("feriasLivres").textContent = livres;
+        document.getElementById("feriasUsados").textContent = usados;
+        document.getElementById("tabCountFerias").textContent = total;
     }
 
     // ============ BAR CHART ============
@@ -869,10 +1230,7 @@
                 const color = equipeColors[equipe] || "#17c550";
                 return `
                 <div class="bar-item">
-                    <div class="bar-label">
-                        <span>${equipe}</span>
-                        <span>${count}</span>
-                    </div>
+                    <div class="bar-label"><span>${equipe}</span><span>${count}</span></div>
                     <div class="bar-track">
                         <div class="bar-fill" style="width:${pct}%;background:${color}"></div>
                     </div>
@@ -884,49 +1242,66 @@
     function updateStatusChart() {
         const livres = registros.filter(r => r.status === "livre").length;
         const emUso  = registros.filter(r => r.status === "em_uso").length;
-        const total  = registros.length || 1;
+        const fLivres = ferias.filter(f => f.status === "livre").length;
+        const total  = (registros.length + ferias.length) || 1;
 
         document.getElementById("statusChart").innerHTML = `
             <div class="donut-item">
                 <div class="donut-color" style="background:#17c550"></div>
-                <div class="donut-label">🔓 Usuários Livres</div>
+                <div class="donut-label">Usuários Livres (Desligados)</div>
                 <div class="donut-val">${livres}</div>
                 <div class="donut-pct">${Math.round((livres/total)*100)}%</div>
             </div>
             <div class="donut-item">
                 <div class="donut-color" style="background:#3b82f6"></div>
-                <div class="donut-label">🔄 Reatribuídos</div>
+                <div class="donut-label">Reatribuídos</div>
                 <div class="donut-val">${emUso}</div>
                 <div class="donut-pct">${Math.round((emUso/total)*100)}%</div>
             </div>
-            <div style="margin-top:16px;padding-top:16px;border-top:1px solid #1b443c44">
+            <div class="donut-item">
+                <div class="donut-color" style="background:#f97316"></div>
+                <div class="donut-label">Livres (Férias)</div>
+                <div class="donut-val">${fLivres}</div>
+                <div class="donut-pct">${Math.round((fLivres/total)*100)}%</div>
+            </div>
+            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #1b443c44">
                 <div class="donut-item">
                     <div class="donut-color" style="background:#f59e0b"></div>
-                    <div class="donut-label">💰 Licenças Economizadas</div>
-                    <div class="donut-val" style="color:#f59e0b">${emUso}</div>
+                    <div class="donut-label">Total Economizadas</div>
+                    <div class="donut-val" style="color:#f59e0b">${emUso + ferias.filter(f=>f.status==="temp_uso").length}</div>
                     <div class="donut-pct"></div>
                 </div>
-            </div>
-        `;
+            </div>`;
     }
 
     // ============ TIMELINE ============
     function updateTimeline() {
-        const sorted = [...registros].sort((a,b) => b.data.localeCompare(a.data)).slice(0,5);
-        document.getElementById("timelineChart").innerHTML = sorted.map(r => {
-            const isLivre = r.status === "livre";
-            const color   = isLivre ? "#17c550" : "#3b82f6";
-            const text    = isLivre
-                ? `${r.nome} — <b style="color:#17c550">Livre</b>`
-                : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
-            return `
-            <div class="timeline-item">
-                <div class="timeline-dot" style="background:${color}"></div>
-                <div class="timeline-info">
-                    <strong>${text}</strong>
-                    <span>${formatDate(r.data)} · ${r.equipe}</span>
-                </div>
-            </div>`;
+        const allEvents = [
+            ...registros.map(r => ({...r, tipo: 'desligamento'})),
+            ...ferias.map(f => ({...f, data: f.inicio, tipo: 'ferias'}))
+        ].sort((a,b) => b.data.localeCompare(a.data)).slice(0,6);
+
+        document.getElementById("timelineChart").innerHTML = allEvents.map(r => {
+            if (r.tipo === 'ferias') {
+                const color = r.status === "livre" ? "#f97316" : "#06b6d4";
+                const text = r.status === "livre"
+                    ? `${r.nome} — <b style="color:#f97316">Férias (livre)</b>`
+                    : `${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
+                return `<div class="timeline-item">
+                    <div class="timeline-dot" style="background:${color}"></div>
+                    <div class="timeline-info"><strong>${text}</strong>
+                    <span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
+            } else {
+                const isLivre = r.status === "livre";
+                const color = isLivre ? "#17c550" : "#3b82f6";
+                const text = isLivre
+                    ? `${r.nome} — <b style="color:#17c550">Livre</b>`
+                    : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
+                return `<div class="timeline-item">
+                    <div class="timeline-dot" style="background:${color}"></div>
+                    <div class="timeline-info"><strong>${text}</strong>
+                    <span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
+            }
         }).join("") || "<p style='color:#1b443c'>Sem movimentações</p>";
     }
 
@@ -939,7 +1314,7 @@
             .map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
     }
 
-    // ============ TABELA ============
+    // ============ TABELA DESLIGADOS ============
     function renderTable() {
         const search = document.getElementById("searchInput").value.toLowerCase();
         const equipe = document.getElementById("filterEquipe").value;
@@ -949,18 +1324,16 @@
             const s = r.nome.toLowerCase().includes(search) ||
                       r.equipe.toLowerCase().includes(search) ||
                       (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
-            const e = !equipe || r.equipe === equipe;
-            const st = !status || r.status === status;
-            return s && e && st;
+            return s && (!equipe || r.equipe === equipe) && (!status || r.status === status);
         });
 
         document.getElementById("tableCount").textContent = `${filtrados.length} de ${registros.length} registros`;
         document.getElementById("emptyState").style.display = filtrados.length ? "none" : "block";
 
         document.getElementById("tableBody").innerHTML = filtrados.map((r, i) => {
-            const color    = equipeColors[r.equipe] || "#17c550";
+            const color = equipeColors[r.equipe] || "#17c550";
             const initials = getInitials(r.nome);
-            const isLivre  = r.status === "livre";
+            const isLivre = r.status === "livre";
 
             const statusHtml = isLivre
                 ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>`
@@ -969,18 +1342,18 @@
             const reatribuidoHtml = isLivre
                 ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>`
                 : `<div class="user-transfer">
-                       <span class="arrow">→</span>
+                       <i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i>
                        <span class="new-user">${r.novoUsuario}</span>
                        <span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span>
                    </div>`;
 
             const actionsHtml = isLivre
-                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})">🔄</button>
-                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})">✏️</button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})">🗑️</button>`
-                : `<button class="btn-icon btn-liberar" title="Liberar Licença" onclick="liberarLicenca(${r.id})">🔓</button>
-                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})">✏️</button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})">🗑️</button>`;
+                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+                : `<button class="btn-icon btn-liberar" title="Liberar" onclick="liberarLicenca(${r.id})"><i data-lucide="lock-open" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
 
             return `
             <tr>
@@ -994,106 +1367,205 @@
                         </div>
                     </div>
                 </td>
-                <td>
-                    <span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">
-                        ${r.equipe}
-                    </span>
-                </td>
-                <td style="white-space:nowrap; color:#b8d8c8">📅 ${formatDate(r.data)}</td>
+                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td>
+                <td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td>
                 <td>${statusHtml}</td>
                 <td>${reatribuidoHtml}</td>
-                <td>
-                    <div class="action-btns">${actionsHtml}</div>
-                </td>
+                <td><div class="action-btns">${actionsHtml}</div></td>
             </tr>`;
         }).join("");
+
+        lucide.createIcons();
     }
 
-    // ============ TOGGLE NOVO USUARIO ============
+    // ============ TABELA FÉRIAS ============
+    function renderFeriasTable() {
+        const search = document.getElementById("searchFerias").value.toLowerCase();
+        const equipe = document.getElementById("filterEquipeFerias").value;
+
+        let filtrados = ferias.filter(f => {
+            const s = f.nome.toLowerCase().includes(search) ||
+                      f.equipe.toLowerCase().includes(search) ||
+                      (f.usuarioTemp && f.usuarioTemp.toLowerCase().includes(search));
+            return s && (!equipe || f.equipe === equipe);
+        });
+
+        document.getElementById("feriasTableCount").textContent = `${filtrados.length} de ${ferias.length} registros`;
+        document.getElementById("feriasEmptyState").style.display = filtrados.length ? "none" : "block";
+
+        document.getElementById("feriasTableBody").innerHTML = filtrados.map((f, i) => {
+            const color = equipeColors[f.equipe] || "#f97316";
+            const initials = getInitials(f.nome);
+            const isLivre = f.status === "livre";
+            const diasRetorno = daysUntil(f.retorno);
+            const retornoLabel = diasRetorno > 0 ? `Retorna em ${diasRetorno} dia${diasRetorno>1?'s':''}` : diasRetorno === 0 ? 'Retorna hoje' : 'Retorno vencido';
+
+            const statusHtml = isLivre
+                ? `<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>`
+                : `<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
+
+            const usandoHtml = isLivre
+                ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>`
+                : `<div class="user-transfer">
+                       <i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i>
+                       <span class="temp-user">${f.usuarioTemp}</span>
+                   </div>`;
+
+            const actionsHtml = isLivre
+                ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-retorno" title="Retorno de Férias" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+                : `<button class="btn-icon btn-liberar" title="Devolver Licença" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-retorno" title="Retorno de Férias" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+
+            return `
+            <tr>
+                <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
+                <td>
+                    <div class="cell-name">
+                        <div class="avatar" style="background:${color}">${initials}</div>
+                        <div class="name-info">
+                            <strong>${f.nome}</strong>
+                            <span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span>
+                        </div>
+                    </div>
+                </td>
+                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td>
+                <td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td>
+                <td>${statusHtml}</td>
+                <td>${usandoHtml}</td>
+                <td><div class="action-btns">${actionsHtml}</div></td>
+            </tr>`;
+        }).join("");
+
+        lucide.createIcons();
+    }
+
+    // ============ TOGGLE FIELDS ============
     function toggleNovoUsuario() {
         const val = document.getElementById("inputStatusLicenca").value;
-        document.getElementById("groupNovoUsuario").style.display       = val === "em_uso" ? "block" : "none";
-        document.getElementById("groupDataReatribuicao").style.display  = val === "em_uso" ? "block" : "none";
+        document.getElementById("groupNovoUsuario").style.display      = val === "em_uso" ? "block" : "none";
+        document.getElementById("groupDataReatribuicao").style.display = val === "em_uso" ? "block" : "none";
     }
 
-    // ============ MODAL PRINCIPAL ============
+    function toggleFeriasUsuario() {
+        const val = document.getElementById("inputFeriasStatus").value;
+        document.getElementById("groupFeriasUsuario").style.display = val === "temp_uso" ? "block" : "none";
+    }
+
+    // ============ MODAL DESLIGAMENTO ============
     function openModal(id = null) {
         editId = id;
         const today = new Date().toISOString().split("T")[0];
-
         if (id) {
             const r = registros.find(x => x.id === id);
-            document.getElementById("modalTitle").textContent          = "✏️ Editar Registro";
-            document.getElementById("inputNome").value                 = r.nome;
-            document.getElementById("inputEquipe").value               = r.equipe;
-            document.getElementById("inputData").value                 = r.data;
-            document.getElementById("inputCargo").value                = r.cargo || "";
-            document.getElementById("inputStatusLicenca").value        = r.status;
-            document.getElementById("inputNovoUsuario").value          = r.novoUsuario || "";
-            document.getElementById("inputDataReatribuicao").value     = r.dataReatribuicao || "";
-            document.getElementById("inputObs").value                  = r.obs || "";
+            document.getElementById("inputNome").value             = r.nome;
+            document.getElementById("inputEquipe").value           = r.equipe;
+            document.getElementById("inputData").value             = r.data;
+            document.getElementById("inputCargo").value            = r.cargo || "";
+            document.getElementById("inputStatusLicenca").value    = r.status;
+            document.getElementById("inputNovoUsuario").value      = r.novoUsuario || "";
+            document.getElementById("inputDataReatribuicao").value = r.dataReatribuicao || "";
+            document.getElementById("inputObs").value              = r.obs || "";
         } else {
-            document.getElementById("modalTitle").textContent          = "➕ Registrar Desligamento";
-            document.getElementById("inputNome").value                 = "";
-            document.getElementById("inputEquipe").value               = "";
-            document.getElementById("inputData").value                 = today;
-            document.getElementById("inputCargo").value                = "";
-            document.getElementById("inputStatusLicenca").value        = "livre";
-            document.getElementById("inputNovoUsuario").value          = "";
-            document.getElementById("inputDataReatribuicao").value     = "";
-            document.getElementById("inputObs").value                  = "";
+            document.getElementById("inputNome").value = "";
+            document.getElementById("inputEquipe").value = "";
+            document.getElementById("inputData").value = today;
+            document.getElementById("inputCargo").value = "";
+            document.getElementById("inputStatusLicenca").value = "livre";
+            document.getElementById("inputNovoUsuario").value = "";
+            document.getElementById("inputDataReatribuicao").value = "";
+            document.getElementById("inputObs").value = "";
         }
-
         toggleNovoUsuario();
         document.getElementById("modalOverlay").classList.add("active");
+        lucide.createIcons();
     }
 
-    function closeModal() {
-        document.getElementById("modalOverlay").classList.remove("active");
-        editId = null;
-    }
+    function closeModal() { document.getElementById("modalOverlay").classList.remove("active"); editId = null; }
+    function closeModalOutside(e) { if (e.target === document.getElementById("modalOverlay")) closeModal(); }
 
-    function closeModalOutside(e) {
-        if (e.target === document.getElementById("modalOverlay")) closeModal();
-    }
-
-    // ============ SALVAR ============
     function saveRegistro() {
-        const nome              = document.getElementById("inputNome").value.trim();
-        const equipe            = document.getElementById("inputEquipe").value;
-        const data              = document.getElementById("inputData").value;
-        const cargo             = document.getElementById("inputCargo").value.trim();
-        const status            = document.getElementById("inputStatusLicenca").value;
-        const novoUsuario       = document.getElementById("inputNovoUsuario").value.trim();
-        const dataReatribuicao  = document.getElementById("inputDataReatribuicao").value;
-        const obs               = document.getElementById("inputObs").value.trim();
+        const nome = document.getElementById("inputNome").value.trim();
+        const equipe = document.getElementById("inputEquipe").value;
+        const data = document.getElementById("inputData").value;
+        const cargo = document.getElementById("inputCargo").value.trim();
+        const status = document.getElementById("inputStatusLicenca").value;
+        const novoUsuario = document.getElementById("inputNovoUsuario").value.trim();
+        const dataReatribuicao = document.getElementById("inputDataReatribuicao").value;
+        const obs = document.getElementById("inputObs").value.trim();
 
-        if (!nome || !equipe || !data) {
-            showToast("⚠️ Preencha os campos obrigatórios!", "#f59e0b");
-            return;
-        }
+        if (!nome || !equipe || !data) { showToast("Preencha os campos obrigatórios!", "#f59e0b"); return; }
+        if (status === "em_uso" && !novoUsuario) { showToast("Informe o novo usuário!", "#f59e0b"); return; }
 
-        if (status === "em_uso" && !novoUsuario) {
-            showToast("⚠️ Informe o novo usuário!", "#f59e0b");
-            return;
-        }
-
-        const obj = { nome, equipe, data, cargo, status, novoUsuario: status === "em_uso" ? novoUsuario : "", dataReatribuicao: status === "em_uso" ? dataReatribuicao : "", obs };
-
+        const obj = { nome, equipe, data, cargo, status, novoUsuario: status==="em_uso"?novoUsuario:"", dataReatribuicao: status==="em_uso"?dataReatribuicao:"", obs };
         if (editId) {
-            const idx = registros.findIndex(r => r.id === editId);
-            registros[idx] = { id: editId, ...obj };
-            showToast("✅ Registro atualizado!");
+            registros[registros.findIndex(r => r.id === editId)] = { id: editId, ...obj };
+            showToast("Registro atualizado!");
         } else {
             registros.push({ id: nextId++, ...obj });
-            showToast("✅ Desligamento registrado!");
+            showToast("Desligamento registrado!");
         }
-
         closeModal();
         refreshAll();
     }
 
-    // ============ REATRIBUIR ============
+    // ============ MODAL FÉRIAS ============
+    function openModalFerias(id = null) {
+        editFeriasId = id;
+        const today = new Date().toISOString().split("T")[0];
+        if (id) {
+            const f = ferias.find(x => x.id === id);
+            document.getElementById("inputFeriasNome").value = f.nome;
+            document.getElementById("inputFeriasEquipe").value = f.equipe;
+            document.getElementById("inputFeriasInicio").value = f.inicio;
+            document.getElementById("inputFeriasRetorno").value = f.retorno;
+            document.getElementById("inputFeriasStatus").value = f.status;
+            document.getElementById("inputFeriasUsuarioTemp").value = f.usuarioTemp || "";
+            document.getElementById("inputFeriasObs").value = f.obs || "";
+        } else {
+            document.getElementById("inputFeriasNome").value = "";
+            document.getElementById("inputFeriasEquipe").value = "";
+            document.getElementById("inputFeriasInicio").value = today;
+            document.getElementById("inputFeriasRetorno").value = "";
+            document.getElementById("inputFeriasStatus").value = "livre";
+            document.getElementById("inputFeriasUsuarioTemp").value = "";
+            document.getElementById("inputFeriasObs").value = "";
+        }
+        toggleFeriasUsuario();
+        document.getElementById("modalFerias").classList.add("active");
+        lucide.createIcons();
+    }
+
+    function closeModalFerias() { document.getElementById("modalFerias").classList.remove("active"); editFeriasId = null; }
+    function closeModalFeriasOutside(e) { if (e.target === document.getElementById("modalFerias")) closeModalFerias(); }
+
+    function saveFeriasRegistro() {
+        const nome = document.getElementById("inputFeriasNome").value.trim();
+        const equipe = document.getElementById("inputFeriasEquipe").value;
+        const inicio = document.getElementById("inputFeriasInicio").value;
+        const retorno = document.getElementById("inputFeriasRetorno").value;
+        const status = document.getElementById("inputFeriasStatus").value;
+        const usuarioTemp = document.getElementById("inputFeriasUsuarioTemp").value.trim();
+        const obs = document.getElementById("inputFeriasObs").value.trim();
+
+        if (!nome || !equipe || !inicio || !retorno) { showToast("Preencha os campos obrigatórios!", "#f59e0b"); return; }
+        if (status === "temp_uso" && !usuarioTemp) { showToast("Informe o colaborador temporário!", "#f59e0b"); return; }
+
+        const obj = { nome, equipe, inicio, retorno, status, usuarioTemp: status==="temp_uso"?usuarioTemp:"", obs };
+        if (editFeriasId) {
+            ferias[ferias.findIndex(f => f.id === editFeriasId)] = { id: editFeriasId, ...obj };
+            showToast("Registro de férias atualizado!");
+        } else {
+            ferias.push({ id: nextFeriasId++, ...obj });
+            showToast("Férias registradas!");
+        }
+        closeModalFerias();
+        refreshAll();
+    }
+
+    // ============ REATRIBUIR (DESLIGADOS) ============
     function openReatribuir(id) {
         reatribuirId = id;
         const r = registros.find(x => x.id === id);
@@ -1101,55 +1573,94 @@
         document.getElementById("reatribuirNome").value = "";
         document.getElementById("reatribuirData").value = new Date().toISOString().split("T")[0];
         document.getElementById("modalReatribuir").classList.add("active");
+        lucide.createIcons();
     }
 
-    function closeModalReatribuir() {
-        document.getElementById("modalReatribuir").classList.remove("active");
-        reatribuirId = null;
-    }
-
-    function closeModalReatribuirOutside(e) {
-        if (e.target === document.getElementById("modalReatribuir")) closeModalReatribuir();
-    }
+    function closeModalReatribuir() { document.getElementById("modalReatribuir").classList.remove("active"); reatribuirId = null; }
+    function closeModalReatribuirOutside(e) { if (e.target === document.getElementById("modalReatribuir")) closeModalReatribuir(); }
 
     function confirmarReatribuicao() {
         const nome = document.getElementById("reatribuirNome").value.trim();
         const data = document.getElementById("reatribuirData").value;
-
-        if (!nome) {
-            showToast("⚠️ Informe o nome do novo colaborador!", "#f59e0b");
-            return;
-        }
-
+        if (!nome) { showToast("Informe o nome!", "#f59e0b"); return; }
         const idx = registros.findIndex(r => r.id === reatribuirId);
-        registros[idx].status            = "em_uso";
-        registros[idx].novoUsuario       = nome;
-        registros[idx].dataReatribuicao  = data;
-
+        registros[idx].status = "em_uso";
+        registros[idx].novoUsuario = nome;
+        registros[idx].dataReatribuicao = data;
         closeModalReatribuir();
-        showToast(`✅ Licença reatribuída para ${nome}!`);
+        showToast(`Licença reatribuída para ${nome}!`);
         refreshAll();
     }
 
-    // ============ LIBERAR ============
-    function liberarLicenca(id) {
-        const r = registros.find(x => x.id === id);
-        if (confirm(`Deseja liberar a licença de "${r.nome}" (atualmente usada por ${r.novoUsuario})?`)) {
-            const idx = registros.findIndex(x => x.id === id);
-            registros[idx].status            = "livre";
-            registros[idx].novoUsuario       = "";
-            registros[idx].dataReatribuicao  = "";
-            showToast("🔓 Licença liberada com sucesso!");
+    // ============ EMPRESTAR (FÉRIAS) ============
+    function openEmprestar(id) {
+        emprestarId = id;
+        const f = ferias.find(x => x.id === id);
+        document.getElementById("emprestarInfo").textContent = `Emprestar a licença de "${f.nome}" (${f.equipe}) temporariamente para:`;
+        document.getElementById("emprestarNome").value = "";
+        document.getElementById("modalEmprestar").classList.add("active");
+        lucide.createIcons();
+    }
+
+    function closeModalEmprestar() { document.getElementById("modalEmprestar").classList.remove("active"); emprestarId = null; }
+    function closeModalEmprestarOutside(e) { if (e.target === document.getElementById("modalEmprestar")) closeModalEmprestar(); }
+
+    function confirmarEmprestimo() {
+        const nome = document.getElementById("emprestarNome").value.trim();
+        if (!nome) { showToast("Informe o nome!", "#f59e0b"); return; }
+        const idx = ferias.findIndex(f => f.id === emprestarId);
+        ferias[idx].status = "temp_uso";
+        ferias[idx].usuarioTemp = nome;
+        closeModalEmprestar();
+        showToast(`Licença emprestada para ${nome}!`);
+        refreshAll();
+    }
+
+    function devolverLicencaFerias(id) {
+        const f = ferias.find(x => x.id === id);
+        if (confirm(`Devolver a licença de "${f.nome}" (usada por ${f.usuarioTemp})?`)) {
+            const idx = ferias.findIndex(x => x.id === id);
+            ferias[idx].status = "livre";
+            ferias[idx].usuarioTemp = "";
+            showToast("Licença devolvida!");
             refreshAll();
         }
     }
 
-    // ============ DELETAR ============
-    function deleteRegistro(id) {
+    function retornoFerias(id) {
+        const f = ferias.find(x => x.id === id);
+        if (confirm(`"${f.nome}" retornou de férias? O registro será removido.`)) {
+            ferias = ferias.filter(x => x.id !== id);
+            showToast("Colaborador retornou! Registro removido.");
+            refreshAll();
+        }
+    }
+
+    // ============ LIBERAR / DELETAR (DESLIGADOS) ============
+    function liberarLicenca(id) {
         const r = registros.find(x => x.id === id);
-        if (confirm(`Remover o registro de "${r.nome}"?`)) {
+        if (confirm(`Liberar a licença de "${r.nome}" (usada por ${r.novoUsuario})?`)) {
+            const idx = registros.findIndex(x => x.id === id);
+            registros[idx].status = "livre";
+            registros[idx].novoUsuario = "";
+            registros[idx].dataReatribuicao = "";
+            showToast("Licença liberada!");
+            refreshAll();
+        }
+    }
+
+    function deleteRegistro(id) {
+        if (confirm(`Remover este registro?`)) {
             registros = registros.filter(x => x.id !== id);
-            showToast("🗑️ Registro removido.", "#ef4444");
+            showToast("Registro removido.", "#ef4444");
+            refreshAll();
+        }
+    }
+
+    function deleteFeriasRegistro(id) {
+        if (confirm(`Remover este registro de férias?`)) {
+            ferias = ferias.filter(x => x.id !== id);
+            showToast("Registro removido.", "#ef4444");
             refreshAll();
         }
     }
@@ -1157,25 +1668,29 @@
     // ============ TOAST ============
     function showToast(msg, color = "#17c550") {
         const t = document.getElementById("toast");
-        t.textContent      = msg;
+        t.innerHTML = `<i data-lucide="check-circle" style="width:16px;height:16px"></i> ${msg}`;
         t.style.background = color;
         t.classList.add("show");
+        lucide.createIcons();
         setTimeout(() => t.classList.remove("show"), 3000);
     }
 
     // ============ REFRESH ============
     function refreshAll() {
         updateSummary();
+        updateFeriasSummary();
         updateBarChart();
         updateStatusChart();
         updateTimeline();
         updateFilterEquipe();
         renderTable();
+        renderFeriasTable();
     }
 
     // ============ INIT ============
     setDate();
     refreshAll();
+    lucide.createIcons();
 </script>
 </body>
 </html>
