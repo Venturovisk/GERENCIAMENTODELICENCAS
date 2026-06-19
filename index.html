@@ -6,20 +6,16 @@
     <title>Dashboard - Gestão de Licenças Corban</title>
     <link href="https://unpkg.com/lucide-static@latest/font/lucide.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
-    <!-- ✅ Biblioteca para exportar Excel -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <!-- ✅ Biblioteca para exportar PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         body { background: #0a0f0d; color: #e2e8f0; min-height: 100vh; }
 
-        /* HEADER */
         .header {
             background: linear-gradient(135deg, #1b443c, #0d2620);
-            padding: 16px 30px;
-            border-bottom: 3px solid #17c550;
+            padding: 16px 30px; border-bottom: 3px solid #17c550;
             display: flex; align-items: center; justify-content: space-between;
             box-shadow: 0 4px 25px rgba(23, 197, 80, 0.15);
             flex-wrap: wrap; gap: 15px;
@@ -32,33 +28,25 @@
         .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .header-date { font-size: 13px; color: #6dbb8b; display: flex; align-items: center; gap: 6px; }
 
-        /* HEADER BUTTONS */
         .header-btn {
             padding: 8px 14px; background: #1b443c; border: 1px solid #17c55040;
             border-radius: 8px; color: #17c550; cursor: pointer; font-size: 12px;
             font-weight: 600; display: flex; align-items: center; gap: 6px;
-            transition: all 0.2s;
         }
         .header-btn:hover { background: #17c55020; border-color: #17c550; }
         .header-btn.danger { color: #ef4444; border-color: #ef444440; }
         .header-btn.danger:hover { background: #ef444420; border-color: #ef4444; }
 
-        /* ✅ ALERT BAR */
         .alert-bar {
             background: linear-gradient(90deg, #f59e0b25, #f9731625);
             border-bottom: 1px solid #f59e0b40;
-            padding: 12px 30px;
-            display: flex; align-items: center; gap: 12px;
+            padding: 12px 30px; display: flex; align-items: center; gap: 12px;
             color: #fbbf24; font-size: 13px;
         }
         .alert-bar.hidden { display: none; }
         .alert-bar strong { color: #fff; }
-        .alert-close {
-            margin-left: auto; background: transparent; border: none;
-            color: #fbbf24; cursor: pointer; font-size: 18px;
-        }
+        .alert-close { margin-left: auto; background: transparent; border: none; color: #fbbf24; cursor: pointer; font-size: 18px; }
 
-        /* ✅ LICENÇAS CONTRATADAS */
         .license-status-bar {
             padding: 18px 30px;
             background: linear-gradient(90deg, #122a24, #0e1f1a);
@@ -66,29 +54,15 @@
             display: flex; align-items: center; justify-content: space-between;
             gap: 20px; flex-wrap: wrap;
         }
-        .license-info {
-            display: flex; align-items: center; gap: 16px; flex: 1; min-width: 300px;
-        }
+        .license-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 300px; }
         .license-info-text { flex: 1; }
         .license-info-text h4 { color: #fff; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .license-info-text p { color: #6dbb8b; font-size: 12px; }
-        .license-progress-wrap {
-            flex: 1; min-width: 250px;
-            display: flex; flex-direction: column; gap: 6px;
-        }
-        .license-numbers {
-            display: flex; justify-content: space-between; font-size: 12px; color: #b8d8c8;
-        }
+        .license-progress-wrap { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 6px; }
+        .license-numbers { display: flex; justify-content: space-between; font-size: 12px; color: #b8d8c8; }
         .license-numbers strong { color: #17c550; font-size: 14px; }
-        .license-bar {
-            height: 12px; background: #0a0f0d; border-radius: 6px; overflow: hidden;
-            border: 1px solid #1b443c;
-        }
-        .license-bar-fill {
-            height: 100%; border-radius: 6px;
-            background: linear-gradient(90deg, #17c550, #1b443c);
-            transition: width 0.8s ease;
-        }
+        .license-bar { height: 12px; background: #0a0f0d; border-radius: 6px; overflow: hidden; border: 1px solid #1b443c; }
+        .license-bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #17c550, #1b443c); transition: width 0.8s ease; }
         .license-bar-fill.warning { background: linear-gradient(90deg, #f59e0b, #f97316); }
         .license-bar-fill.danger { background: linear-gradient(90deg, #ef4444, #b91c1c); }
         .btn-config-licenca {
@@ -98,8 +72,7 @@
         }
         .btn-config-licenca:hover { background: #17c55030; }
 
-        /* TABS */
-        .tabs-nav { padding: 20px 30px 0; display: flex; gap: 6px; }
+        .tabs-nav { padding: 20px 30px 0; display: flex; gap: 6px; flex-wrap: wrap; }
         .tab-btn {
             padding: 10px 22px; background: #122a24; border: 1px solid #1b443c;
             border-bottom: none; border-radius: 10px 10px 0 0; color: #6dbb8b;
@@ -108,19 +81,12 @@
         }
         .tab-btn:hover { background: #1b443c55; }
         .tab-btn.active { background: #1b443c; color: #17c550; border-color: #17c550; }
-        .tab-btn .tab-count {
-            background: #17c55025; color: #17c550; padding: 2px 8px;
-            border-radius: 10px; font-size: 11px; font-weight: 700;
-        }
+        .tab-btn .tab-count { background: #17c55025; color: #17c550; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
         .tab-btn.active .tab-count { background: #17c55040; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        /* CARDS */
-        .summary-section {
-            padding: 25px 30px 10px;
-            display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 16px;
-        }
+        .summary-section { padding: 25px 30px 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 16px; }
         .summary-card {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
             border-radius: 16px; padding: 20px; border: 1px solid #1b443c;
@@ -138,10 +104,7 @@
         .card-cyan::before   { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
         .card-emerald::before{ background: linear-gradient(90deg, #10b981, #34d399); }
 
-        .card-icon-wrap {
-            width: 40px; height: 40px; border-radius: 10px;
-            display: flex; align-items: center; justify-content: center; margin-bottom: 12px;
-        }
+        .card-icon-wrap { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .card-icon-wrap.green   { background: #17c55018; color: #17c550; }
         .card-icon-wrap.red     { background: #ef444418; color: #ef4444; }
         .card-icon-wrap.blue    { background: #3b82f618; color: #3b82f6; }
@@ -155,19 +118,12 @@
         .summary-card .label  { font-size: 12px; color: #6dbb8b; margin-top: 4px; }
         .summary-card .sub-info { font-size: 11px; color: #17c550; margin-top: 6px; font-weight: 600; }
 
-        /* CHARTS */
-        .charts-section {
-            padding: 0 30px 20px;
-            display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px;
-        }
+        .charts-section { padding: 0 30px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
         .chart-card {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
             border-radius: 16px; padding: 22px; border: 1px solid #1b443c;
         }
-        .chart-card h3 {
-            font-size: 14px; font-weight: 600; color: #ffffff;
-            margin-bottom: 20px; display: flex; align-items: center; gap: 8px;
-        }
+        .chart-card h3 { font-size: 14px; font-weight: 600; color: #ffffff; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .bar-item { margin-bottom: 14px; }
         .bar-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
         .bar-label span:first-child { color: #b8d8c8; }
@@ -188,21 +144,12 @@
         .timeline-info strong { font-size: 13px; color: #ffffff; display: block; }
         .timeline-info span   { font-size: 11px; color: #6dbb8b; }
 
-        /* CONTROLS */
         .controls { padding: 20px 30px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
         .search-box { flex: 1; min-width: 250px; position: relative; }
-        .search-box input {
-            width: 100%; padding: 11px 16px 11px 42px;
-            background: #122a24; border: 1px solid #1b443c; border-radius: 10px;
-            color: #e2e8f0; font-size: 13px; outline: none;
-        }
+        .search-box input { width: 100%; padding: 11px 16px 11px 42px; background: #122a24; border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; }
         .search-box input:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
         .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #6dbb8b; }
-        .filter-select {
-            padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
-            border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none;
-            cursor: pointer; min-width: 170px;
-        }
+        .filter-select { padding: 11px 14px; background: #122a24; border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; cursor: pointer; min-width: 170px; }
         .filter-select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
 
         .btn-action {
@@ -214,8 +161,8 @@
         }
         .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
         .btn-action.secondary { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
+        .btn-action.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25); }
 
-        /* EXPORT GROUP */
         .export-group { display: flex; gap: 6px; }
         .btn-export {
             padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
@@ -224,72 +171,47 @@
         }
         .btn-export:hover { background: #1b443c; color: #17c550; border-color: #17c550; }
 
-        /* TABLE */
         .table-section { padding: 0 30px 30px; }
         .table-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .table-title { font-size: 15px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px; }
         .table-count { font-size: 13px; color: #6dbb8b; }
-        .table-wrapper {
-            background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 16px; border: 1px solid #1b443c; overflow-x: auto;
-        }
+        .table-wrapper { background: linear-gradient(145deg, #122a24, #0e1f1a); border-radius: 16px; border: 1px solid #1b443c; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 900px; }
         thead { background: #0a1612; }
-        thead th {
-            padding: 13px 16px; text-align: left; font-size: 11px;
-            font-weight: 700; color: #6dbb8b; text-transform: uppercase;
-            letter-spacing: 1px; white-space: nowrap;
-        }
+        thead th { padding: 13px 16px; text-align: left; font-size: 11px; font-weight: 700; color: #6dbb8b; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
         tbody tr { border-top: 1px solid #1b443c44; transition: background 0.2s; }
         tbody tr:hover { background: #1b443c33; }
         tbody td { padding: 13px 16px; font-size: 13px; color: #b8d8c8; }
 
-        .avatar {
-            width: 36px; height: 36px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            font-weight: 700; font-size: 13px; color: white; flex-shrink: 0;
-        }
+        .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
         .cell-name { display: flex; align-items: center; gap: 12px; }
         .name-info strong { display: block; color: #ffffff; font-size: 13px; }
         .name-info span   { font-size: 11px; color: #6dbb8b; }
 
-        .badge-equipe {
-            display: inline-flex; align-items: center; gap: 5px;
-            padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600;
-        }
+        .badge-equipe { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 
-        .status-livre {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700;
-            background: #17c55018; color: #17c550; border: 1px solid #17c55040;
-        }
+        .status-livre { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #17c55018; color: #17c550; border: 1px solid #17c55040; }
         .status-livre .pulse { width: 8px; height: 8px; border-radius: 50%; background: #17c550; animation: pulse 1.5s infinite; }
         @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
 
-        .status-em-uso {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
-            background: #3b82f618; color: #60a5fa; border: 1px solid #3b82f640;
-        }
+        .status-em-uso { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #3b82f618; color: #60a5fa; border: 1px solid #3b82f640; }
         .status-em-uso .dot-blue { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; }
 
-        .status-ferias {
-            display: inline-flex; align-items: center; gap: 6px;
-            padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600;
-            background: #f9731618; color: #fb923c; border: 1px solid #f9731640;
-        }
+        .status-ferias { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #f9731618; color: #fb923c; border: 1px solid #f9731640; }
         .status-ferias .dot-orange { width: 8px; height: 8px; border-radius: 50%; background: #f97316; animation: pulse 2s infinite; }
+
+        .status-ativo { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #10b98118; color: #10b981; border: 1px solid #10b98140; }
+        .status-ativo .dot-emerald { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+
+        .status-desligado { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #ef444418; color: #f87171; border: 1px solid #ef444440; }
+        .status-desligado .dot-red { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
 
         .user-transfer { display: flex; align-items: center; gap: 8px; font-size: 12px; }
         .user-transfer .new-user { background: #17c55018; color: #17c550; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
         .user-transfer .temp-user { background: #f9731618; color: #fb923c; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
 
         .action-btns { display: flex; gap: 5px; }
-        .btn-icon {
-            width: 32px; height: 32px; border-radius: 8px; border: none;
-            cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: all 0.2s;
-        }
+        .btn-icon { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .btn-reatribuir { background: #17c55020; border: 1px solid #17c55030 !important; color: #17c550; }
         .btn-reatribuir:hover { background: #17c55040; }
         .btn-liberar { background: #f59e0b20; border: 1px solid #f59e0b30 !important; color: #f59e0b; }
@@ -301,21 +223,12 @@
         .btn-delete { background: #ef444420; border: 1px solid #ef444430 !important; color: #ef4444; }
         .btn-delete:hover { background: #ef444440; }
 
-        /* DIAS LIVRE BADGE */
-        .badge-dias-livre {
-            display: inline-block; padding: 2px 8px; border-radius: 8px;
-            font-size: 10px; font-weight: 700; margin-left: 6px;
-        }
+        .badge-dias-livre { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; margin-left: 6px; }
         .badge-dias-livre.ok { background: #17c55025; color: #17c550; }
         .badge-dias-livre.warning { background: #f59e0b25; color: #f59e0b; }
         .badge-dias-livre.danger { background: #ef444425; color: #ef4444; }
 
-        /* MODAL */
-        .modal-overlay {
-            display: none; position: fixed; inset: 0;
-            background: rgba(0,0,0,0.8); z-index: 1000;
-            align-items: center; justify-content: center;
-        }
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.active { display: flex; }
         .modal {
             background: linear-gradient(145deg, #122a24, #0e1f1a);
@@ -324,29 +237,39 @@
             box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(23, 197, 80, 0.08);
             animation: slideIn 0.3s ease; max-height: 90vh; overflow-y: auto;
         }
+        .modal.wide { max-width: 700px; }
         @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
         .modal-header h2 { font-size: 17px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
-        .modal-close {
-            background: #1b443c; border: none; color: #6dbb8b;
-            width: 32px; height: 32px; border-radius: 8px; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-        }
+        .modal-close { background: #1b443c; border: none; color: #6dbb8b; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
         .modal-close:hover { background: #ef4444; color: white; }
-        .form-group { margin-bottom: 16px; }
-        .form-group label {
-            display: flex; align-items: center; gap: 5px;
-            font-size: 11px; color: #6dbb8b; margin-bottom: 6px;
-            font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
-        }
-        .form-group input, .form-group select {
+        .form-group { margin-bottom: 16px; position: relative; }
+        .form-group label { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6dbb8b; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 10px 13px; background: #0a0f0d;
             border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0;
-            font-size: 13px; outline: none;
+            font-size: 13px; outline: none; font-family: inherit;
         }
-        .form-group input:focus, .form-group select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .form-group textarea { resize: vertical; min-height: 120px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-hint { font-size: 11px; color: #6dbb8b; margin-top: 5px; }
+
+        /* ✅ AUTOCOMPLETE */
+        .autocomplete-list {
+            position: absolute; top: 100%; left: 0; right: 0;
+            background: #0a0f0d; border: 1px solid #17c550;
+            border-radius: 10px; margin-top: 4px; max-height: 200px;
+            overflow-y: auto; z-index: 100; display: none;
+        }
+        .autocomplete-list.active { display: block; }
+        .autocomplete-item {
+            padding: 10px 14px; cursor: pointer; font-size: 13px;
+            color: #e2e8f0; border-bottom: 1px solid #1b443c33;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .autocomplete-item:hover, .autocomplete-item.selected { background: #17c55020; color: #17c550; }
+        .autocomplete-item .ac-equipe { font-size: 10px; color: #6dbb8b; margin-left: auto; }
 
         .btn-save {
             width: 100%; padding: 13px;
@@ -358,6 +281,7 @@
         }
         .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
         .btn-save.orange { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
+        .btn-save.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25); }
 
         .toast {
             position: fixed; bottom: 30px; right: 30px;
@@ -372,6 +296,13 @@
         .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
         .legend-bar { padding: 0 30px 15px; display: flex; gap: 20px; flex-wrap: wrap; }
         .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6dbb8b; }
+
+        .import-info {
+            background: #17c55015; border: 1px solid #17c55040;
+            border-radius: 10px; padding: 12px; margin-bottom: 16px;
+            font-size: 12px; color: #b8d8c8;
+        }
+        .import-info strong { color: #17c550; }
 
         @media (max-width: 1024px) { .charts-section { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
@@ -389,7 +320,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
     <div class="header-left">
         <img src="https://i.imgur.com/8Km9tLL.png" alt="Logo" class="header-logo"
@@ -420,14 +350,12 @@
     </div>
 </div>
 
-<!-- ✅ BARRA DE ALERTAS -->
 <div class="alert-bar hidden" id="alertBar">
     <i data-lucide="alert-triangle" style="width:18px;height:18px"></i>
     <div id="alertContent"></div>
     <button class="alert-close" onclick="document.getElementById('alertBar').classList.add('hidden')">×</button>
 </div>
 
-<!-- ✅ LICENÇAS CONTRATADAS -->
 <div class="license-status-bar">
     <div class="license-info">
         <div class="card-icon-wrap green"><i data-lucide="key-square" style="width:20px;height:20px"></i></div>
@@ -452,9 +380,14 @@
     </button>
 </div>
 
-<!-- TABS -->
+<!-- ✅ TABS COM A NOVA "COLABORADORES" -->
 <div class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab('desligados', event)">
+    <button class="tab-btn active" onclick="switchTab('colaboradores', event)">
+        <i data-lucide="users" style="width:15px;height:15px"></i>
+        Colaboradores
+        <span class="tab-count" id="tabCountColaboradores">0</span>
+    </button>
+    <button class="tab-btn" onclick="switchTab('desligados', event)">
         <i data-lucide="user-x" style="width:15px;height:15px"></i>
         Desligados
         <span class="tab-count" id="tabCountDesligados">0</span>
@@ -466,8 +399,118 @@
     </button>
 </div>
 
-<!-- TAB DESLIGADOS -->
-<div class="tab-content active" id="tab-desligados">
+<!-- ============== TAB COLABORADORES ============== -->
+<div class="tab-content active" id="tab-colaboradores">
+    <div class="summary-section">
+        <div class="summary-card card-emerald">
+            <div class="card-icon-wrap emerald"><i data-lucide="users" style="width:20px;height:20px"></i></div>
+            <div class="number" id="totalColab">0</div>
+            <div class="label">Total de Colaboradores</div>
+        </div>
+        <div class="summary-card card-green">
+            <div class="card-icon-wrap green"><i data-lucide="user-check" style="width:20px;height:20px"></i></div>
+            <div class="number" id="colabAtivos">0</div>
+            <div class="label">Ativos</div>
+        </div>
+        <div class="summary-card card-orange">
+            <div class="card-icon-wrap orange"><i data-lucide="sun" style="width:20px;height:20px"></i></div>
+            <div class="number" id="colabFerias">0</div>
+            <div class="label">Em Férias</div>
+        </div>
+        <div class="summary-card card-red">
+            <div class="card-icon-wrap red"><i data-lucide="user-x" style="width:20px;height:20px"></i></div>
+            <div class="number" id="colabDesligados">0</div>
+            <div class="label">Desligados</div>
+        </div>
+        <div class="summary-card card-purple">
+            <div class="card-icon-wrap purple"><i data-lucide="pie-chart" style="width:20px;height:20px"></i></div>
+            <div class="number" id="colabPorEquipe">0</div>
+            <div class="label">Equipes</div>
+        </div>
+    </div>
+
+    <div class="charts-section">
+        <div class="chart-card">
+            <h3><i data-lucide="bar-chart-3" style="width:16px;height:16px;color:#17c550"></i> Colaboradores por Equipe</h3>
+            <div id="colabBarChart"></div>
+        </div>
+        <div class="chart-card">
+            <h3><i data-lucide="activity" style="width:16px;height:16px;color:#17c550"></i> Status Geral</h3>
+            <div class="donut-list" id="colabStatusChart"></div>
+        </div>
+        <div class="chart-card">
+            <h3><i data-lucide="briefcase" style="width:16px;height:16px;color:#17c550"></i> Cargos Mais Comuns</h3>
+            <div id="colabCargosChart"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="search-box">
+            <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
+            <input type="text" id="searchColab" placeholder="Buscar por nome, cargo ou equipe..." oninput="renderColabTable()">
+        </div>
+        <select class="filter-select" id="filterEquipeColab" onchange="renderColabTable()">
+            <option value="">Todas as Equipes</option>
+            <option value="Equipe Lavínia">Equipe Lavínia</option>
+            <option value="Equipe Matheus">Equipe Matheus</option>
+            <option value="Equipe Nayara">Equipe Nayara</option>
+        </select>
+        <select class="filter-select" id="filterStatusColab" onchange="renderColabTable()">
+            <option value="">Todos os Status</option>
+            <option value="ativo">Ativo</option>
+            <option value="ferias">Em Férias</option>
+            <option value="desligado">Desligado</option>
+        </select>
+
+        <div class="export-group">
+            <button class="btn-export" onclick="exportarExcel('colaboradores')">
+                <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
+            </button>
+            <button class="btn-export" onclick="exportarPDF('colaboradores')">
+                <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
+            </button>
+        </div>
+
+        <button class="btn-action purple" onclick="openModalImportar()">
+            <i data-lucide="upload" style="width:16px;height:16px"></i> Importar em Massa
+        </button>
+        <button class="btn-action" onclick="openModalColab()">
+            <i data-lucide="user-plus" style="width:16px;height:16px"></i> Novo Colaborador
+        </button>
+    </div>
+
+    <div class="table-section">
+        <div class="table-header-row">
+            <div class="table-title">
+                <i data-lucide="users" style="width:18px;height:18px;color:#17c550"></i>
+                Cadastro de Colaboradores
+            </div>
+            <div class="table-count" id="colabTableCount"></div>
+        </div>
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Colaborador</th>
+                        <th>Cargo</th>
+                        <th>Equipe</th>
+                        <th>Status Atual</th>
+                        <th>Observações</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody id="colabTableBody"></tbody>
+            </table>
+            <div class="empty-state" id="colabEmptyState" style="display:none">
+                <p style="font-size:14px">Nenhum colaborador cadastrado. Clique em "Novo Colaborador" ou "Importar em Massa".</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============== TAB DESLIGADOS ============== -->
+<div class="tab-content" id="tab-desligados">
     <div class="summary-section">
         <div class="summary-card card-green">
             <div class="card-icon-wrap green"><i data-lucide="users" style="width:20px;height:20px"></i></div>
@@ -484,7 +527,6 @@
             <div class="number" id="totalReatribuidos">0</div>
             <div class="label">Reatribuídos</div>
         </div>
-        <!-- ✅ NOVO: ECONOMIA EM R$ -->
         <div class="summary-card card-emerald">
             <div class="card-icon-wrap emerald"><i data-lucide="banknote" style="width:20px;height:20px"></i></div>
             <div class="number" id="economiaReais" style="font-size:22px">R$ 0,00</div>
@@ -538,12 +580,11 @@
             <option value="em_uso">Em Uso</option>
         </select>
 
-        <!-- ✅ BOTÕES DE EXPORTAR -->
         <div class="export-group">
-            <button class="btn-export" onclick="exportarExcel('desligados')" title="Exportar Excel">
+            <button class="btn-export" onclick="exportarExcel('desligados')">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
             </button>
-            <button class="btn-export" onclick="exportarPDF('desligados')" title="Exportar PDF">
+            <button class="btn-export" onclick="exportarPDF('desligados')">
                 <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
             </button>
         </div>
@@ -583,7 +624,7 @@
     </div>
 </div>
 
-<!-- TAB FÉRIAS -->
+<!-- ============== TAB FÉRIAS ============== -->
 <div class="tab-content" id="tab-ferias">
     <div class="summary-section">
         <div class="summary-card card-orange">
@@ -601,7 +642,6 @@
             <div class="number" id="feriasUsados">0</div>
             <div class="label">Temporariamente Reatribuídos</div>
         </div>
-        <!-- ✅ NOVO: Retornos próximos -->
         <div class="summary-card card-yellow">
             <div class="card-icon-wrap yellow"><i data-lucide="alarm-clock" style="width:20px;height:20px"></i></div>
             <div class="number" id="retornosProximos">0</div>
@@ -633,10 +673,10 @@
         </select>
 
         <div class="export-group">
-            <button class="btn-export" onclick="exportarExcel('ferias')" title="Exportar Excel">
+            <button class="btn-export" onclick="exportarExcel('ferias')">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
             </button>
-            <button class="btn-export" onclick="exportarPDF('ferias')" title="Exportar PDF">
+            <button class="btn-export" onclick="exportarPDF('ferias')">
                 <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
             </button>
         </div>
@@ -676,7 +716,88 @@
     </div>
 </div>
 
-<!-- MODAL DESLIGAMENTO -->
+<!-- ====================== MODAIS ====================== -->
+
+<!-- ✅ MODAL COLABORADOR -->
+<div class="modal-overlay" id="modalColab" onclick="closeModalColabOutside(event)">
+    <div class="modal">
+        <div class="modal-header">
+            <h2 id="modalColabTitle"><i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Novo Colaborador</h2>
+            <button class="modal-close" onclick="closeModalColab()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="user" style="width:12px;height:12px"></i> Nome Completo *</label>
+            <input type="text" id="inputColabNome" placeholder="Nome do colaborador">
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo</label>
+                <input type="text" id="inputColabCargo" placeholder="Ex: Analista">
+            </div>
+            <div class="form-group">
+                <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
+                <select id="inputColabEquipe">
+                    <option value="">Selecione...</option>
+                    <option value="Equipe Lavínia">Equipe Lavínia</option>
+                    <option value="Equipe Matheus">Equipe Matheus</option>
+                    <option value="Equipe Nayara">Equipe Nayara</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="message-square" style="width:12px;height:12px"></i> Observações</label>
+            <input type="text" id="inputColabObs" placeholder="Alguma nota...">
+        </div>
+        <button class="btn-save" onclick="saveColab()">
+            <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Colaborador
+        </button>
+    </div>
+</div>
+
+<!-- ✅ MODAL IMPORTAR EM MASSA -->
+<div class="modal-overlay" id="modalImportar" onclick="closeModalImportarOutside(event)">
+    <div class="modal wide">
+        <div class="modal-header">
+            <h2><i data-lucide="upload" style="width:18px;height:18px;color:#8b5cf6"></i> Importar Colaboradores em Massa</h2>
+            <button class="modal-close" onclick="closeModalImportar()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+        </div>
+        <div class="import-info">
+            <strong>📋 Como usar:</strong> Cole a lista de colaboradores, <strong>um por linha</strong>.<br>
+            <strong>Formato:</strong> <code style="background:#0a0f0d;padding:2px 6px;border-radius:4px">Nome | Cargo | Equipe</code><br>
+            <strong>Exemplo:</strong><br>
+            <code style="background:#0a0f0d;padding:6px;border-radius:4px;display:block;margin-top:6px;color:#17c550">
+            João Silva | Analista | Equipe Lavínia<br>
+            Maria Souza | Assistente | Equipe Matheus<br>
+            Pedro Costa | Consultor | Equipe Nayara
+            </code>
+            <p style="margin-top:8px;color:#fbbf24">💡 Se não souber o cargo ou equipe, deixe em branco: <code>João Silva</code></p>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="list" style="width:12px;height:12px"></i> Cole a Lista Aqui</label>
+            <textarea id="inputImportar" placeholder="João Silva | Analista | Equipe Lavínia&#10;Maria Souza | Assistente | Equipe Matheus&#10;Pedro Costa | Consultor | Equipe Nayara"></textarea>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe Padrão (se não informada)</label>
+                <select id="inputEquipePadrao">
+                    <option value="">Nenhuma</option>
+                    <option value="Equipe Lavínia">Equipe Lavínia</option>
+                    <option value="Equipe Matheus">Equipe Matheus</option>
+                    <option value="Equipe Nayara">Equipe Nayara</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo Padrão (se não informado)</label>
+                <input type="text" id="inputCargoPadrao" placeholder="Ex: Colaborador">
+            </div>
+        </div>
+        <button class="btn-save purple" onclick="importarColabs()">
+            <i data-lucide="upload-cloud" style="width:16px;height:16px"></i> Importar Colaboradores
+        </button>
+    </div>
+</div>
+
+<!-- MODAL DESLIGAMENTO (com autocomplete) -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -686,7 +807,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
-                <input type="text" id="inputNome" placeholder="Nome completo">
+                <input type="text" id="inputNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputNome', 'autocompleteNome', preencherDesligamento)" onfocus="autocompleteColab('inputNome', 'autocompleteNome', preencherDesligamento)">
+                <div class="autocomplete-list" id="autocompleteNome"></div>
             </div>
             <div class="form-group">
                 <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
@@ -718,7 +840,8 @@
             </div>
             <div class="form-group" id="groupNovoUsuario" style="display:none">
                 <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Usuário *</label>
-                <input type="text" id="inputNovoUsuario" placeholder="Nome do novo colaborador">
+                <input type="text" id="inputNovoUsuario" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputNovoUsuario', 'autocompleteNovo')" onfocus="autocompleteColab('inputNovoUsuario', 'autocompleteNovo')">
+                <div class="autocomplete-list" id="autocompleteNovo"></div>
             </div>
         </div>
         <div class="form-group" id="groupDataReatribuicao" style="display:none">
@@ -745,7 +868,8 @@
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="reatribuirInfo"></p>
         <div class="form-group">
             <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Colaborador *</label>
-            <input type="text" id="reatribuirNome" placeholder="Nome do novo colaborador">
+            <input type="text" id="reatribuirNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('reatribuirNome', 'autocompleteReat')" onfocus="autocompleteColab('reatribuirNome', 'autocompleteReat')">
+            <div class="autocomplete-list" id="autocompleteReat"></div>
         </div>
         <div class="form-group">
             <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Data da Reatribuição</label>
@@ -757,7 +881,7 @@
     </div>
 </div>
 
-<!-- MODAL FÉRIAS -->
+<!-- MODAL FÉRIAS (com autocomplete) -->
 <div class="modal-overlay" id="modalFerias" onclick="closeModalFeriasOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -767,7 +891,8 @@
         <div class="form-row">
             <div class="form-group">
                 <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
-                <input type="text" id="inputFeriasNome" placeholder="Nome completo">
+                <input type="text" id="inputFeriasNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputFeriasNome', 'autocompleteFerias', preencherFerias)" onfocus="autocompleteColab('inputFeriasNome', 'autocompleteFerias', preencherFerias)">
+                <div class="autocomplete-list" id="autocompleteFerias"></div>
             </div>
             <div class="form-group">
                 <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
@@ -799,7 +924,8 @@
             </div>
             <div class="form-group" id="groupFeriasUsuario" style="display:none">
                 <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Usando Temp. *</label>
-                <input type="text" id="inputFeriasUsuarioTemp" placeholder="Nome do colaborador temporário">
+                <input type="text" id="inputFeriasUsuarioTemp" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputFeriasUsuarioTemp', 'autocompleteFeriasTemp')" onfocus="autocompleteColab('inputFeriasUsuarioTemp', 'autocompleteFeriasTemp')">
+                <div class="autocomplete-list" id="autocompleteFeriasTemp"></div>
             </div>
         </div>
         <div class="form-group">
@@ -822,7 +948,8 @@
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="emprestarInfo"></p>
         <div class="form-group">
             <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador Temporário *</label>
-            <input type="text" id="emprestarNome" placeholder="Quem vai usar temporariamente">
+            <input type="text" id="emprestarNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('emprestarNome', 'autocompleteEmp')" onfocus="autocompleteColab('emprestarNome', 'autocompleteEmp')">
+            <div class="autocomplete-list" id="autocompleteEmp"></div>
         </div>
         <button class="btn-save orange" onclick="confirmarEmprestimo()">
             <i data-lucide="check-circle" style="width:16px;height:16px"></i> Confirmar
@@ -830,7 +957,7 @@
     </div>
 </div>
 
-<!-- ✅ MODAL CONFIGURAR LICENÇAS -->
+<!-- MODAL CONFIG -->
 <div class="modal-overlay" id="modalConfig" onclick="closeModalConfigOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -845,7 +972,7 @@
         <div class="form-group">
             <label><i data-lucide="dollar-sign" style="width:12px;height:12px"></i> Valor por Licença (R$/mês) *</label>
             <input type="number" id="inputValorLicenca" placeholder="Ex: 150" min="0" step="0.01">
-            <div class="form-hint">Quanto custa cada licença mensalmente (para calcular economia)</div>
+            <div class="form-hint">Quanto custa cada licença mensalmente</div>
         </div>
         <button class="btn-save" onclick="salvarConfig()">
             <i data-lucide="save" style="width:16px;height:16px"></i> Salvar Configurações
@@ -860,44 +987,49 @@
     function salvarDados() {
         localStorage.setItem('corban_registros', JSON.stringify(registros));
         localStorage.setItem('corban_ferias', JSON.stringify(ferias));
+        localStorage.setItem('corban_colaboradores', JSON.stringify(colaboradores));
         localStorage.setItem('corban_nextId', nextId);
         localStorage.setItem('corban_nextFeriasId', nextFeriasId);
+        localStorage.setItem('corban_nextColabId', nextColabId);
         localStorage.setItem('corban_config', JSON.stringify(config));
     }
     function carregarDados() {
         const reg = localStorage.getItem('corban_registros');
         const fer = localStorage.getItem('corban_ferias');
+        const col = localStorage.getItem('corban_colaboradores');
         const nId = localStorage.getItem('corban_nextId');
         const nFId = localStorage.getItem('corban_nextFeriasId');
+        const nCId = localStorage.getItem('corban_nextColabId');
         const cfg = localStorage.getItem('corban_config');
         if (reg) registros = JSON.parse(reg);
         if (fer) ferias = JSON.parse(fer);
+        if (col) colaboradores = JSON.parse(col);
         if (nId) nextId = parseInt(nId);
         if (nFId) nextFeriasId = parseInt(nFId);
+        if (nCId) nextColabId = parseInt(nCId);
         if (cfg) config = JSON.parse(cfg);
     }
 
-    // ============ DADOS PADRÃO ============
+    // ============ DADOS ============
     let registros = [
-        { id: 1, nome: "Isabelle Ferreira",   cargo: "Assistente",   equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 2, nome: "Ruth Oliveira",        cargo: "Analista",     equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "" },
-        { id: 3, nome: "Pedro Almeida",        cargo: "Consultor",    equipe: "Equipe Nayara",  data: "2025-05-02", status: "em_uso", novoUsuario: "Camila Santos",    dataReatribuicao: "2025-05-05", obs: "" },
-        { id: 4, nome: "Juliana Costa",        cargo: "Atendente",    equipe: "Equipe Lavínia", data: "2025-05-18", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 5, nome: "Fernando Silva",       cargo: "Supervisor",   equipe: "Equipe Matheus", data: "2025-06-01", status: "livre",  novoUsuario: "",                dataReatribuicao: "",           obs: "" },
-        { id: 6, nome: "Amanda Rodrigues",     cargo: "Analista",     equipe: "Equipe Nayara",  data: "2025-04-28", status: "em_uso", novoUsuario: "Lucas Martins",    dataReatribuicao: "2025-05-01", obs: "" },
+        { id: 1, nome: "Isabelle Ferreira", cargo: "Assistente", equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre", novoUsuario: "", dataReatribuicao: "", obs: "" },
+        { id: 2, nome: "Ruth Oliveira", cargo: "Analista", equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "" },
     ];
     let ferias = [
-        { id: 1, nome: "Carla Mendes",    equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre",    usuarioTemp: "", obs: "" },
-        { id: 2, nome: "Diego Ferreira",   equipe: "Equipe Matheus", inicio: "2025-07-10", retorno: "2025-07-25", status: "temp_uso", usuarioTemp: "Ana Paula", obs: "" },
+        { id: 1, nome: "Carla Mendes", equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre", usuarioTemp: "", obs: "" },
     ];
-    // ✅ CONFIGURAÇÕES
-    let config = {
-        totalLicencas: 50,
-        valorLicenca: 150.00
-    };
+    // ✅ NOVO: COLABORADORES
+    let colaboradores = [
+        { id: 1, nome: "Lavínia Santos", cargo: "Líder de Equipe", equipe: "Equipe Lavínia", obs: "" },
+        { id: 2, nome: "Matheus Henrique", cargo: "Líder de Equipe", equipe: "Equipe Matheus", obs: "" },
+        { id: 3, nome: "Nayara Costa", cargo: "Líder de Equipe", equipe: "Equipe Nayara", obs: "" },
+        { id: 4, nome: "Ana Paula", cargo: "Assistente", equipe: "Equipe Matheus", obs: "" },
+        { id: 5, nome: "Camila Santos", cargo: "Consultora", equipe: "Equipe Nayara", obs: "" },
+    ];
+    let config = { totalLicencas: 50, valorLicenca: 150.00 };
 
-    let editId = null, editFeriasId = null, reatribuirId = null, emprestarId = null;
-    let nextId = 7, nextFeriasId = 3;
+    let editId = null, editFeriasId = null, editColabId = null, reatribuirId = null, emprestarId = null;
+    let nextId = 3, nextFeriasId = 2, nextColabId = 6;
 
     carregarDados();
 
@@ -907,7 +1039,6 @@
         "Equipe Nayara":  "#ec4899",
     };
 
-    // ============ UTILS ============
     function switchTab(tab, ev) {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
         document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
@@ -924,14 +1055,70 @@
     function daysSince(d) { if (!d) return 0; const diff = new Date() - new Date(d+"T00:00:00"); return Math.floor(diff / (1000*60*60*24)); }
     function formatMoney(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
 
-    // ============ ✅ LICENÇAS CONTRATADAS ============
+    // ============ ✅ AUTOCOMPLETE ============
+    function autocompleteColab(inputId, listId, callback) {
+        const input = document.getElementById(inputId);
+        const list = document.getElementById(listId);
+        const valor = input.value.toLowerCase().trim();
+
+        // Filtra colaboradores que correspondem (e que ainda estão ativos para alguns casos)
+        const matches = colaboradores
+            .filter(c => c.nome.toLowerCase().includes(valor))
+            .slice(0, 6);
+
+        if (matches.length === 0) {
+            list.classList.remove('active');
+            return;
+        }
+
+        list.innerHTML = matches.map(c => {
+            const color = equipeColors[c.equipe] || "#17c550";
+            return `<div class="autocomplete-item" onmousedown="selecionarColab('${inputId}', '${listId}', ${c.id}, ${callback ? callback.name : 'null'})">
+                <div class="avatar" style="background:${color};width:26px;height:26px;font-size:11px">${getInitials(c.nome)}</div>
+                <span>${c.nome}</span>
+                <span class="ac-equipe">${c.equipe}</span>
+            </div>`;
+        }).join("");
+        list.classList.add('active');
+    }
+    function selecionarColab(inputId, listId, colabId, callback) {
+        const c = colaboradores.find(x => x.id === colabId);
+        document.getElementById(inputId).value = c.nome;
+        document.getElementById(listId).classList.remove('active');
+        if (callback && typeof window[callback] === 'function') window[callback](c);
+    }
+    function preencherDesligamento(c) {
+        document.getElementById("inputEquipe").value = c.equipe;
+        document.getElementById("inputCargo").value = c.cargo || "";
+    }
+    function preencherFerias(c) {
+        document.getElementById("inputFeriasEquipe").value = c.equipe;
+    }
+    // Fecha autocomplete ao clicar fora
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.form-group')) {
+            document.querySelectorAll('.autocomplete-list').forEach(l => l.classList.remove('active'));
+        }
+    });
+
+    // ============ ✅ STATUS DO COLABORADOR ============
+    function getStatusColab(nome) {
+        // Verifica se está em férias
+        const ferIdx = ferias.find(f => f.nome.toLowerCase() === nome.toLowerCase());
+        if (ferIdx) return { status: "ferias", info: `Volta em ${formatDate(ferIdx.retorno)}` };
+        // Verifica se foi desligado
+        const desIdx = registros.find(r => r.nome.toLowerCase() === nome.toLowerCase());
+        if (desIdx) return { status: "desligado", info: `Desligado em ${formatDate(desIdx.data)}` };
+        return { status: "ativo", info: "" };
+    }
+
+    // ============ LICENÇAS ============
     function updateLicencas() {
         const emUso = registros.filter(r => r.status === "em_uso").length +
                       ferias.filter(f => f.status === "temp_uso").length;
         const total = config.totalLicencas || 0;
         const disp = Math.max(0, total - emUso);
         const pct = total > 0 ? (emUso / total) * 100 : 0;
-
         document.getElementById("licencasUsadas").textContent = emUso;
         document.getElementById("licencasTotal").textContent = total;
         document.getElementById("licencasDisponiveis").textContent = disp;
@@ -940,7 +1127,6 @@
         bar.classList.remove('warning', 'danger');
         if (pct >= 90) bar.classList.add('danger');
         else if (pct >= 75) bar.classList.add('warning');
-
         const alerta = document.getElementById("licencasAlerta");
         if (total === 0) alerta.textContent = "⚠️ Configure o total de licenças clicando em 'Configurar'";
         else if (disp === 0) alerta.textContent = "🚨 ATENÇÃO: Todas as licenças estão em uso!";
@@ -948,55 +1134,41 @@
         else alerta.textContent = "";
     }
 
-    // ============ ✅ ALERTAS ============
+    // ============ ALERTAS ============
     function updateAlertas() {
         const alertas = [];
-
-        // Férias retornando em até 3 dias
         ferias.forEach(f => {
             const dias = daysUntil(f.retorno);
             if (dias >= 0 && dias <= 3) {
-                if (f.status === "temp_uso") {
-                    alertas.push(`<strong>${f.nome}</strong> retorna em ${dias} dia(s) — devolver licença de <strong>${f.usuarioTemp}</strong>`);
-                } else if (dias === 0) {
-                    alertas.push(`<strong>${f.nome}</strong> retorna hoje!`);
-                }
+                if (f.status === "temp_uso") alertas.push(`<strong>${f.nome}</strong> retorna em ${dias} dia(s) — devolver licença de <strong>${f.usuarioTemp}</strong>`);
+                else if (dias === 0) alertas.push(`<strong>${f.nome}</strong> retorna hoje!`);
             }
         });
-
-        // Licenças livres há mais de 30 dias
         registros.forEach(r => {
             if (r.status === "livre" && daysSince(r.data) >= 30) {
-                alertas.push(`Licença de <strong>${r.nome}</strong> livre há ${daysSince(r.data)} dias — pode ser desperdício`);
+                alertas.push(`Licença de <strong>${r.nome}</strong> livre há ${daysSince(r.data)} dias`);
             }
         });
-
         const bar = document.getElementById("alertBar");
         const content = document.getElementById("alertContent");
         if (alertas.length > 0) {
             bar.classList.remove("hidden");
             content.innerHTML = alertas.slice(0, 3).join(" • ");
-        } else {
-            bar.classList.add("hidden");
-        }
+        } else bar.classList.add("hidden");
     }
 
     // ============ CARDS ============
     function updateSummary() {
-        const total  = registros.length;
+        const total = registros.length;
         const livres = registros.filter(r => r.status === "livre").length;
-        const emUso  = registros.filter(r => r.status === "em_uso").length;
-        const taxa   = total > 0 ? Math.round((emUso / total) * 100) : 0;
-
-        document.getElementById("totalDesligados").textContent    = total;
-        document.getElementById("totalLivres").textContent        = livres;
-        document.getElementById("totalReatribuidos").textContent  = emUso;
+        const emUso = registros.filter(r => r.status === "em_uso").length;
+        const taxa = total > 0 ? Math.round((emUso / total) * 100) : 0;
+        document.getElementById("totalDesligados").textContent = total;
+        document.getElementById("totalLivres").textContent = livres;
+        document.getElementById("totalReatribuidos").textContent = emUso;
         document.getElementById("taxaAproveitamento").textContent = taxa + "%";
         document.getElementById("tabCountDesligados").textContent = total;
-
-        // ✅ ECONOMIA EM R$
         const economiaMensal = emUso * config.valorLicenca;
-        // Economia total acumulada (estimativa baseada em quanto tempo cada um está reatribuído)
         let economiaTotal = 0;
         registros.filter(r => r.status === "em_uso").forEach(r => {
             const meses = Math.max(1, Math.floor(daysSince(r.dataReatribuicao || r.data) / 30));
@@ -1006,19 +1178,33 @@
         document.getElementById("economiaMensal").textContent = formatMoney(economiaMensal) + "/mês";
     }
     function updateFeriasSummary() {
-        const total  = ferias.length;
+        const total = ferias.length;
         const livres = ferias.filter(f => f.status === "livre").length;
         const usados = ferias.filter(f => f.status === "temp_uso").length;
-        const proximos = ferias.filter(f => {
-            const d = daysUntil(f.retorno);
-            return d >= 0 && d <= 7;
-        }).length;
-
-        document.getElementById("totalFerias").textContent  = total;
+        const proximos = ferias.filter(f => { const d = daysUntil(f.retorno); return d >= 0 && d <= 7; }).length;
+        document.getElementById("totalFerias").textContent = total;
         document.getElementById("feriasLivres").textContent = livres;
         document.getElementById("feriasUsados").textContent = usados;
         document.getElementById("retornosProximos").textContent = proximos;
         document.getElementById("tabCountFerias").textContent = total;
+    }
+    // ✅ CARDS COLABORADORES
+    function updateColabSummary() {
+        const total = colaboradores.length;
+        let ativos = 0, ferIes = 0, desls = 0;
+        colaboradores.forEach(c => {
+            const s = getStatusColab(c.nome);
+            if (s.status === "ativo") ativos++;
+            else if (s.status === "ferias") ferIes++;
+            else desls++;
+        });
+        const equipesUnicas = new Set(colaboradores.map(c => c.equipe)).size;
+        document.getElementById("totalColab").textContent = total;
+        document.getElementById("colabAtivos").textContent = ativos;
+        document.getElementById("colabFerias").textContent = ferIes;
+        document.getElementById("colabDesligados").textContent = desls;
+        document.getElementById("colabPorEquipe").textContent = equipesUnicas;
+        document.getElementById("tabCountColaboradores").textContent = total;
     }
 
     // ============ CHARTS ============
@@ -1029,17 +1215,14 @@
         document.getElementById("barChart").innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([equipe, count]) => {
             const pct = Math.round((count/max)*100);
             const color = equipeColors[equipe] || "#17c550";
-            return `<div class="bar-item">
-                <div class="bar-label"><span>${equipe}</span><span>${count}</span></div>
-                <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div>
-            </div>`;
+            return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
         }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
     }
     function updateStatusChart() {
         const livres = registros.filter(r => r.status === "livre").length;
-        const emUso  = registros.filter(r => r.status === "em_uso").length;
+        const emUso = registros.filter(r => r.status === "em_uso").length;
         const fLivres = ferias.filter(f => f.status === "livre").length;
-        const total  = (registros.length + ferias.length) || 1;
+        const total = (registros.length + ferias.length) || 1;
         document.getElementById("statusChart").innerHTML = `
             <div class="donut-item"><div class="donut-color" style="background:#17c550"></div><div class="donut-label">Livres (Desligados)</div><div class="donut-val">${livres}</div><div class="donut-pct">${Math.round((livres/total)*100)}%</div></div>
             <div class="donut-item"><div class="donut-color" style="background:#3b82f6"></div><div class="donut-label">Reatribuídos</div><div class="donut-val">${emUso}</div><div class="donut-pct">${Math.round((emUso/total)*100)}%</div></div>
@@ -1053,13 +1236,10 @@
             ...registros.map(r => ({...r, tipo: 'desligamento'})),
             ...ferias.map(f => ({...f, data: f.inicio, tipo: 'ferias'}))
         ].sort((a,b) => b.data.localeCompare(a.data)).slice(0,6);
-
         document.getElementById("timelineChart").innerHTML = allEvents.map(r => {
             if (r.tipo === 'ferias') {
                 const color = r.status === "livre" ? "#f97316" : "#06b6d4";
-                const text = r.status === "livre"
-                    ? `${r.nome} — <b style="color:#f97316">Férias (livre)</b>`
-                    : `${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
+                const text = r.status === "livre" ? `${r.nome} — <b style="color:#f97316">Férias (livre)</b>` : `${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
                 return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
             } else {
                 const isLivre = r.status === "livre";
@@ -1069,12 +1249,50 @@
             }
         }).join("") || "<p style='color:#1b443c'>Sem movimentações</p>";
     }
+    // ✅ CHARTS COLABORADORES
+    function updateColabCharts() {
+        // Por equipe
+        const counts = {};
+        colaboradores.forEach(c => { counts[c.equipe] = (counts[c.equipe] || 0) + 1; });
+        const max = Math.max(...Object.values(counts), 1);
+        document.getElementById("colabBarChart").innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([equipe, count]) => {
+            const pct = Math.round((count/max)*100);
+            const color = equipeColors[equipe] || "#17c550";
+            return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
+        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
+
+        // Status
+        let ativos = 0, ferIes = 0, desls = 0;
+        colaboradores.forEach(c => {
+            const s = getStatusColab(c.nome);
+            if (s.status === "ativo") ativos++;
+            else if (s.status === "ferias") ferIes++;
+            else desls++;
+        });
+        const total = colaboradores.length || 1;
+        document.getElementById("colabStatusChart").innerHTML = `
+            <div class="donut-item"><div class="donut-color" style="background:#10b981"></div><div class="donut-label">Ativos</div><div class="donut-val">${ativos}</div><div class="donut-pct">${Math.round((ativos/total)*100)}%</div></div>
+            <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Em Férias</div><div class="donut-val">${ferIes}</div><div class="donut-pct">${Math.round((ferIes/total)*100)}%</div></div>
+            <div class="donut-item"><div class="donut-color" style="background:#ef4444"></div><div class="donut-label">Desligados</div><div class="donut-val">${desls}</div><div class="donut-pct">${Math.round((desls/total)*100)}%</div></div>
+        `;
+
+        // Cargos
+        const cargos = {};
+        colaboradores.forEach(c => {
+            const cg = c.cargo || "Sem cargo";
+            cargos[cg] = (cargos[cg] || 0) + 1;
+        });
+        const maxC = Math.max(...Object.values(cargos), 1);
+        document.getElementById("colabCargosChart").innerHTML = Object.entries(cargos).sort((a,b) => b[1]-a[1]).slice(0,5).map(([cargo, count]) => {
+            const pct = Math.round((count/maxC)*100);
+            return `<div class="bar-item"><div class="bar-label"><span>${cargo}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:#8b5cf6"></div></div></div>`;
+        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
+    }
+
     function updateFilterEquipe() {
         const sel = document.getElementById("filterEquipe");
         const val = sel.value;
-        sel.innerHTML = `<option value="">Todas as Equipes</option>` +
-            ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"]
-            .map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+        sel.innerHTML = `<option value="">Todas as Equipes</option>` + ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"].map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
     }
 
     // ============ TABELAS ============
@@ -1082,22 +1300,17 @@
         const search = document.getElementById("searchInput").value.toLowerCase();
         const equipe = document.getElementById("filterEquipe").value;
         const status = document.getElementById("filterStatus").value;
-
         let filtrados = registros.filter(r => {
             const s = r.nome.toLowerCase().includes(search) || r.equipe.toLowerCase().includes(search) || (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
             return s && (!equipe || r.equipe === equipe) && (!status || r.status === status);
         });
-
         document.getElementById("tableCount").textContent = `${filtrados.length} de ${registros.length} registros`;
         document.getElementById("emptyState").style.display = filtrados.length ? "none" : "block";
-
         document.getElementById("tableBody").innerHTML = filtrados.map((r, i) => {
             const color = equipeColors[r.equipe] || "#17c550";
             const initials = getInitials(r.nome);
             const isLivre = r.status === "livre";
             const diasLivre = daysSince(r.data);
-
-            // ✅ Badge de tempo livre
             let badgeDias = "";
             if (isLivre) {
                 let cls = "ok";
@@ -1105,85 +1318,89 @@
                 else if (diasLivre > 15) cls = "warning";
                 badgeDias = `<span class="badge-dias-livre ${cls}">${diasLivre}d livre</span>`;
             }
-
-            const statusHtml = isLivre
-                ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>${badgeDias}`
-                : `<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
-
-            const reatribuidoHtml = isLivre
-                ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>`
-                : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i><span class="new-user">${r.novoUsuario}</span><span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span></div>`;
-
+            const statusHtml = isLivre ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>${badgeDias}` : `<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
+            const reatribuidoHtml = isLivre ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>` : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i><span class="new-user">${r.novoUsuario}</span><span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span></div>`;
             const actionsHtml = isLivre
-                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
-                : `<button class="btn-icon btn-liberar" title="Liberar" onclick="liberarLicenca(${r.id})"><i data-lucide="lock-open" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
-
-            return `<tr>
-                <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
-                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${r.nome}</strong><span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span></div></div></td>
-                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td>
-                <td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td>
-                <td>${statusHtml}</td>
-                <td>${reatribuidoHtml}</td>
-                <td><div class="action-btns">${actionsHtml}</div></td>
-            </tr>`;
+                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button><button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+                : `<button class="btn-icon btn-liberar" title="Liberar" onclick="liberarLicenca(${r.id})"><i data-lucide="lock-open" style="width:14px;height:14px"></i></button><button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+            return `<tr><td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td><td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${r.nome}</strong><span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span></div></div></td><td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td><td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td><td>${statusHtml}</td><td>${reatribuidoHtml}</td><td><div class="action-btns">${actionsHtml}</div></td></tr>`;
         }).join("");
         lucide.createIcons();
     }
     function renderFeriasTable() {
         const search = document.getElementById("searchFerias").value.toLowerCase();
         const equipe = document.getElementById("filterEquipeFerias").value;
-
         let filtrados = ferias.filter(f => {
             const s = f.nome.toLowerCase().includes(search) || f.equipe.toLowerCase().includes(search) || (f.usuarioTemp && f.usuarioTemp.toLowerCase().includes(search));
             return s && (!equipe || f.equipe === equipe);
         });
-
         document.getElementById("feriasTableCount").textContent = `${filtrados.length} de ${ferias.length} registros`;
         document.getElementById("feriasEmptyState").style.display = filtrados.length ? "none" : "block";
-
         document.getElementById("feriasTableBody").innerHTML = filtrados.map((f, i) => {
             const color = equipeColors[f.equipe] || "#f97316";
             const initials = getInitials(f.nome);
             const isLivre = f.status === "livre";
             const diasRetorno = daysUntil(f.retorno);
             const retornoLabel = diasRetorno > 0 ? `Retorna em ${diasRetorno} dia${diasRetorno>1?'s':''}` : diasRetorno === 0 ? 'Retorna hoje' : 'Retorno vencido';
-
-            const statusHtml = isLivre
-                ? `<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>`
-                : `<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
-            const usandoHtml = isLivre
-                ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>`
-                : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i><span class="temp-user">${f.usuarioTemp}</span></div>`;
+            const statusHtml = isLivre ? `<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>` : `<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
+            const usandoHtml = isLivre ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>` : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i><span class="temp-user">${f.usuarioTemp}</span></div>`;
             const actionsHtml = isLivre
-                ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
-                : `<button class="btn-icon btn-liberar" title="Devolver" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
-                   <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+                ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button><button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+                : `<button class="btn-icon btn-liberar" title="Devolver" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button><button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+            return `<tr><td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td><td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${f.nome}</strong><span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span></div></div></td><td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td><td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td><td>${statusHtml}</td><td>${usandoHtml}</td><td><div class="action-btns">${actionsHtml}</div></td></tr>`;
+        }).join("");
+        lucide.createIcons();
+    }
+    // ✅ TABELA COLABORADORES
+    function renderColabTable() {
+        const search = document.getElementById("searchColab").value.toLowerCase();
+        const equipe = document.getElementById("filterEquipeColab").value;
+        const status = document.getElementById("filterStatusColab").value;
+
+        let filtrados = colaboradores.filter(c => {
+            const s = c.nome.toLowerCase().includes(search) || (c.cargo && c.cargo.toLowerCase().includes(search)) || c.equipe.toLowerCase().includes(search);
+            const e = !equipe || c.equipe === equipe;
+            let st = true;
+            if (status) {
+                const stColab = getStatusColab(c.nome).status;
+                st = stColab === status;
+            }
+            return s && e && st;
+        });
+
+        document.getElementById("colabTableCount").textContent = `${filtrados.length} de ${colaboradores.length} colaboradores`;
+        document.getElementById("colabEmptyState").style.display = filtrados.length ? "none" : "block";
+
+        document.getElementById("colabTableBody").innerHTML = filtrados.map((c, i) => {
+            const color = equipeColors[c.equipe] || "#17c550";
+            const initials = getInitials(c.nome);
+            const statusInfo = getStatusColab(c.nome);
+
+            let statusHtml = "";
+            if (statusInfo.status === "ativo") statusHtml = `<span class="status-ativo"><span class="dot-emerald"></span> Ativo</span>`;
+            else if (statusInfo.status === "ferias") statusHtml = `<span class="status-ferias"><span class="dot-orange"></span> Em Férias</span>`;
+            else statusHtml = `<span class="status-desligado"><span class="dot-red"></span> Desligado</span>`;
 
             return `<tr>
                 <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
-                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${f.nome}</strong><span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span></div></div></td>
-                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td>
-                <td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td>
+                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${c.nome}</strong><span>${statusInfo.info || "—"}</span></div></div></td>
+                <td style="color:#b8d8c8">${c.cargo || "—"}</td>
+                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${c.equipe}</span></td>
                 <td>${statusHtml}</td>
-                <td>${usandoHtml}</td>
-                <td><div class="action-btns">${actionsHtml}</div></td>
+                <td style="color:#6dbb8b;font-size:12px">${c.obs || "—"}</td>
+                <td><div class="action-btns">
+                    <button class="btn-icon btn-edit" title="Editar" onclick="openModalColab(${c.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteColab(${c.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
+                </div></td>
             </tr>`;
         }).join("");
         lucide.createIcons();
     }
 
-    // ============ TOGGLES E MODAIS ============
+    // ============ MODAIS ============
     function toggleNovoUsuario() {
         const val = document.getElementById("inputStatusLicenca").value;
-        document.getElementById("groupNovoUsuario").style.display      = val === "em_uso" ? "block" : "none";
+        document.getElementById("groupNovoUsuario").style.display = val === "em_uso" ? "block" : "none";
         document.getElementById("groupDataReatribuicao").style.display = val === "em_uso" ? "block" : "none";
     }
     function toggleFeriasUsuario() {
@@ -1191,6 +1408,94 @@
         document.getElementById("groupFeriasUsuario").style.display = val === "temp_uso" ? "block" : "none";
     }
 
+    // ✅ MODAL COLABORADOR
+    function openModalColab(id = null) {
+        editColabId = id;
+        if (id) {
+            const c = colaboradores.find(x => x.id === id);
+            document.getElementById("modalColabTitle").innerHTML = `<i data-lucide="pencil" style="width:18px;height:18px;color:#17c550"></i> Editar Colaborador`;
+            document.getElementById("inputColabNome").value = c.nome;
+            document.getElementById("inputColabCargo").value = c.cargo || "";
+            document.getElementById("inputColabEquipe").value = c.equipe;
+            document.getElementById("inputColabObs").value = c.obs || "";
+        } else {
+            document.getElementById("modalColabTitle").innerHTML = `<i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Novo Colaborador`;
+            document.getElementById("inputColabNome").value = "";
+            document.getElementById("inputColabCargo").value = "";
+            document.getElementById("inputColabEquipe").value = "";
+            document.getElementById("inputColabObs").value = "";
+        }
+        document.getElementById("modalColab").classList.add("active");
+        lucide.createIcons();
+    }
+    function closeModalColab() { document.getElementById("modalColab").classList.remove("active"); editColabId = null; }
+    function closeModalColabOutside(e) { if (e.target === document.getElementById("modalColab")) closeModalColab(); }
+    function saveColab() {
+        const nome = document.getElementById("inputColabNome").value.trim();
+        const cargo = document.getElementById("inputColabCargo").value.trim();
+        const equipe = document.getElementById("inputColabEquipe").value;
+        const obs = document.getElementById("inputColabObs").value.trim();
+        if (!nome || !equipe) { showToast("Preencha nome e equipe!", "#f59e0b"); return; }
+        const obj = { nome, cargo, equipe, obs };
+        if (editColabId) {
+            colaboradores[colaboradores.findIndex(c => c.id === editColabId)] = { id: editColabId, ...obj };
+            showToast("Colaborador atualizado!");
+        } else {
+            colaboradores.push({ id: nextColabId++, ...obj });
+            showToast("Colaborador adicionado!");
+        }
+        closeModalColab();
+        salvarDados();
+        refreshAll();
+    }
+    function deleteColab(id) {
+        const c = colaboradores.find(x => x.id === id);
+        if (confirm(`Remover "${c.nome}" do cadastro?`)) {
+            colaboradores = colaboradores.filter(x => x.id !== id);
+            showToast("Colaborador removido.", "#ef4444");
+            salvarDados();
+            refreshAll();
+        }
+    }
+
+    // ✅ IMPORTAR EM MASSA
+    function openModalImportar() {
+        document.getElementById("inputImportar").value = "";
+        document.getElementById("inputEquipePadrao").value = "";
+        document.getElementById("inputCargoPadrao").value = "";
+        document.getElementById("modalImportar").classList.add("active");
+        lucide.createIcons();
+    }
+    function closeModalImportar() { document.getElementById("modalImportar").classList.remove("active"); }
+    function closeModalImportarOutside(e) { if (e.target === document.getElementById("modalImportar")) closeModalImportar(); }
+    function importarColabs() {
+        const texto = document.getElementById("inputImportar").value.trim();
+        const equipePadrao = document.getElementById("inputEquipePadrao").value;
+        const cargoPadrao = document.getElementById("inputCargoPadrao").value.trim();
+        if (!texto) { showToast("Cole a lista primeiro!", "#f59e0b"); return; }
+
+        const linhas = texto.split("\n").map(l => l.trim()).filter(l => l);
+        let adicionados = 0, ignorados = 0;
+        linhas.forEach(linha => {
+            const partes = linha.split("|").map(p => p.trim());
+            const nome = partes[0];
+            const cargo = partes[1] || cargoPadrao || "";
+            const equipe = partes[2] || equipePadrao;
+
+            if (!nome || !equipe) { ignorados++; return; }
+            // Verifica duplicata
+            if (colaboradores.find(c => c.nome.toLowerCase() === nome.toLowerCase())) { ignorados++; return; }
+
+            colaboradores.push({ id: nextColabId++, nome, cargo, equipe, obs: "" });
+            adicionados++;
+        });
+        closeModalImportar();
+        salvarDados();
+        refreshAll();
+        showToast(`✅ ${adicionados} adicionado(s)${ignorados > 0 ? `, ${ignorados} ignorado(s)` : ""}`);
+    }
+
+    // MODAL DESLIGAMENTO
     function openModal(id = null) {
         editId = id;
         const today = new Date().toISOString().split("T")[0];
@@ -1220,7 +1525,6 @@
     }
     function closeModal() { document.getElementById("modalOverlay").classList.remove("active"); editId = null; }
     function closeModalOutside(e) { if (e.target === document.getElementById("modalOverlay")) closeModal(); }
-
     function saveRegistro() {
         const nome = document.getElementById("inputNome").value.trim();
         const equipe = document.getElementById("inputEquipe").value;
@@ -1245,6 +1549,7 @@
         refreshAll();
     }
 
+    // MODAL FÉRIAS
     function openModalFerias(id = null) {
         editFeriasId = id;
         const today = new Date().toISOString().split("T")[0];
@@ -1272,7 +1577,6 @@
     }
     function closeModalFerias() { document.getElementById("modalFerias").classList.remove("active"); editFeriasId = null; }
     function closeModalFeriasOutside(e) { if (e.target === document.getElementById("modalFerias")) closeModalFerias(); }
-
     function saveFeriasRegistro() {
         const nome = document.getElementById("inputFeriasNome").value.trim();
         const equipe = document.getElementById("inputFeriasEquipe").value;
@@ -1379,7 +1683,7 @@
         }
     }
 
-    // ============ ✅ CONFIG LICENÇAS ============
+    // CONFIG
     function openModalConfig() {
         document.getElementById("inputTotalLicencas").value = config.totalLicencas;
         document.getElementById("inputValorLicenca").value = config.valorLicenca;
@@ -1389,109 +1693,63 @@
     function closeModalConfig() { document.getElementById("modalConfig").classList.remove("active"); }
     function closeModalConfigOutside(e) { if (e.target === document.getElementById("modalConfig")) closeModalConfig(); }
     function salvarConfig() {
-        const total = parseInt(document.getElementById("inputTotalLicencas").value) || 0;
-        const valor = parseFloat(document.getElementById("inputValorLicenca").value) || 0;
-        config.totalLicencas = total;
-        config.valorLicenca = valor;
+        config.totalLicencas = parseInt(document.getElementById("inputTotalLicencas").value) || 0;
+        config.valorLicenca = parseFloat(document.getElementById("inputValorLicenca").value) || 0;
         salvarDados();
         closeModalConfig();
         showToast("Configurações salvas!");
         refreshAll();
     }
 
-    // ============ ✅ EXPORTAR EXCEL ============
+    // EXPORTAR
     function exportarExcel(tipo) {
         const wb = XLSX.utils.book_new();
+        let dados = [], nome = "";
         if (tipo === 'desligados') {
-            const dados = registros.map(r => ({
-                "Nome": r.nome,
-                "Cargo": r.cargo || "",
-                "Equipe": r.equipe,
-                "Data Desligamento": formatDate(r.data),
-                "Status": r.status === "livre" ? "Livre" : "Em Uso",
-                "Reatribuído para": r.novoUsuario || "",
-                "Data Reatribuição": formatDate(r.dataReatribuicao),
-                "Observações": r.obs || ""
-            }));
-            const ws = XLSX.utils.json_to_sheet(dados);
-            XLSX.utils.book_append_sheet(wb, ws, "Desligados");
+            dados = registros.map(r => ({ "Nome": r.nome, "Cargo": r.cargo || "", "Equipe": r.equipe, "Data Desligamento": formatDate(r.data), "Status": r.status === "livre" ? "Livre" : "Em Uso", "Reatribuído para": r.novoUsuario || "", "Data Reatribuição": formatDate(r.dataReatribuicao), "Observações": r.obs || "" }));
+            nome = "Desligados";
+        } else if (tipo === 'ferias') {
+            dados = ferias.map(f => ({ "Nome": f.nome, "Equipe": f.equipe, "Início Férias": formatDate(f.inicio), "Retorno": formatDate(f.retorno), "Status": f.status === "livre" ? "Livre" : "Emprestado", "Usando Temporariamente": f.usuarioTemp || "", "Observações": f.obs || "" }));
+            nome = "Férias";
         } else {
-            const dados = ferias.map(f => ({
-                "Nome": f.nome,
-                "Equipe": f.equipe,
-                "Início Férias": formatDate(f.inicio),
-                "Retorno": formatDate(f.retorno),
-                "Status": f.status === "livre" ? "Livre" : "Emprestado",
-                "Usando Temporariamente": f.usuarioTemp || "",
-                "Observações": f.obs || ""
-            }));
-            const ws = XLSX.utils.json_to_sheet(dados);
-            XLSX.utils.book_append_sheet(wb, ws, "Férias");
+            dados = colaboradores.map(c => { const s = getStatusColab(c.nome); return { "Nome": c.nome, "Cargo": c.cargo || "", "Equipe": c.equipe, "Status": s.status === "ativo" ? "Ativo" : s.status === "ferias" ? "Em Férias" : "Desligado", "Observações": c.obs || "" }; });
+            nome = "Colaboradores";
         }
-        const hoje = new Date().toISOString().split("T")[0];
-        XLSX.writeFile(wb, `Corban_${tipo}_${hoje}.xlsx`);
+        const ws = XLSX.utils.json_to_sheet(dados);
+        XLSX.utils.book_append_sheet(wb, ws, nome);
+        XLSX.writeFile(wb, `Corban_${tipo}_${new Date().toISOString().split("T")[0]}.xlsx`);
         showToast("Excel exportado!");
     }
-
-    // ============ ✅ EXPORTAR PDF ============
     function exportarPDF(tipo) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
         const hoje = new Date().toLocaleDateString("pt-BR");
-
-        // Cabeçalho
         doc.setFillColor(27, 68, 60);
         doc.rect(0, 0, 220, 25, 'F');
         doc.setTextColor(255, 255, 255);
         doc.setFontSize(16);
         doc.text("Gestão de Licenças Corban", 14, 13);
         doc.setFontSize(9);
-        doc.text(`Relatório de ${tipo === 'desligados' ? 'Desligados' : 'Férias'} • Gerado em ${hoje}`, 14, 20);
+        const tit = tipo === 'desligados' ? 'Desligados' : tipo === 'ferias' ? 'Férias' : 'Colaboradores';
+        doc.text(`Relatório de ${tit} • Gerado em ${hoje}`, 14, 20);
 
         if (tipo === 'desligados') {
-            const corpo = registros.map(r => [
-                r.nome,
-                r.equipe,
-                formatDate(r.data),
-                r.status === "livre" ? "Livre" : "Em Uso",
-                r.novoUsuario || "—"
-            ]);
-            doc.autoTable({
-                startY: 32,
-                head: [["Colaborador", "Equipe", "Data", "Status", "Reatribuído"]],
-                body: corpo,
-                theme: 'striped',
-                headStyles: { fillColor: [23, 197, 80], textColor: 255 },
-                styles: { fontSize: 9 }
-            });
+            const corpo = registros.map(r => [r.nome, r.equipe, formatDate(r.data), r.status === "livre" ? "Livre" : "Em Uso", r.novoUsuario || "—"]);
+            doc.autoTable({ startY: 32, head: [["Colaborador", "Equipe", "Data", "Status", "Reatribuído"]], body: corpo, theme: 'striped', headStyles: { fillColor: [23, 197, 80], textColor: 255 }, styles: { fontSize: 9 } });
+        } else if (tipo === 'ferias') {
+            const corpo = ferias.map(f => [f.nome, f.equipe, `${formatDate(f.inicio)} → ${formatDate(f.retorno)}`, f.status === "livre" ? "Livre" : "Emprestado", f.usuarioTemp || "—"]);
+            doc.autoTable({ startY: 32, head: [["Colaborador", "Equipe", "Período", "Status", "Temporário"]], body: corpo, theme: 'striped', headStyles: { fillColor: [249, 115, 22], textColor: 255 }, styles: { fontSize: 9 } });
         } else {
-            const corpo = ferias.map(f => [
-                f.nome, f.equipe,
-                `${formatDate(f.inicio)} → ${formatDate(f.retorno)}`,
-                f.status === "livre" ? "Livre" : "Emprestado",
-                f.usuarioTemp || "—"
-            ]);
-            doc.autoTable({
-                startY: 32,
-                head: [["Colaborador", "Equipe", "Período", "Status", "Temporário"]],
-                body: corpo,
-                theme: 'striped',
-                headStyles: { fillColor: [249, 115, 22], textColor: 255 },
-                styles: { fontSize: 9 }
-            });
+            const corpo = colaboradores.map(c => { const s = getStatusColab(c.nome); return [c.nome, c.cargo || "—", c.equipe, s.status === "ativo" ? "Ativo" : s.status === "ferias" ? "Em Férias" : "Desligado"]; });
+            doc.autoTable({ startY: 32, head: [["Nome", "Cargo", "Equipe", "Status"]], body: corpo, theme: 'striped', headStyles: { fillColor: [16, 185, 129], textColor: 255 }, styles: { fontSize: 9 } });
         }
-
         doc.save(`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.pdf`);
         showToast("PDF exportado!");
     }
 
-    // ============ ✅ BACKUP / RESTAURAR ============
+    // BACKUP
     function fazerBackup() {
-        const backup = {
-            registros, ferias, config,
-            nextId, nextFeriasId,
-            data: new Date().toISOString()
-        };
+        const backup = { registros, ferias, colaboradores, config, nextId, nextFeriasId, nextColabId, data: new Date().toISOString() };
         const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
         const a = document.createElement("a");
         a.href = URL.createObjectURL(blob);
@@ -1509,25 +1767,23 @@
                 if (confirm("Restaurar backup? Os dados atuais serão substituídos.")) {
                     if (dados.registros) registros = dados.registros;
                     if (dados.ferias) ferias = dados.ferias;
+                    if (dados.colaboradores) colaboradores = dados.colaboradores;
                     if (dados.config) config = dados.config;
                     if (dados.nextId) nextId = dados.nextId;
                     if (dados.nextFeriasId) nextFeriasId = dados.nextFeriasId;
+                    if (dados.nextColabId) nextColabId = dados.nextColabId;
                     salvarDados();
                     refreshAll();
                     showToast("Backup restaurado!");
                 }
-            } catch (err) {
-                showToast("Arquivo inválido!", "#ef4444");
-            }
+            } catch (err) { showToast("Arquivo inválido!", "#ef4444"); }
         };
         reader.readAsText(file);
         event.target.value = "";
     }
-
-    // ============ ✅ RESETAR TUDO ============
     function resetarTudo() {
-        if (confirm("⚠️ ATENÇÃO: Isso vai apagar TODOS os dados! Deseja continuar?")) {
-            if (confirm("Tem certeza absoluta? Esta ação NÃO pode ser desfeita!")) {
+        if (confirm("⚠️ ATENÇÃO: Isso vai apagar TODOS os dados! Continuar?")) {
+            if (confirm("Tem certeza? Esta ação NÃO pode ser desfeita!")) {
                 localStorage.clear();
                 location.reload();
             }
@@ -1546,12 +1802,15 @@
     function refreshAll() {
         updateSummary();
         updateFeriasSummary();
+        updateColabSummary();
         updateBarChart();
         updateStatusChart();
         updateTimeline();
+        updateColabCharts();
         updateFilterEquipe();
         renderTable();
         renderFeriasTable();
+        renderColabTable();
         updateLicencas();
         updateAlertas();
     }
