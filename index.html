@@ -1285,25 +1285,60 @@ document.addEventListener('click', function(e) {
 // ============================================================
 //  LICENÇAS
 // ============================================================
+// ============================================================
+//  LICENÇAS — CORRIGIDA
+// ============================================================
 function updateLicencas() {
-    const emUso = registros.filter(r=>r.status==="em_uso").length +
-                  ferias.filter(f=>f.status==="temp_uso").length;
+    // ✅ Conta colaboradores ATIVOS (cada um usa 1 licença)
+    const colabsAtivos = colaboradores.filter(c => {
+        const s = getStatusColab(c.nome);
+        return s.status === "ativo";
+    }).length;
+
+    // ✅ Conta licenças REATRIBUÍDAS (desligados cuja licença foi para outra pessoa)
+    // OBS: Se o "novoUsuario" já for um colaborador ativo, NÃO conta duas vezes
+    const reatribuidasExternas = registros.filter(r => {
+        if (r.status !== "em_uso") return false;
+        // Se a pessoa que recebeu já está no cadastro como ativo, já foi contada acima
+        const jaContado = colaboradores.some(c => 
+            c.nome.toLowerCase() === r.novoUsuario.toLowerCase() &&
+            getStatusColab(c.nome).status === "ativo"
+        );
+        return !jaContado;
+    }).length;
+
+    // ✅ Conta licenças EMPRESTADAS temporariamente (durante férias)
+    const emprestadasTemp = ferias.filter(f => {
+        if (f.status !== "temp_uso") return false;
+        const jaContado = colaboradores.some(c => 
+            c.nome.toLowerCase() === f.usuarioTemp.toLowerCase() &&
+            getStatusColab(c.nome).status === "ativo"
+        );
+        return !jaContado;
+    }).length;
+
+    // ✅ TOTAL EM USO = Ativos + Reatribuídos externos + Emprestados externos
+    const emUso = colabsAtivos + reatribuidasExternas + emprestadasTemp;
     const total = config.totalLicencas || 0;
     const disp  = Math.max(0, total - emUso);
-    const pct   = total > 0 ? (emUso/total)*100 : 0;
-    document.getElementById("licencasUsadas").textContent     = emUso;
-    document.getElementById("licencasTotal").textContent      = total;
-    document.getElementById("licencasDisponiveis").textContent= disp;
+    const pct   = total > 0 ? (emUso / total) * 100 : 0;
+
+    document.getElementById("licencasUsadas").textContent      = emUso;
+    document.getElementById("licencasTotal").textContent       = total;
+    document.getElementById("licencasDisponiveis").textContent = disp;
+
     const bar = document.getElementById("licencasBar");
-    bar.style.width = Math.min(pct,100)+"%";
-    bar.classList.remove('warning','danger');
-    if (pct>=90) bar.classList.add('danger');
-    else if (pct>=75) bar.classList.add('warning');
+    bar.style.width = Math.min(pct, 100) + "%";
+    bar.classList.remove('warning', 'danger');
+    if (pct >= 90) bar.classList.add('danger');
+    else if (pct >= 75) bar.classList.add('warning');
+
     const al = document.getElementById("licencasAlerta");
-    if (total===0)      al.textContent="⚠️ Configure o total de licenças clicando em 'Configurar'";
-    else if (disp===0)  al.textContent="🚨 ATENÇÃO: Todas as licenças estão em uso!";
-    else if (disp<=3)   al.textContent=`⚠️ Atenção: apenas ${disp} licença(s) disponível(is)`;
-    else al.textContent="";
+    if (total === 0)      al.textContent = "⚠️ Configure o total de licenças clicando em 'Configurar'";
+    else if (emUso > total) al.textContent = `🚨 ESTOURO: ${emUso - total} licença(s) acima do contratado!`;
+    else if (disp === 0)  al.textContent = "🚨 ATENÇÃO: Todas as licenças estão em uso!";
+    else if (disp <= 3)   al.textContent = `⚠️ Atenção: apenas ${disp} licença(s) disponível(is)`;
+    else al.textContent = `✅ ${colabsAtivos} ativo(s) + ${reatribuidasExternas + emprestadasTemp} reatribuída(s)/emprestada(s)`;
 }
 
 // ============================================================
