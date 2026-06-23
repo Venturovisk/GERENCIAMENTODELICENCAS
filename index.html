@@ -1125,32 +1125,73 @@
 // ============================================================
 //  STORAGE
 // ============================================================
-function salvarDados() {
-    localStorage.setItem('corban_registros',     JSON.stringify(registros));
-    localStorage.setItem('corban_ferias',        JSON.stringify(ferias));
-    localStorage.setItem('corban_colaboradores', JSON.stringify(colaboradores));
-    localStorage.setItem('corban_nextId',        nextId);
-    localStorage.setItem('corban_nextFeriasId',  nextFeriasId);
-    localStorage.setItem('corban_nextColabId',   nextColabId);
-    localStorage.setItem('corban_config',        JSON.stringify(config));
+let _memoryStorage = {}; // Fallback em memória
+
+function _setStorage(key, value) {
+    try {
+        localStorage.setItem(key, value);
+        return true;
+    } catch (e) {
+        _memoryStorage[key] = value;
+        return false;
+    }
 }
-function carregarDados() {
-    const reg = localStorage.getItem('corban_registros');
-    const fer = localStorage.getItem('corban_ferias');
-    const col = localStorage.getItem('corban_colaboradores');
-    const nId = localStorage.getItem('corban_nextId');
-    const nFId= localStorage.getItem('corban_nextFeriasId');
-    const nCId= localStorage.getItem('corban_nextColabId');
-    const cfg = localStorage.getItem('corban_config');
-    if (reg)  registros     = JSON.parse(reg);
-    if (fer)  ferias        = JSON.parse(fer);
-    if (col)  colaboradores = JSON.parse(col);
-    if (nId)  nextId        = parseInt(nId);
-    if (nFId) nextFeriasId  = parseInt(nFId);
-    if (nCId) nextColabId   = parseInt(nCId);
-    if (cfg)  config        = JSON.parse(cfg);
+function _getStorage(key) {
+    try {
+        const ls = localStorage.getItem(key);
+        if (ls !== null) return ls;
+    } catch (e) {}
+    return _memoryStorage[key] || null;
 }
 
+function salvarDados() {
+    try {
+        const dados = {
+            registros, ferias, colaboradores,
+            nextId, nextFeriasId, nextColabId,
+            config
+        };
+        _setStorage('corban_registros',     JSON.stringify(registros));
+        _setStorage('corban_ferias',        JSON.stringify(ferias));
+        _setStorage('corban_colaboradores', JSON.stringify(colaboradores));
+        _setStorage('corban_nextId',        String(nextId));
+        _setStorage('corban_nextFeriasId',  String(nextFeriasId));
+        _setStorage('corban_nextColabId',   String(nextColabId));
+        _setStorage('corban_config',        JSON.stringify(config));
+        console.log('✅ Dados salvos:', dados);
+        return true;
+    } catch (err) {
+        console.error('❌ Erro ao salvar:', err);
+        showToast('⚠️ Erro ao salvar dados!', '#ef4444');
+        return false;
+    }
+}
+
+function carregarDados() {
+    try {
+        const reg = _getStorage('corban_registros');
+        const fer = _getStorage('corban_ferias');
+        const col = _getStorage('corban_colaboradores');
+        const nId = _getStorage('corban_nextId');
+        const nFId= _getStorage('corban_nextFeriasId');
+        const nCId= _getStorage('corban_nextColabId');
+        const cfg = _getStorage('corban_config');
+        
+        if (reg)  registros     = JSON.parse(reg);
+        if (fer)  ferias        = JSON.parse(fer);
+        if (col)  colaboradores = JSON.parse(col);
+        if (nId)  nextId        = parseInt(nId);
+        if (nFId) nextFeriasId  = parseInt(nFId);
+        if (nCId) nextColabId   = parseInt(nCId);
+        if (cfg)  config        = JSON.parse(cfg);
+        
+        console.log('✅ Dados carregados:', { registros, ferias, colaboradores, config });
+        return true;
+    } catch (err) {
+        console.error('❌ Erro ao carregar:', err);
+        return false;
+    }
+}
 // ============================================================
 //  DADOS INICIAIS
 // ============================================================
