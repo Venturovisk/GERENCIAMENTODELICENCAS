@@ -1397,23 +1397,7 @@ function updateFeriasSummary() {
     document.getElementById("retornosProximos").textContent = proximos;
     document.getElementById("tabCountFerias").textContent   = total;
 }
-function updateColabSummary() {
-    const total = colaboradores.length;
-    let ativos=0, frias=0, desls=0;
-    colaboradores.forEach(c=>{
-        const s = getStatusColab(c.nome);
-        if (s.status==="ativo")      ativos++;
-        else if (s.status==="ferias") frias++;
-        else desls++;
-    });
-    const equipes = new Set(colaboradores.map(c=>c.equipe)).size;
-    document.getElementById("totalColab").textContent         = total;
-    document.getElementById("colabAtivos").textContent        = ativos;
-    document.getElementById("colabFerias").textContent        = frias;
-    document.getElementById("colabDesligados").textContent    = desls;
-    document.getElementById("colabPorEquipe").textContent     = equipes;
-    document.getElementById("tabCountColaboradores").textContent = total;
-}
+updateColabSummary
 
 // ============================================================
 //  CHARTS
@@ -1458,46 +1442,31 @@ function updateTimeline() {
         return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
     }).join("")||"<p style='color:#1b443c'>Sem movimentações</p>";
 }
-function updateColabCharts() {
-    // Por equipe
-    const counts={};
-    colaboradores.forEach(c=>{ counts[c.equipe]=(counts[c.equipe]||0)+1; });
-    const max=Math.max(...Object.values(counts),1);
-    document.getElementById("colabBarChart").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([equipe,count])=>{
-        const pct=Math.round((count/max)*100);
-        const color=equipeColors[equipe]||"#17c550";
-        return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
-    }).join("")||"<p style='color:#1b443c'>Sem dados</p>";
-
     // Status
-    let ativos=0,frias=0,desls=0;
-    colaboradores.forEach(c=>{
-        const s=getStatusColab(c.nome);
-        if (s.status==="ativo") ativos++;
-        else if (s.status==="ferias") frias++;
-        else desls++;
+    let ativos = 0, frias = 0, desls = 0;
+    colaboradores.forEach(c => {
+        const s = getStatusColab(c.nome);
+        if (s.status === "ativo")         ativos++;
+        else if (s.status === "ferias")   frias++;
+        else if (s.status === "desligado") desls++;
     });
-    const total=colaboradores.length||1;
-    document.getElementById("colabStatusChart").innerHTML=`
+
+    // Adiciona registros que não estão no cadastro
+    desls += registros.filter(r => 
+        !colaboradores.some(c => c.nome.toLowerCase() === r.nome.toLowerCase())
+    ).length;
+    frias += ferias.filter(f => 
+        !colaboradores.some(c => c.nome.toLowerCase() === f.nome.toLowerCase())
+    ).length;
+
+    const total = (colaboradores.length + 
+                   registros.filter(r => !colaboradores.some(c => c.nome.toLowerCase() === r.nome.toLowerCase())).length +
+                   ferias.filter(f => !colaboradores.some(c => c.nome.toLowerCase() === f.nome.toLowerCase())).length) || 1;
+
+    document.getElementById("colabStatusChart").innerHTML = `
         <div class="donut-item"><div class="donut-color" style="background:#10b981"></div><div class="donut-label">Ativos c/ Licença</div><div class="donut-val">${ativos}</div><div class="donut-pct">${Math.round((ativos/total)*100)}%</div></div>
         <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Em Férias</div><div class="donut-val">${frias}</div><div class="donut-pct">${Math.round((frias/total)*100)}%</div></div>
         <div class="donut-item"><div class="donut-color" style="background:#ef4444"></div><div class="donut-label">Desligados</div><div class="donut-val">${desls}</div><div class="donut-pct">${Math.round((desls/total)*100)}%</div></div>`;
-
-    // Cargo por gênero
-    const masc=colaboradores.filter(c=>c.genero==="M").length;
-    const fem =colaboradores.filter(c=>c.genero==="F").length;
-    const maxG=Math.max(masc,fem,1);
-    document.getElementById("colabCargosChart").innerHTML=`
-        <div class="bar-item"><div class="bar-label"><span>👨 Vendedores (Masc.)</span><span style="color:#60a5fa">${masc}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((masc/maxG)*100)}%;background:#3b82f6"></div></div></div>
-        <div class="bar-item"><div class="bar-label"><span>👩 Vendedoras (Fem.)</span><span style="color:#f472b6">${fem}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((fem/maxG)*100)}%;background:#ec4899"></div></div></div>
-        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1b443c44;font-size:12px;color:#6dbb8b">
-            <div style="display:flex;justify-content:space-between;align-items:center">
-                <span>Total colaboradores</span>
-                <strong style="color:#17c550">${colaboradores.length}</strong>
-            </div>
-        </div>`;
-}
-
 function updateFilterEquipe() {
     const sel=document.getElementById("filterEquipe");
     const val=sel.value;
