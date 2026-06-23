@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Gestão de Licenças Corban</title>
-    <link href="https://unpkg.com/lucide-static@latest/font/lucide.css" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -17,58 +16,52 @@
             background: linear-gradient(135deg, #1b443c, #0d2620);
             padding: 16px 30px; border-bottom: 3px solid #17c550;
             display: flex; align-items: center; justify-content: space-between;
-            box-shadow: 0 4px 25px rgba(23, 197, 80, 0.15);
-            flex-wrap: wrap; gap: 15px;
+            box-shadow: 0 4px 25px rgba(23,197,80,0.15); flex-wrap: wrap; gap: 15px;
         }
         .header-left { display: flex; align-items: center; gap: 16px; }
         .header-logo { width: 48px; height: 48px; border-radius: 12px; object-fit: contain; background: #fff; padding: 4px; }
-        .header h1 { font-size: 21px; font-weight: 700; color: #ffffff; }
+        .header h1 { font-size: 21px; font-weight: 700; color: #fff; }
         .header h1 span { color: #17c550; }
         .header p { font-size: 12px; color: #6dbb8b; margin-top: 2px; display: flex; align-items: center; gap: 5px; }
         .header-right { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .header-date { font-size: 13px; color: #6dbb8b; display: flex; align-items: center; gap: 6px; }
-
         .header-btn {
             padding: 8px 14px; background: #1b443c; border: 1px solid #17c55040;
             border-radius: 8px; color: #17c550; cursor: pointer; font-size: 12px;
-            font-weight: 600; display: flex; align-items: center; gap: 6px;
+            font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
         }
         .header-btn:hover { background: #17c55020; border-color: #17c550; }
         .header-btn.danger { color: #ef4444; border-color: #ef444440; }
         .header-btn.danger:hover { background: #ef444420; border-color: #ef4444; }
 
         .alert-bar {
-            background: linear-gradient(90deg, #f59e0b25, #f9731625);
+            background: linear-gradient(90deg,#f59e0b25,#f9731625);
             border-bottom: 1px solid #f59e0b40;
             padding: 12px 30px; display: flex; align-items: center; gap: 12px;
             color: #fbbf24; font-size: 13px;
         }
         .alert-bar.hidden { display: none; }
-        .alert-bar strong { color: #fff; }
         .alert-close { margin-left: auto; background: transparent; border: none; color: #fbbf24; cursor: pointer; font-size: 18px; }
 
         .license-status-bar {
-            padding: 18px 30px;
-            background: linear-gradient(90deg, #122a24, #0e1f1a);
+            padding: 18px 30px; background: linear-gradient(90deg,#122a24,#0e1f1a);
             border-bottom: 1px solid #1b443c;
-            display: flex; align-items: center; justify-content: space-between;
-            gap: 20px; flex-wrap: wrap;
+            display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap;
         }
         .license-info { display: flex; align-items: center; gap: 16px; flex: 1; min-width: 300px; }
-        .license-info-text { flex: 1; }
         .license-info-text h4 { color: #fff; font-size: 14px; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
         .license-info-text p { color: #6dbb8b; font-size: 12px; }
         .license-progress-wrap { flex: 1; min-width: 250px; display: flex; flex-direction: column; gap: 6px; }
         .license-numbers { display: flex; justify-content: space-between; font-size: 12px; color: #b8d8c8; }
         .license-numbers strong { color: #17c550; font-size: 14px; }
         .license-bar { height: 12px; background: #0a0f0d; border-radius: 6px; overflow: hidden; border: 1px solid #1b443c; }
-        .license-bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg, #17c550, #1b443c); transition: width 0.8s ease; }
-        .license-bar-fill.warning { background: linear-gradient(90deg, #f59e0b, #f97316); }
-        .license-bar-fill.danger { background: linear-gradient(90deg, #ef4444, #b91c1c); }
+        .license-bar-fill { height: 100%; border-radius: 6px; background: linear-gradient(90deg,#17c550,#1b443c); transition: width 0.8s ease; }
+        .license-bar-fill.warning { background: linear-gradient(90deg,#f59e0b,#f97316); }
+        .license-bar-fill.danger { background: linear-gradient(90deg,#ef4444,#b91c1c); }
         .btn-config-licenca {
             padding: 8px 14px; background: #17c55020; border: 1px solid #17c55040;
             border-radius: 8px; color: #17c550; cursor: pointer; font-size: 12px;
-            font-weight: 600; display: flex; align-items: center; gap: 6px;
+            font-weight: 600; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
         }
         .btn-config-licenca:hover { background: #17c55030; }
 
@@ -77,33 +70,30 @@
             padding: 10px 22px; background: #122a24; border: 1px solid #1b443c;
             border-bottom: none; border-radius: 10px 10px 0 0; color: #6dbb8b;
             font-size: 13px; font-weight: 600; cursor: pointer;
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; transition: all 0.2s;
         }
         .tab-btn:hover { background: #1b443c55; }
         .tab-btn.active { background: #1b443c; color: #17c550; border-color: #17c550; }
         .tab-btn .tab-count { background: #17c55025; color: #17c550; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700; }
-        .tab-btn.active .tab-count { background: #17c55040; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
 
-        .summary-section { padding: 25px 30px 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(185px, 1fr)); gap: 16px; }
+        .summary-section { padding: 25px 30px 10px; display: grid; grid-template-columns: repeat(auto-fit,minmax(185px,1fr)); gap: 16px; }
         .summary-card {
-            background: linear-gradient(145deg, #122a24, #0e1f1a);
+            background: linear-gradient(145deg,#122a24,#0e1f1a);
             border-radius: 16px; padding: 20px; border: 1px solid #1b443c;
-            position: relative; overflow: hidden;
-            transition: transform 0.25s, box-shadow 0.25s;
+            position: relative; overflow: hidden; transition: transform 0.25s, box-shadow 0.25s;
         }
-        .summary-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(23, 197, 80, 0.12); }
-        .summary-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
-        .card-green::before  { background: linear-gradient(90deg, #17c550, #1b443c); }
-        .card-red::before    { background: linear-gradient(90deg, #ef4444, #f97316); }
-        .card-blue::before   { background: linear-gradient(90deg, #3b82f6, #06b6d4); }
-        .card-yellow::before { background: linear-gradient(90deg, #f59e0b, #eab308); }
-        .card-purple::before { background: linear-gradient(90deg, #8b5cf6, #a78bfa); }
-        .card-orange::before { background: linear-gradient(90deg, #f97316, #fb923c); }
-        .card-cyan::before   { background: linear-gradient(90deg, #06b6d4, #22d3ee); }
-        .card-emerald::before{ background: linear-gradient(90deg, #10b981, #34d399); }
-
+        .summary-card:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(23,197,80,0.12); }
+        .summary-card::before { content:''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+        .card-green::before   { background: linear-gradient(90deg,#17c550,#1b443c); }
+        .card-red::before     { background: linear-gradient(90deg,#ef4444,#f97316); }
+        .card-blue::before    { background: linear-gradient(90deg,#3b82f6,#06b6d4); }
+        .card-yellow::before  { background: linear-gradient(90deg,#f59e0b,#eab308); }
+        .card-purple::before  { background: linear-gradient(90deg,#8b5cf6,#a78bfa); }
+        .card-orange::before  { background: linear-gradient(90deg,#f97316,#fb923c); }
+        .card-cyan::before    { background: linear-gradient(90deg,#06b6d4,#22d3ee); }
+        .card-emerald::before { background: linear-gradient(90deg,#10b981,#34d399); }
         .card-icon-wrap { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 12px; }
         .card-icon-wrap.green   { background: #17c55018; color: #17c550; }
         .card-icon-wrap.red     { background: #ef444418; color: #ef4444; }
@@ -113,69 +103,104 @@
         .card-icon-wrap.orange  { background: #f9731618; color: #f97316; }
         .card-icon-wrap.cyan    { background: #06b6d418; color: #06b6d4; }
         .card-icon-wrap.emerald { background: #10b98118; color: #10b981; }
-
-        .summary-card .number { font-size: 30px; font-weight: 800; color: #ffffff; }
+        .summary-card .number { font-size: 30px; font-weight: 800; color: #fff; }
         .summary-card .label  { font-size: 12px; color: #6dbb8b; margin-top: 4px; }
         .summary-card .sub-info { font-size: 11px; color: #17c550; margin-top: 6px; font-weight: 600; }
 
         .charts-section { padding: 0 30px 20px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
-        .chart-card {
-            background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 16px; padding: 22px; border: 1px solid #1b443c;
-        }
-        .chart-card h3 { font-size: 14px; font-weight: 600; color: #ffffff; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
+        .chart-card { background: linear-gradient(145deg,#122a24,#0e1f1a); border-radius: 16px; padding: 22px; border: 1px solid #1b443c; }
+        .chart-card h3 { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
         .bar-item { margin-bottom: 14px; }
         .bar-label { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; }
         .bar-label span:first-child { color: #b8d8c8; }
         .bar-label span:last-child  { color: #17c550; font-weight: 600; }
         .bar-track { height: 10px; background: #0a0f0d; border-radius: 5px; overflow: hidden; }
-        .bar-fill { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
-
+        .bar-fill  { height: 100%; border-radius: 5px; transition: width 0.8s ease; }
         .donut-list { display: flex; flex-direction: column; gap: 14px; }
         .donut-item { display: flex; align-items: center; gap: 12px; }
         .donut-color { width: 14px; height: 14px; border-radius: 4px; flex-shrink: 0; }
         .donut-label { flex: 1; font-size: 13px; color: #b8d8c8; }
-        .donut-val   { font-size: 14px; font-weight: 700; color: #ffffff; }
+        .donut-val   { font-size: 14px; font-weight: 700; color: #fff; }
         .donut-pct   { font-size: 12px; color: #6dbb8b; width: 42px; text-align: right; }
-
         .timeline-item { display: flex; gap: 12px; margin-bottom: 16px; align-items: flex-start; }
-        .timeline-dot { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
-        .timeline-info { flex: 1; }
-        .timeline-info strong { font-size: 13px; color: #ffffff; display: block; }
+        .timeline-dot  { width: 10px; height: 10px; border-radius: 50%; margin-top: 5px; flex-shrink: 0; }
+        .timeline-info strong { font-size: 13px; color: #fff; display: block; }
         .timeline-info span   { font-size: 11px; color: #6dbb8b; }
+
+        /* ===== BULK SELECT ===== */
+        .bulk-bar {
+            margin: 0 30px 12px; padding: 12px 18px;
+            background: linear-gradient(135deg,#1b3a2e,#122a24);
+            border: 1px solid #17c55040; border-radius: 12px;
+            display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+            animation: slideDown 0.25s ease;
+        }
+        @keyframes slideDown { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+        .bulk-bar.hidden { display: none; }
+        .bulk-count { font-size: 13px; font-weight: 700; color: #17c550; }
+        .bulk-count span { background: #17c55025; padding: 2px 10px; border-radius: 20px; }
+        .btn-bulk-delete {
+            padding: 8px 16px; background: linear-gradient(135deg,#ef4444,#b91c1c);
+            border: none; border-radius: 8px; color: #fff; font-size: 12px; font-weight: 700;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+        }
+        .btn-bulk-delete:hover { opacity: 0.85; transform: translateY(-1px); }
+        .btn-bulk-cancel {
+            padding: 8px 14px; background: #1b443c; border: 1px solid #1b443c;
+            border-radius: 8px; color: #6dbb8b; font-size: 12px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+        }
+        .btn-bulk-cancel:hover { border-color: #6dbb8b; color: #fff; }
+
+        /* ===== CHECKBOX ===== */
+        .cb-wrap { display: flex; align-items: center; justify-content: center; }
+        input[type="checkbox"].row-cb {
+            width: 16px; height: 16px; cursor: pointer; accent-color: #17c550;
+            border-radius: 4px;
+        }
+        input[type="checkbox"].cb-all {
+            width: 16px; height: 16px; cursor: pointer; accent-color: #17c550;
+        }
+        tbody tr.selected-row { background: #17c55010 !important; }
 
         .controls { padding: 20px 30px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
         .search-box { flex: 1; min-width: 250px; position: relative; }
-        .search-box input { width: 100%; padding: 11px 16px 11px 42px; background: #122a24; border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; }
-        .search-box input:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .search-box input {
+            width: 100%; padding: 11px 16px 11px 42px; background: #122a24;
+            border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none;
+        }
+        .search-box input:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23,197,80,0.15); }
         .search-icon { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: #6dbb8b; }
-        .filter-select { padding: 11px 14px; background: #122a24; border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; cursor: pointer; min-width: 170px; }
-        .filter-select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .filter-select {
+            padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
+            border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; cursor: pointer; min-width: 170px;
+        }
+        .filter-select:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23,197,80,0.15); }
 
         .btn-action {
-            padding: 11px 20px; background: linear-gradient(135deg, #17c550, #1b443c);
+            padding: 11px 20px; background: linear-gradient(135deg,#17c550,#1b443c);
             border: none; border-radius: 10px; color: white; font-size: 13px;
             font-weight: 600; cursor: pointer; white-space: nowrap;
-            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
-            display: flex; align-items: center; gap: 7px;
+            box-shadow: 0 4px 15px rgba(23,197,80,0.25);
+            display: flex; align-items: center; gap: 7px; transition: all 0.2s;
         }
         .btn-action:hover { opacity: 0.9; transform: translateY(-2px); }
-        .btn-action.secondary { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
-        .btn-action.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25); }
+        .btn-action.secondary { background: linear-gradient(135deg,#f97316,#ea580c); box-shadow: 0 4px 15px rgba(249,115,22,0.25); }
+        .btn-action.purple    { background: linear-gradient(135deg,#8b5cf6,#6d28d9); box-shadow: 0 4px 15px rgba(139,92,246,0.25); }
 
         .export-group { display: flex; gap: 6px; }
         .btn-export {
             padding: 11px 14px; background: #122a24; border: 1px solid #1b443c;
-            border-radius: 10px; color: #b8d8c8; font-size: 12px;
-            font-weight: 600; cursor: pointer; display: flex; align-items: center; gap: 6px;
+            border-radius: 10px; color: #b8d8c8; font-size: 12px; font-weight: 600;
+            cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s;
         }
         .btn-export:hover { background: #1b443c; color: #17c550; border-color: #17c550; }
 
         .table-section { padding: 0 30px 30px; }
         .table-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
-        .table-title { font-size: 15px; font-weight: 600; color: #ffffff; display: flex; align-items: center; gap: 8px; }
+        .table-title { font-size: 15px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 8px; }
         .table-count { font-size: 13px; color: #6dbb8b; }
-        .table-wrapper { background: linear-gradient(145deg, #122a24, #0e1f1a); border-radius: 16px; border: 1px solid #1b443c; overflow-x: auto; }
+        .table-wrapper { background: linear-gradient(145deg,#122a24,#0e1f1a); border-radius: 16px; border: 1px solid #1b443c; overflow-x: auto; }
         table { width: 100%; border-collapse: collapse; min-width: 900px; }
         thead { background: #0a1612; }
         thead th { padding: 13px 16px; text-align: left; font-size: 11px; font-weight: 700; color: #6dbb8b; text-transform: uppercase; letter-spacing: 1px; white-space: nowrap; }
@@ -185,29 +210,43 @@
 
         .avatar { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; color: white; flex-shrink: 0; }
         .cell-name { display: flex; align-items: center; gap: 12px; }
-        .name-info strong { display: block; color: #ffffff; font-size: 13px; }
+        .name-info strong { display: block; color: #fff; font-size: 13px; }
         .name-info span   { font-size: 11px; color: #6dbb8b; }
-
         .badge-equipe { display: inline-flex; align-items: center; gap: 5px; padding: 4px 11px; border-radius: 20px; font-size: 11px; font-weight: 600; }
 
+        /* ===== STATUS BADGES ===== */
         .status-livre { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #17c55018; color: #17c550; border: 1px solid #17c55040; }
         .status-livre .pulse { width: 8px; height: 8px; border-radius: 50%; background: #17c550; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.3); } }
-
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)} }
         .status-em-uso { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #3b82f618; color: #60a5fa; border: 1px solid #3b82f640; }
         .status-em-uso .dot-blue { width: 8px; height: 8px; border-radius: 50%; background: #3b82f6; }
-
         .status-ferias { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #f9731618; color: #fb923c; border: 1px solid #f9731640; }
         .status-ferias .dot-orange { width: 8px; height: 8px; border-radius: 50%; background: #f97316; animation: pulse 2s infinite; }
 
-        .status-ativo { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 700; background: #10b98118; color: #10b981; border: 1px solid #10b98140; }
-        .status-ativo .dot-emerald { width: 8px; height: 8px; border-radius: 50%; background: #10b981; }
+        /* ===== STATUS ATIVO COM LICENÇA ===== */
+        .status-ativo-licenca {
+            display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px;
+            border-radius: 20px; font-size: 12px; font-weight: 700;
+            background: linear-gradient(135deg,#10b98118,#17c55018);
+            color: #10b981; border: 1px solid #10b98140;
+        }
+        .status-ativo-licenca .dot-emerald { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: pulse 2s infinite; }
+
+        /* ===== BADGE LICENÇA ATIVA ===== */
+        .badge-licenca {
+            display: inline-flex; align-items: center; gap: 4px;
+            padding: 2px 8px; border-radius: 12px; font-size: 10px; font-weight: 700;
+            background: linear-gradient(135deg,#17c55030,#10b98130);
+            color: #17c550; border: 1px solid #17c55050;
+            white-space: nowrap;
+        }
+        .badge-licenca svg { width: 10px; height: 10px; }
 
         .status-desligado { display: inline-flex; align-items: center; gap: 6px; padding: 5px 13px; border-radius: 20px; font-size: 12px; font-weight: 600; background: #ef444418; color: #f87171; border: 1px solid #ef444440; }
         .status-desligado .dot-red { width: 8px; height: 8px; border-radius: 50%; background: #ef4444; }
 
         .user-transfer { display: flex; align-items: center; gap: 8px; font-size: 12px; }
-        .user-transfer .new-user { background: #17c55018; color: #17c550; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
+        .user-transfer .new-user  { background: #17c55018; color: #17c550; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
         .user-transfer .temp-user { background: #f9731618; color: #fb923c; padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11px; }
 
         .action-btns { display: flex; gap: 5px; }
@@ -224,38 +263,53 @@
         .btn-delete:hover { background: #ef444440; }
 
         .badge-dias-livre { display: inline-block; padding: 2px 8px; border-radius: 8px; font-size: 10px; font-weight: 700; margin-left: 6px; }
-        .badge-dias-livre.ok { background: #17c55025; color: #17c550; }
+        .badge-dias-livre.ok      { background: #17c55025; color: #17c550; }
         .badge-dias-livre.warning { background: #f59e0b25; color: #f59e0b; }
-        .badge-dias-livre.danger { background: #ef444425; color: #ef4444; }
+        .badge-dias-livre.danger  { background: #ef444425; color: #ef4444; }
 
-        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; align-items: center; justify-content: center; }
+        /* ===== MODAL CONFIRM DELETE ===== */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 1000; align-items: center; justify-content: center; }
         .modal-overlay.active { display: flex; }
         .modal {
-            background: linear-gradient(145deg, #122a24, #0e1f1a);
-            border-radius: 20px; padding: 28px; width: 100%; max-width: 520px;
-            border: 1px solid #1b443c;
-            box-shadow: 0 25px 60px rgba(0,0,0,0.6), 0 0 40px rgba(23, 197, 80, 0.08);
+            background: linear-gradient(145deg,#122a24,#0e1f1a); border-radius: 20px; padding: 28px;
+            width: 100%; max-width: 520px; border: 1px solid #1b443c;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6),0 0 40px rgba(23,197,80,0.08);
             animation: slideIn 0.3s ease; max-height: 90vh; overflow-y: auto;
         }
-        .modal.wide { max-width: 700px; }
-        @keyframes slideIn { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        .modal.wide   { max-width: 700px; }
+        .modal.danger-modal { border-color: #ef444440; }
+        @keyframes slideIn { from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
         .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 22px; }
-        .modal-header h2 { font-size: 17px; color: #ffffff; display: flex; align-items: center; gap: 8px; }
-        .modal-close { background: #1b443c; border: none; color: #6dbb8b; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .modal-header h2 { font-size: 17px; color: #fff; display: flex; align-items: center; gap: 8px; }
+        .modal-close { background: #1b443c; border: none; color: #6dbb8b; width: 32px; height: 32px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
         .modal-close:hover { background: #ef4444; color: white; }
+
+        .confirm-body { text-align: center; padding: 10px 0 20px; }
+        .confirm-icon { width: 64px; height: 64px; border-radius: 50%; background: #ef444420; border: 2px solid #ef444440; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; }
+        .confirm-body h3 { font-size: 18px; color: #fff; margin-bottom: 10px; }
+        .confirm-body p  { font-size: 13px; color: #6dbb8b; line-height: 1.6; }
+        .confirm-body .confirm-names {
+            background: #0a0f0d; border: 1px solid #1b443c; border-radius: 10px;
+            padding: 12px; margin: 14px 0; max-height: 150px; overflow-y: auto; text-align: left;
+        }
+        .confirm-body .confirm-names span { display: block; font-size: 12px; color: #f87171; padding: 2px 0; }
+        .confirm-btns { display: flex; gap: 10px; margin-top: 6px; }
+        .btn-confirm-cancel { flex: 1; padding: 12px; background: #1b443c; border: 1px solid #1b443c; border-radius: 10px; color: #6dbb8b; font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-confirm-cancel:hover { border-color: #6dbb8b; color: #fff; }
+        .btn-confirm-delete { flex: 1; padding: 12px; background: linear-gradient(135deg,#ef4444,#b91c1c); border: none; border-radius: 10px; color: #fff; font-size: 13px; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-confirm-delete:hover { opacity: 0.85; transform: translateY(-1px); }
+
         .form-group { margin-bottom: 16px; position: relative; }
         .form-group label { display: flex; align-items: center; gap: 5px; font-size: 11px; color: #6dbb8b; margin-bottom: 6px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
         .form-group input, .form-group select, .form-group textarea {
             width: 100%; padding: 10px 13px; background: #0a0f0d;
-            border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0;
-            font-size: 13px; outline: none; font-family: inherit;
+            border: 1px solid #1b443c; border-radius: 10px; color: #e2e8f0; font-size: 13px; outline: none; font-family: inherit;
         }
-        .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23, 197, 80, 0.15); }
+        .form-group input:focus,.form-group select:focus,.form-group textarea:focus { border-color: #17c550; box-shadow: 0 0 0 3px rgba(23,197,80,0.15); }
         .form-group textarea { resize: vertical; min-height: 120px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
         .form-hint { font-size: 11px; color: #6dbb8b; margin-top: 5px; }
 
-        /* ✅ AUTOCOMPLETE */
         .autocomplete-list {
             position: absolute; top: 100%; left: 0; right: 0;
             background: #0a0f0d; border: 1px solid #17c550;
@@ -268,41 +322,41 @@
             color: #e2e8f0; border-bottom: 1px solid #1b443c33;
             display: flex; align-items: center; gap: 10px;
         }
-        .autocomplete-item:hover, .autocomplete-item.selected { background: #17c55020; color: #17c550; }
+        .autocomplete-item:hover { background: #17c55020; color: #17c550; }
         .autocomplete-item .ac-equipe { font-size: 10px; color: #6dbb8b; margin-left: auto; }
 
         .btn-save {
-            width: 100%; padding: 13px;
-            background: linear-gradient(135deg, #17c550, #1b443c);
-            border: none; border-radius: 10px; color: white;
-            font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 8px;
-            box-shadow: 0 4px 15px rgba(23, 197, 80, 0.25);
-            display: flex; align-items: center; justify-content: center; gap: 8px;
+            width: 100%; padding: 13px; background: linear-gradient(135deg,#17c550,#1b443c);
+            border: none; border-radius: 10px; color: white; font-size: 14px; font-weight: 600;
+            cursor: pointer; margin-top: 8px; box-shadow: 0 4px 15px rgba(23,197,80,0.25);
+            display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.2s;
         }
         .btn-save:hover { opacity: 0.9; transform: translateY(-1px); }
-        .btn-save.orange { background: linear-gradient(135deg, #f97316, #ea580c); box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25); }
-        .btn-save.purple { background: linear-gradient(135deg, #8b5cf6, #6d28d9); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.25); }
+        .btn-save.orange { background: linear-gradient(135deg,#f97316,#ea580c); box-shadow: 0 4px 15px rgba(249,115,22,0.25); }
+        .btn-save.purple { background: linear-gradient(135deg,#8b5cf6,#6d28d9); box-shadow: 0 4px 15px rgba(139,92,246,0.25); }
+
+        .import-info { background: #17c55015; border: 1px solid #17c55040; border-radius: 10px; padding: 12px; margin-bottom: 16px; font-size: 12px; color: #b8d8c8; }
+        .import-info strong { color: #17c550; }
+
+        .legend-bar { padding: 0 30px 15px; display: flex; gap: 20px; flex-wrap: wrap; }
+        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6dbb8b; }
 
         .toast {
             position: fixed; bottom: 30px; right: 30px;
             background: #17c550; color: white; padding: 13px 22px;
             border-radius: 12px; font-size: 13px; font-weight: 600;
-            box-shadow: 0 8px 30px rgba(23, 197, 80, 0.3);
+            box-shadow: 0 8px 30px rgba(23,197,80,0.3);
             transform: translateY(100px); opacity: 0; transition: all 0.4s; z-index: 2000;
             display: flex; align-items: center; gap: 8px;
         }
         .toast.show { transform: translateY(0); opacity: 1; }
 
         .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
-        .legend-bar { padding: 0 30px 15px; display: flex; gap: 20px; flex-wrap: wrap; }
-        .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: #6dbb8b; }
 
-        .import-info {
-            background: #17c55015; border: 1px solid #17c55040;
-            border-radius: 10px; padding: 12px; margin-bottom: 16px;
-            font-size: 12px; color: #b8d8c8;
-        }
-        .import-info strong { color: #17c550; }
+        /* ===== GENDER BADGE ===== */
+        .gender-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
+        .gender-badge.masc { color: #60a5fa; }
+        .gender-badge.fem  { color: #f472b6; }
 
         @media (max-width: 1024px) { .charts-section { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
@@ -311,6 +365,8 @@
             .header { flex-direction: column; gap: 10px; }
             .summary-section { grid-template-columns: 1fr 1fr; }
             .tabs-nav { overflow-x: auto; }
+            .form-row { grid-template-columns: 1fr; }
+            .bulk-bar { flex-direction: column; align-items: flex-start; }
         }
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: #0a0f0d; }
@@ -320,11 +376,12 @@
 </head>
 <body>
 
+<!-- HEADER -->
 <div class="header">
     <div class="header-left">
         <img src="https://i.imgur.com/8Km9tLL.png" alt="Logo" class="header-logo"
-             onerror="this.style.display='none'; document.getElementById('fallbackLogo').style.display='flex'">
-        <div id="fallbackLogo" style="display:none; width:48px;height:48px;background:linear-gradient(135deg,#17c550,#1b443c);border-radius:12px;align-items:center;justify-content:center;">
+             onerror="this.style.display='none';document.getElementById('fallbackLogo').style.display='flex'">
+        <div id="fallbackLogo" style="display:none;width:48px;height:48px;background:linear-gradient(135deg,#17c550,#1b443c);border-radius:12px;align-items:center;justify-content:center;">
             <i data-lucide="key-round" style="width:24px;height:24px;color:white"></i>
         </div>
         <div>
@@ -337,25 +394,27 @@
             <i data-lucide="calendar" style="width:14px;height:14px"></i>
             <span id="currentDate"></span>
         </div>
-        <button class="header-btn" onclick="fazerBackup()" title="Baixar backup">
+        <button class="header-btn" onclick="fazerBackup()">
             <i data-lucide="download-cloud" style="width:14px;height:14px"></i> Backup
         </button>
-        <button class="header-btn" onclick="document.getElementById('inputRestaurar').click()" title="Restaurar backup">
+        <button class="header-btn" onclick="document.getElementById('inputRestaurar').click()">
             <i data-lucide="upload-cloud" style="width:14px;height:14px"></i> Restaurar
         </button>
         <input type="file" id="inputRestaurar" style="display:none" accept=".json" onchange="restaurarBackup(event)">
-        <button class="header-btn danger" onclick="resetarTudo()" title="Apagar tudo">
+        <button class="header-btn danger" onclick="resetarTudo()">
             <i data-lucide="trash-2" style="width:14px;height:14px"></i> Resetar
         </button>
     </div>
 </div>
 
+<!-- ALERT BAR -->
 <div class="alert-bar hidden" id="alertBar">
     <i data-lucide="alert-triangle" style="width:18px;height:18px"></i>
     <div id="alertContent"></div>
     <button class="alert-close" onclick="document.getElementById('alertBar').classList.add('hidden')">×</button>
 </div>
 
+<!-- LICENSE BAR -->
 <div class="license-status-bar">
     <div class="license-info">
         <div class="card-icon-wrap green"><i data-lucide="key-square" style="width:20px;height:20px"></i></div>
@@ -367,7 +426,7 @@
     <div class="license-progress-wrap">
         <div class="license-numbers">
             <span><strong id="licencasUsadas">0</strong> em uso</span>
-            <span id="licencasInfo">de <strong id="licencasTotal">0</strong> contratadas</span>
+            <span>de <strong id="licencasTotal">0</strong> contratadas</span>
             <span style="color:#17c550"><strong id="licencasDisponiveis">0</strong> disponíveis</span>
         </div>
         <div class="license-bar">
@@ -380,26 +439,23 @@
     </button>
 </div>
 
-<!-- ✅ TABS COM A NOVA "COLABORADORES" -->
+<!-- TABS -->
 <div class="tabs-nav">
-    <button class="tab-btn active" onclick="switchTab('colaboradores', event)">
+    <button class="tab-btn active" onclick="switchTab('colaboradores',event)">
         <i data-lucide="users" style="width:15px;height:15px"></i>
-        Colaboradores
-        <span class="tab-count" id="tabCountColaboradores">0</span>
+        Colaboradores <span class="tab-count" id="tabCountColaboradores">0</span>
     </button>
-    <button class="tab-btn" onclick="switchTab('desligados', event)">
+    <button class="tab-btn" onclick="switchTab('desligados',event)">
         <i data-lucide="user-x" style="width:15px;height:15px"></i>
-        Desligados
-        <span class="tab-count" id="tabCountDesligados">0</span>
+        Desligados <span class="tab-count" id="tabCountDesligados">0</span>
     </button>
-    <button class="tab-btn" onclick="switchTab('ferias', event)">
+    <button class="tab-btn" onclick="switchTab('ferias',event)">
         <i data-lucide="sun" style="width:15px;height:15px"></i>
-        Férias
-        <span class="tab-count" id="tabCountFerias">0</span>
+        Férias <span class="tab-count" id="tabCountFerias">0</span>
     </button>
 </div>
 
-<!-- ============== TAB COLABORADORES ============== -->
+<!-- ============ TAB COLABORADORES ============ -->
 <div class="tab-content active" id="tab-colaboradores">
     <div class="summary-section">
         <div class="summary-card card-emerald">
@@ -410,7 +466,7 @@
         <div class="summary-card card-green">
             <div class="card-icon-wrap green"><i data-lucide="user-check" style="width:20px;height:20px"></i></div>
             <div class="number" id="colabAtivos">0</div>
-            <div class="label">Ativos</div>
+            <div class="label">Ativos com Licença</div>
         </div>
         <div class="summary-card card-orange">
             <div class="card-icon-wrap orange"><i data-lucide="sun" style="width:20px;height:20px"></i></div>
@@ -439,9 +495,20 @@
             <div class="donut-list" id="colabStatusChart"></div>
         </div>
         <div class="chart-card">
-            <h3><i data-lucide="briefcase" style="width:16px;height:16px;color:#17c550"></i> Cargos Mais Comuns</h3>
+            <h3><i data-lucide="briefcase" style="width:16px;height:16px;color:#17c550"></i> Cargos por Gênero</h3>
             <div id="colabCargosChart"></div>
         </div>
+    </div>
+
+    <!-- BULK BAR COLABORADORES -->
+    <div class="bulk-bar hidden" id="bulkBarColab">
+        <div class="bulk-count"><span id="bulkColabCount">0</span> selecionado(s)</div>
+        <button class="btn-bulk-delete" onclick="deleteBulkColab()">
+            <i data-lucide="trash-2" style="width:14px;height:14px"></i> Excluir Selecionados
+        </button>
+        <button class="btn-bulk-cancel" onclick="cancelBulkColab()">
+            <i data-lucide="x" style="width:14px;height:14px"></i> Cancelar
+        </button>
     </div>
 
     <div class="controls">
@@ -461,7 +528,11 @@
             <option value="ferias">Em Férias</option>
             <option value="desligado">Desligado</option>
         </select>
-
+        <select class="filter-select" id="filterGeneroColab" onchange="renderColabTable()">
+            <option value="">Todos os Gêneros</option>
+            <option value="M">Masculino</option>
+            <option value="F">Feminino</option>
+        </select>
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('colaboradores')">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
@@ -470,7 +541,6 @@
                 <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
             </button>
         </div>
-
         <button class="btn-action purple" onclick="openModalImportar()">
             <i data-lucide="upload" style="width:16px;height:16px"></i> Importar em Massa
         </button>
@@ -491,11 +561,13 @@
             <table>
                 <thead>
                     <tr>
+                        <th><div class="cb-wrap"><input type="checkbox" class="cb-all" id="cbAllColab" onchange="toggleAllColab(this)"></div></th>
                         <th>#</th>
                         <th>Colaborador</th>
+                        <th>Gênero</th>
                         <th>Cargo</th>
                         <th>Equipe</th>
-                        <th>Status Atual</th>
+                        <th>Status / Licença</th>
                         <th>Observações</th>
                         <th>Ações</th>
                     </tr>
@@ -509,7 +581,7 @@
     </div>
 </div>
 
-<!-- ============== TAB DESLIGADOS ============== -->
+<!-- ============ TAB DESLIGADOS ============ -->
 <div class="tab-content" id="tab-desligados">
     <div class="summary-section">
         <div class="summary-card card-green">
@@ -566,6 +638,17 @@
         </div>
     </div>
 
+    <!-- BULK BAR DESLIGADOS -->
+    <div class="bulk-bar hidden" id="bulkBarDesligados">
+        <div class="bulk-count"><span id="bulkDesligadosCount">0</span> selecionado(s)</div>
+        <button class="btn-bulk-delete" onclick="deleteBulkDesligados()">
+            <i data-lucide="trash-2" style="width:14px;height:14px"></i> Excluir Selecionados
+        </button>
+        <button class="btn-bulk-cancel" onclick="cancelBulkDesligados()">
+            <i data-lucide="x" style="width:14px;height:14px"></i> Cancelar
+        </button>
+    </div>
+
     <div class="controls">
         <div class="search-box">
             <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
@@ -579,7 +662,6 @@
             <option value="livre">Usuário Livre</option>
             <option value="em_uso">Em Uso</option>
         </select>
-
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('desligados')">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
@@ -588,7 +670,6 @@
                 <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
             </button>
         </div>
-
         <button class="btn-action" onclick="openModal()">
             <i data-lucide="plus" style="width:16px;height:16px"></i> Registrar Desligamento
         </button>
@@ -606,6 +687,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th><div class="cb-wrap"><input type="checkbox" class="cb-all" id="cbAllDesligados" onchange="toggleAllDesligados(this)"></div></th>
                         <th>#</th>
                         <th>Colaborador Desligado</th>
                         <th>Equipe</th>
@@ -624,7 +706,7 @@
     </div>
 </div>
 
-<!-- ============== TAB FÉRIAS ============== -->
+<!-- ============ TAB FÉRIAS ============ -->
 <div class="tab-content" id="tab-ferias">
     <div class="summary-section">
         <div class="summary-card card-orange">
@@ -660,6 +742,17 @@
         </div>
     </div>
 
+    <!-- BULK BAR FÉRIAS -->
+    <div class="bulk-bar hidden" id="bulkBarFerias">
+        <div class="bulk-count"><span id="bulkFeriasCount">0</span> selecionado(s)</div>
+        <button class="btn-bulk-delete" onclick="deleteBulkFerias()">
+            <i data-lucide="trash-2" style="width:14px;height:14px"></i> Excluir Selecionados
+        </button>
+        <button class="btn-bulk-cancel" onclick="cancelBulkFerias()">
+            <i data-lucide="x" style="width:14px;height:14px"></i> Cancelar
+        </button>
+    </div>
+
     <div class="controls">
         <div class="search-box">
             <i data-lucide="search" class="search-icon" style="width:16px;height:16px"></i>
@@ -671,7 +764,6 @@
             <option value="Equipe Matheus">Equipe Matheus</option>
             <option value="Equipe Nayara">Equipe Nayara</option>
         </select>
-
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('ferias')">
                 <i data-lucide="file-spreadsheet" style="width:14px;height:14px"></i> Excel
@@ -680,7 +772,6 @@
                 <i data-lucide="file-text" style="width:14px;height:14px"></i> PDF
             </button>
         </div>
-
         <button class="btn-action secondary" onclick="openModalFerias()">
             <i data-lucide="sun" style="width:16px;height:16px"></i> Registrar Férias
         </button>
@@ -698,6 +789,7 @@
             <table>
                 <thead>
                     <tr>
+                        <th><div class="cb-wrap"><input type="checkbox" class="cb-all" id="cbAllFerias" onchange="toggleAllFerias(this)"></div></th>
                         <th>#</th>
                         <th>Colaborador em Férias</th>
                         <th>Equipe</th>
@@ -716,9 +808,9 @@
     </div>
 </div>
 
-<!-- ====================== MODAIS ====================== -->
+<!-- ===================== MODAIS ===================== -->
 
-<!-- ✅ MODAL COLABORADOR -->
+<!-- MODAL COLABORADOR -->
 <div class="modal-overlay" id="modalColab" onclick="closeModalColabOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -731,18 +823,28 @@
         </div>
         <div class="form-row">
             <div class="form-group">
-                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo</label>
-                <input type="text" id="inputColabCargo" placeholder="Ex: Vendedor">
-            </div>
-            <div class="form-group">
-                <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
-                <select id="inputColabEquipe">
+                <label><i data-lucide="venus" style="width:12px;height:12px"></i> Gênero *</label>
+                <select id="inputColabGenero" onchange="atualizarCargoGenero()">
                     <option value="">Selecione...</option>
-                    <option value="Equipe Lavínia">Equipe Lavínia</option>
-                    <option value="Equipe Matheus">Equipe Matheus</option>
-                    <option value="Equipe Nayara">Equipe Nayara</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Feminino</option>
                 </select>
             </div>
+            <div class="form-group">
+                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo</label>
+                <input type="text" id="inputColabCargo" placeholder="Definido pelo gênero" readonly
+                    style="background:#0a0f0d;opacity:0.7;cursor:not-allowed">
+                <div class="form-hint">Definido automaticamente pelo gênero</div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
+            <select id="inputColabEquipe">
+                <option value="">Selecione...</option>
+                <option value="Equipe Lavínia">Equipe Lavínia</option>
+                <option value="Equipe Matheus">Equipe Matheus</option>
+                <option value="Equipe Nayara">Equipe Nayara</option>
+            </select>
         </div>
         <div class="form-group">
             <label><i data-lucide="message-square" style="width:12px;height:12px"></i> Observações</label>
@@ -754,7 +856,7 @@
     </div>
 </div>
 
-<!-- ✅ MODAL IMPORTAR EM MASSA -->
+<!-- MODAL IMPORTAR EM MASSA -->
 <div class="modal-overlay" id="modalImportar" onclick="closeModalImportarOutside(event)">
     <div class="modal wide">
         <div class="modal-header">
@@ -762,19 +864,19 @@
             <button class="modal-close" onclick="closeModalImportar()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
         </div>
         <div class="import-info">
-            <strong>📋 Como usar:</strong> Cole a lista de colaboradores, <strong>um por linha</strong>.<br>
-            <strong>Formato:</strong> <code style="background:#0a0f0d;padding:2px 6px;border-radius:4px">Nome | Cargo | Equipe</code><br>
+            <strong>📋 Como usar:</strong> Cole a lista, <strong>um por linha</strong>.<br>
+            <strong>Formato:</strong> <code style="background:#0a0f0d;padding:2px 6px;border-radius:4px">Nome | Gênero (M/F) | Equipe</code><br>
             <strong>Exemplo:</strong><br>
             <code style="background:#0a0f0d;padding:6px;border-radius:4px;display:block;margin-top:6px;color:#17c550">
-            João Silva | Analista | Equipe Lavínia<br>
-            Maria Souza | Assistente | Equipe Matheus<br>
-            Pedro Costa | Consultor | Equipe Nayara
+            João Silva | M | Equipe Lavínia<br>
+            Maria Souza | F | Equipe Matheus<br>
+            Pedro Costa | M | Equipe Nayara
             </code>
-            <p style="margin-top:8px;color:#fbbf24">💡 Se não souber o cargo ou equipe, deixe em branco: <code>João Silva</code></p>
+            <p style="margin-top:8px;color:#fbbf24">💡 O cargo é definido automaticamente: <strong>Vendedor</strong> (M) ou <strong>Vendedora</strong> (F)</p>
         </div>
         <div class="form-group">
             <label><i data-lucide="list" style="width:12px;height:12px"></i> Cole a Lista Aqui</label>
-            <textarea id="inputImportar" placeholder="João Silva | Analista | Equipe Lavínia&#10;Maria Souza | Assistente | Equipe Matheus&#10;Pedro Costa | Consultor | Equipe Nayara"></textarea>
+            <textarea id="inputImportar" placeholder="João Silva | M | Equipe Lavínia&#10;Maria Souza | F | Equipe Matheus&#10;Pedro Costa | M | Equipe Nayara"></textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -787,8 +889,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo Padrão (se não informado)</label>
-                <input type="text" id="inputCargoPadrao" placeholder="Ex: Colaborador">
+                <label><i data-lucide="venus" style="width:12px;height:12px"></i> Gênero Padrão (se não informado)</label>
+                <select id="inputGeneroPadrao">
+                    <option value="">Nenhum</option>
+                    <option value="M">Masculino → Vendedor</option>
+                    <option value="F">Feminino → Vendedora</option>
+                </select>
             </div>
         </div>
         <button class="btn-save purple" onclick="importarColabs()">
@@ -797,7 +903,33 @@
     </div>
 </div>
 
-<!-- MODAL DESLIGAMENTO (com autocomplete) -->
+<!-- MODAL CONFIRMAÇÃO EXCLUSÃO EM MASSA -->
+<div class="modal-overlay" id="modalConfirmDelete" onclick="closeModalConfirmOutside(event)">
+    <div class="modal danger-modal" style="max-width:460px">
+        <div class="modal-header">
+            <h2 style="color:#ef4444"><i data-lucide="alert-triangle" style="width:18px;height:18px;color:#ef4444"></i> Confirmar Exclusão</h2>
+            <button class="modal-close" onclick="closeModalConfirm()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+        </div>
+        <div class="confirm-body">
+            <div class="confirm-icon">
+                <i data-lucide="trash-2" style="width:28px;height:28px;color:#ef4444"></i>
+            </div>
+            <h3 id="confirmTitle">Excluir registros?</h3>
+            <p id="confirmMsg">Esta ação não pode ser desfeita.</p>
+            <div class="confirm-names" id="confirmNames"></div>
+            <div class="confirm-btns">
+                <button class="btn-confirm-cancel" onclick="closeModalConfirm()">
+                    <i data-lucide="x" style="width:14px;height:14px"></i> Cancelar
+                </button>
+                <button class="btn-confirm-delete" id="confirmDeleteBtn">
+                    <i data-lucide="trash-2" style="width:14px;height:14px"></i> Sim, Excluir Tudo
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DESLIGAMENTO -->
 <div class="modal-overlay" id="modalOverlay" onclick="closeModalOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -807,7 +939,9 @@
         <div class="form-row">
             <div class="form-group">
                 <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
-                <input type="text" id="inputNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputNome', 'autocompleteNome', preencherDesligamento)" onfocus="autocompleteColab('inputNome', 'autocompleteNome', preencherDesligamento)">
+                <input type="text" id="inputNome" placeholder="Digite ou escolha..." autocomplete="off"
+                    oninput="autocompleteColab('inputNome','autocompleteNome',preencherDesligamento)"
+                    onfocus="autocompleteColab('inputNome','autocompleteNome',preencherDesligamento)">
                 <div class="autocomplete-list" id="autocompleteNome"></div>
             </div>
             <div class="form-group">
@@ -827,7 +961,7 @@
             </div>
             <div class="form-group">
                 <label><i data-lucide="briefcase" style="width:12px;height:12px"></i> Cargo</label>
-                <input type="text" id="inputCargo" placeholder="Ex: Analista">
+                <input type="text" id="inputCargo" placeholder="Ex: Vendedor">
             </div>
         </div>
         <div class="form-row">
@@ -840,7 +974,9 @@
             </div>
             <div class="form-group" id="groupNovoUsuario" style="display:none">
                 <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Usuário *</label>
-                <input type="text" id="inputNovoUsuario" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputNovoUsuario', 'autocompleteNovo')" onfocus="autocompleteColab('inputNovoUsuario', 'autocompleteNovo')">
+                <input type="text" id="inputNovoUsuario" placeholder="Digite ou escolha..." autocomplete="off"
+                    oninput="autocompleteColab('inputNovoUsuario','autocompleteNovo')"
+                    onfocus="autocompleteColab('inputNovoUsuario','autocompleteNovo')">
                 <div class="autocomplete-list" id="autocompleteNovo"></div>
             </div>
         </div>
@@ -868,7 +1004,9 @@
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="reatribuirInfo"></p>
         <div class="form-group">
             <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Novo Colaborador *</label>
-            <input type="text" id="reatribuirNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('reatribuirNome', 'autocompleteReat')" onfocus="autocompleteColab('reatribuirNome', 'autocompleteReat')">
+            <input type="text" id="reatribuirNome" placeholder="Digite ou escolha..." autocomplete="off"
+                oninput="autocompleteColab('reatribuirNome','autocompleteReat')"
+                onfocus="autocompleteColab('reatribuirNome','autocompleteReat')">
             <div class="autocomplete-list" id="autocompleteReat"></div>
         </div>
         <div class="form-group">
@@ -881,7 +1019,7 @@
     </div>
 </div>
 
-<!-- MODAL FÉRIAS (com autocomplete) -->
+<!-- MODAL FÉRIAS -->
 <div class="modal-overlay" id="modalFerias" onclick="closeModalFeriasOutside(event)">
     <div class="modal">
         <div class="modal-header">
@@ -891,7 +1029,9 @@
         <div class="form-row">
             <div class="form-group">
                 <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador *</label>
-                <input type="text" id="inputFeriasNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputFeriasNome', 'autocompleteFerias', preencherFerias)" onfocus="autocompleteColab('inputFeriasNome', 'autocompleteFerias', preencherFerias)">
+                <input type="text" id="inputFeriasNome" placeholder="Digite ou escolha..." autocomplete="off"
+                    oninput="autocompleteColab('inputFeriasNome','autocompleteFerias',preencherFerias)"
+                    onfocus="autocompleteColab('inputFeriasNome','autocompleteFerias',preencherFerias)">
                 <div class="autocomplete-list" id="autocompleteFerias"></div>
             </div>
             <div class="form-group">
@@ -924,7 +1064,9 @@
             </div>
             <div class="form-group" id="groupFeriasUsuario" style="display:none">
                 <label><i data-lucide="user-check" style="width:12px;height:12px"></i> Usando Temp. *</label>
-                <input type="text" id="inputFeriasUsuarioTemp" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('inputFeriasUsuarioTemp', 'autocompleteFeriasTemp')" onfocus="autocompleteColab('inputFeriasUsuarioTemp', 'autocompleteFeriasTemp')">
+                <input type="text" id="inputFeriasUsuarioTemp" placeholder="Digite ou escolha..." autocomplete="off"
+                    oninput="autocompleteColab('inputFeriasUsuarioTemp','autocompleteFeriasTemp')"
+                    onfocus="autocompleteColab('inputFeriasUsuarioTemp','autocompleteFeriasTemp')">
                 <div class="autocomplete-list" id="autocompleteFeriasTemp"></div>
             </div>
         </div>
@@ -948,7 +1090,9 @@
         <p style="color:#6dbb8b;font-size:13px;margin-bottom:20px" id="emprestarInfo"></p>
         <div class="form-group">
             <label><i data-lucide="user" style="width:12px;height:12px"></i> Colaborador Temporário *</label>
-            <input type="text" id="emprestarNome" placeholder="Digite ou escolha..." autocomplete="off" oninput="autocompleteColab('emprestarNome', 'autocompleteEmp')" onfocus="autocompleteColab('emprestarNome', 'autocompleteEmp')">
+            <input type="text" id="emprestarNome" placeholder="Digite ou escolha..." autocomplete="off"
+                oninput="autocompleteColab('emprestarNome','autocompleteEmp')"
+                onfocus="autocompleteColab('emprestarNome','autocompleteEmp')">
             <div class="autocomplete-list" id="autocompleteEmp"></div>
         </div>
         <button class="btn-save orange" onclick="confirmarEmprestimo()">
@@ -983,841 +1127,1162 @@
 <div class="toast" id="toast"></div>
 
 <script>
-    // ============ LOCALSTORAGE ============
-    function salvarDados() {
-        localStorage.setItem('corban_registros', JSON.stringify(registros));
-        localStorage.setItem('corban_ferias', JSON.stringify(ferias));
-        localStorage.setItem('corban_colaboradores', JSON.stringify(colaboradores));
-        localStorage.setItem('corban_nextId', nextId);
-        localStorage.setItem('corban_nextFeriasId', nextFeriasId);
-        localStorage.setItem('corban_nextColabId', nextColabId);
-        localStorage.setItem('corban_config', JSON.stringify(config));
+// ============================================================
+//  HELPERS
+// ============================================================
+function salvarDados() {
+    localStorage.setItem('corban_registros',     JSON.stringify(registros));
+    localStorage.setItem('corban_ferias',        JSON.stringify(ferias));
+    localStorage.setItem('corban_colaboradores', JSON.stringify(colaboradores));
+    localStorage.setItem('corban_nextId',        nextId);
+    localStorage.setItem('corban_nextFeriasId',  nextFeriasId);
+    localStorage.setItem('corban_nextColabId',   nextColabId);
+    localStorage.setItem('corban_config',        JSON.stringify(config));
+}
+function carregarDados() {
+    const reg = localStorage.getItem('corban_registros');
+    const fer = localStorage.getItem('corban_ferias');
+    const col = localStorage.getItem('corban_colaboradores');
+    const nId = localStorage.getItem('corban_nextId');
+    const nFId= localStorage.getItem('corban_nextFeriasId');
+    const nCId= localStorage.getItem('corban_nextColabId');
+    const cfg = localStorage.getItem('corban_config');
+    if (reg)  registros     = JSON.parse(reg);
+    if (fer)  ferias        = JSON.parse(fer);
+    if (col)  colaboradores = JSON.parse(col);
+    if (nId)  nextId        = parseInt(nId);
+    if (nFId) nextFeriasId  = parseInt(nFId);
+    if (nCId) nextColabId   = parseInt(nCId);
+    if (cfg)  config        = JSON.parse(cfg);
+}
+
+// ============================================================
+//  DADOS INICIAIS
+// ============================================================
+let registros = [
+    { id:1, nome:"Isabelle Ferreira", cargo:"Vendedora", genero:"F", equipe:"Equipe Lavínia",  data:"2025-04-15", status:"livre",  novoUsuario:"", dataReatribuicao:"", obs:"" },
+    { id:2, nome:"Ruth Oliveira",     cargo:"Vendedora", genero:"F", equipe:"Equipe Matheus",  data:"2025-03-20", status:"em_uso", novoUsuario:"Matheus Henrique", dataReatribuicao:"2025-03-25", obs:"" },
+];
+let ferias = [
+    { id:1, nome:"Carla Mendes", equipe:"Equipe Lavínia", inicio:"2025-07-01", retorno:"2025-07-30", status:"livre", usuarioTemp:"", obs:"" },
+];
+let colaboradores = [
+    { id:1, nome:"Lavínia Santos",   cargo:"Líder de Equipe", genero:"F", equipe:"Equipe Lavínia",  obs:"" },
+    { id:2, nome:"Matheus Henrique", cargo:"Líder de Equipe", genero:"M", equipe:"Equipe Matheus",  obs:"" },
+    { id:3, nome:"Nayara Costa",     cargo:"Líder de Equipe", genero:"F", equipe:"Equipe Nayara",   obs:"" },
+    { id:4, nome:"Ana Paula",        cargo:"Vendedora",        genero:"F", equipe:"Equipe Matheus",  obs:"" },
+    { id:5, nome:"Camila Santos",    cargo:"Vendedora",        genero:"F", equipe:"Equipe Nayara",   obs:"" },
+    { id:6, nome:"João Silva",       cargo:"Vendedor",         genero:"M", equipe:"Equipe Lavínia",  obs:"" },
+];
+let config      = { totalLicencas: 50, valorLicenca: 150.00 };
+let editId      = null, editFeriasId = null, editColabId = null;
+let reatribuirId= null, emprestarId  = null;
+let nextId      = 3, nextFeriasId = 2, nextColabId = 7;
+
+// Seleção em massa
+let selectedColabIds      = new Set();
+let selectedDesligadosIds = new Set();
+let selectedFeriasIds     = new Set();
+
+// IDs filtrados (para sincronizar checkbox "todos")
+let filteredColabIds      = [];
+let filteredDesligadosIds = [];
+let filteredFeriasIds     = [];
+
+// Callback de confirmação
+let pendingDeleteFn = null;
+
+carregarDados();
+
+const equipeColors = {
+    "Equipe Lavínia": "#8b5cf6",
+    "Equipe Matheus": "#3b82f6",
+    "Equipe Nayara":  "#ec4899",
+};
+
+// ============================================================
+//  CARGO POR GÊNERO
+// ============================================================
+function cargoByGenero(genero) {
+    if (genero === "M") return "Vendedor";
+    if (genero === "F") return "Vendedora";
+    return "";
+}
+function atualizarCargoGenero() {
+    const g = document.getElementById("inputColabGenero").value;
+    document.getElementById("inputColabCargo").value = cargoByGenero(g);
+}
+
+// ============================================================
+//  UTILS
+// ============================================================
+function switchTab(tab, ev) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (ev) ev.currentTarget.classList.add('active');
+}
+function setDate() {
+    document.getElementById("currentDate").textContent =
+        new Date().toLocaleDateString("pt-BR",{weekday:'long',day:'2-digit',month:'long',year:'numeric'});
+}
+function getInitials(name) { return name.split(" ").slice(0,2).map(n=>n[0]).join("").toUpperCase(); }
+function formatDate(d)     { if (!d) return "—"; return new Date(d+"T00:00:00").toLocaleDateString("pt-BR"); }
+function daysUntil(d)      { if (!d) return 0;   return Math.ceil((new Date(d+"T00:00:00")-new Date())/(1000*60*60*24)); }
+function daysSince(d)      { if (!d) return 0;   return Math.floor((new Date()-new Date(d+"T00:00:00"))/(1000*60*60*24)); }
+function formatMoney(v)    { return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
+
+// ============================================================
+//  STATUS DO COLABORADOR
+// ============================================================
+function getStatusColab(nome) {
+    const ferItem = ferias.find(f => f.nome.toLowerCase() === nome.toLowerCase());
+    if (ferItem) return { status:"ferias",    info:`Volta em ${formatDate(ferItem.retorno)}` };
+    const desItem = registros.find(r => r.nome.toLowerCase() === nome.toLowerCase());
+    if (desItem)  return { status:"desligado", info:`Desligado em ${formatDate(desItem.data)}` };
+    return { status:"ativo", info:"" };
+}
+
+// ============================================================
+//  AUTOCOMPLETE
+// ============================================================
+function autocompleteColab(inputId, listId, callback) {
+    const input  = document.getElementById(inputId);
+    const list   = document.getElementById(listId);
+    const valor  = input.value.toLowerCase().trim();
+    const matches= colaboradores.filter(c=>c.nome.toLowerCase().includes(valor)).slice(0,7);
+    if (!matches.length) { list.classList.remove('active'); return; }
+    list.innerHTML = matches.map(c => {
+        const color = equipeColors[c.equipe] || "#17c550";
+        const cbName= callback ? callback.name : "";
+        return `<div class="autocomplete-item" onmousedown="selecionarColab('${inputId}','${listId}',${c.id},'${cbName}')">
+            <div class="avatar" style="background:${color};width:26px;height:26px;font-size:11px">${getInitials(c.nome)}</div>
+            <span>${c.nome}</span>
+            <span class="ac-equipe">${c.equipe}</span>
+        </div>`;
+    }).join("");
+    list.classList.add('active');
+}
+function selecionarColab(inputId, listId, colabId, cbName) {
+    const c = colaboradores.find(x=>x.id===colabId);
+    document.getElementById(inputId).value = c.nome;
+    document.getElementById(listId).classList.remove('active');
+    if (cbName && typeof window[cbName]==='function') window[cbName](c);
+}
+function preencherDesligamento(c) {
+    document.getElementById("inputEquipe").value = c.equipe;
+    document.getElementById("inputCargo").value  = c.cargo || "";
+}
+function preencherFerias(c) {
+    document.getElementById("inputFeriasEquipe").value = c.equipe;
+}
+document.addEventListener('click', function(e) {
+    if (!e.target.closest('.form-group')) {
+        document.querySelectorAll('.autocomplete-list').forEach(l=>l.classList.remove('active'));
     }
-    function carregarDados() {
-        const reg = localStorage.getItem('corban_registros');
-        const fer = localStorage.getItem('corban_ferias');
-        const col = localStorage.getItem('corban_colaboradores');
-        const nId = localStorage.getItem('corban_nextId');
-        const nFId = localStorage.getItem('corban_nextFeriasId');
-        const nCId = localStorage.getItem('corban_nextColabId');
-        const cfg = localStorage.getItem('corban_config');
-        if (reg) registros = JSON.parse(reg);
-        if (fer) ferias = JSON.parse(fer);
-        if (col) colaboradores = JSON.parse(col);
-        if (nId) nextId = parseInt(nId);
-        if (nFId) nextFeriasId = parseInt(nFId);
-        if (nCId) nextColabId = parseInt(nCId);
-        if (cfg) config = JSON.parse(cfg);
-    }
+});
 
-    // ============ DADOS ============
-    let registros = [
-        { id: 1, nome: "Isabelle Ferreira", cargo: "Assistente", equipe: "Equipe Lavínia", data: "2025-04-15", status: "livre", novoUsuario: "", dataReatribuicao: "", obs: "" },
-        { id: 2, nome: "Ruth Oliveira", cargo: "Analista", equipe: "Equipe Matheus", data: "2025-03-20", status: "em_uso", novoUsuario: "Matheus Henrique", dataReatribuicao: "2025-03-25", obs: "" },
-    ];
-    let ferias = [
-        { id: 1, nome: "Carla Mendes", equipe: "Equipe Lavínia", inicio: "2025-07-01", retorno: "2025-07-30", status: "livre", usuarioTemp: "", obs: "" },
-    ];
-    // ✅ NOVO: COLABORADORES
-    let colaboradores = [
-        { id: 1, nome: "Lavínia Santos", cargo: "Líder de Equipe", equipe: "Equipe Lavínia", obs: "" },
-        { id: 2, nome: "Matheus Henrique", cargo: "Líder de Equipe", equipe: "Equipe Matheus", obs: "" },
-        { id: 3, nome: "Nayara Costa", cargo: "Líder de Equipe", equipe: "Equipe Nayara", obs: "" },
-        { id: 4, nome: "Ana Paula", cargo: "Assistente", equipe: "Equipe Matheus", obs: "" },
-        { id: 5, nome: "Camila Santos", cargo: "Consultora", equipe: "Equipe Nayara", obs: "" },
-    ];
-    let config = { totalLicencas: 50, valorLicenca: 150.00 };
+// ============================================================
+//  LICENÇAS
+// ============================================================
+function updateLicencas() {
+    const emUso = registros.filter(r=>r.status==="em_uso").length +
+                  ferias.filter(f=>f.status==="temp_uso").length;
+    const total = config.totalLicencas || 0;
+    const disp  = Math.max(0, total - emUso);
+    const pct   = total > 0 ? (emUso/total)*100 : 0;
+    document.getElementById("licencasUsadas").textContent     = emUso;
+    document.getElementById("licencasTotal").textContent      = total;
+    document.getElementById("licencasDisponiveis").textContent= disp;
+    const bar = document.getElementById("licencasBar");
+    bar.style.width = Math.min(pct,100)+"%";
+    bar.classList.remove('warning','danger');
+    if (pct>=90) bar.classList.add('danger');
+    else if (pct>=75) bar.classList.add('warning');
+    const al = document.getElementById("licencasAlerta");
+    if (total===0)      al.textContent="⚠️ Configure o total de licenças clicando em 'Configurar'";
+    else if (disp===0)  al.textContent="🚨 ATENÇÃO: Todas as licenças estão em uso!";
+    else if (disp<=3)   al.textContent=`⚠️ Atenção: apenas ${disp} licença(s) disponível(is)`;
+    else al.textContent="";
+}
 
-    let editId = null, editFeriasId = null, editColabId = null, reatribuirId = null, emprestarId = null;
-    let nextId = 3, nextFeriasId = 2, nextColabId = 6;
-
-    carregarDados();
-
-    const equipeColors = {
-        "Equipe Lavínia": "#8b5cf6",
-        "Equipe Matheus": "#3b82f6",
-        "Equipe Nayara":  "#ec4899",
-    };
-
-    function switchTab(tab, ev) {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        document.getElementById('tab-' + tab).classList.add('active');
-        if (ev) ev.currentTarget.classList.add('active');
-    }
-    function setDate() {
-        document.getElementById("currentDate").textContent =
-            new Date().toLocaleDateString("pt-BR", { weekday:'long', day:'2-digit', month:'long', year:'numeric' });
-    }
-    function getInitials(name) { return name.split(" ").slice(0,2).map(n => n[0]).join("").toUpperCase(); }
-    function formatDate(d) { if (!d) return "—"; return new Date(d+"T00:00:00").toLocaleDateString("pt-BR"); }
-    function daysUntil(d) { if (!d) return 0; const diff = new Date(d+"T00:00:00") - new Date(); return Math.ceil(diff / (1000*60*60*24)); }
-    function daysSince(d) { if (!d) return 0; const diff = new Date() - new Date(d+"T00:00:00"); return Math.floor(diff / (1000*60*60*24)); }
-    function formatMoney(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }); }
-
-    // ============ ✅ AUTOCOMPLETE ============
-    function autocompleteColab(inputId, listId, callback) {
-        const input = document.getElementById(inputId);
-        const list = document.getElementById(listId);
-        const valor = input.value.toLowerCase().trim();
-
-        // Filtra colaboradores que correspondem (e que ainda estão ativos para alguns casos)
-        const matches = colaboradores
-            .filter(c => c.nome.toLowerCase().includes(valor))
-            .slice(0, 6);
-
-        if (matches.length === 0) {
-            list.classList.remove('active');
-            return;
-        }
-
-        list.innerHTML = matches.map(c => {
-            const color = equipeColors[c.equipe] || "#17c550";
-            return `<div class="autocomplete-item" onmousedown="selecionarColab('${inputId}', '${listId}', ${c.id}, ${callback ? callback.name : 'null'})">
-                <div class="avatar" style="background:${color};width:26px;height:26px;font-size:11px">${getInitials(c.nome)}</div>
-                <span>${c.nome}</span>
-                <span class="ac-equipe">${c.equipe}</span>
-            </div>`;
-        }).join("");
-        list.classList.add('active');
-    }
-    function selecionarColab(inputId, listId, colabId, callback) {
-        const c = colaboradores.find(x => x.id === colabId);
-        document.getElementById(inputId).value = c.nome;
-        document.getElementById(listId).classList.remove('active');
-        if (callback && typeof window[callback] === 'function') window[callback](c);
-    }
-    function preencherDesligamento(c) {
-        document.getElementById("inputEquipe").value = c.equipe;
-        document.getElementById("inputCargo").value = c.cargo || "";
-    }
-    function preencherFerias(c) {
-        document.getElementById("inputFeriasEquipe").value = c.equipe;
-    }
-    // Fecha autocomplete ao clicar fora
-    document.addEventListener('click', function(e) {
-        if (!e.target.closest('.form-group')) {
-            document.querySelectorAll('.autocomplete-list').forEach(l => l.classList.remove('active'));
+// ============================================================
+//  ALERTAS
+// ============================================================
+function updateAlertas() {
+    const alertas = [];
+    ferias.forEach(f => {
+        const dias = daysUntil(f.retorno);
+        if (dias>=0 && dias<=3) {
+            if (f.status==="temp_uso") alertas.push(`<strong>${f.nome}</strong> retorna em ${dias} dia(s) — devolver licença de <strong>${f.usuarioTemp}</strong>`);
+            else if (dias===0) alertas.push(`<strong>${f.nome}</strong> retorna hoje!`);
         }
     });
+    registros.forEach(r => {
+        if (r.status==="livre" && daysSince(r.data)>=30)
+            alertas.push(`Licença de <strong>${r.nome}</strong> livre há ${daysSince(r.data)} dias`);
+    });
+    const bar = document.getElementById("alertBar");
+    if (alertas.length>0) {
+        bar.classList.remove("hidden");
+        document.getElementById("alertContent").innerHTML = alertas.slice(0,3).join(" • ");
+    } else bar.classList.add("hidden");
+}
 
-    // ============ ✅ STATUS DO COLABORADOR ============
-    function getStatusColab(nome) {
-        // Verifica se está em férias
-        const ferIdx = ferias.find(f => f.nome.toLowerCase() === nome.toLowerCase());
-        if (ferIdx) return { status: "ferias", info: `Volta em ${formatDate(ferIdx.retorno)}` };
-        // Verifica se foi desligado
-        const desIdx = registros.find(r => r.nome.toLowerCase() === nome.toLowerCase());
-        if (desIdx) return { status: "desligado", info: `Desligado em ${formatDate(desIdx.data)}` };
-        return { status: "ativo", info: "" };
-    }
+// ============================================================
+//  SUMMARIES
+// ============================================================
+function updateSummary() {
+    const total = registros.length;
+    const livres = registros.filter(r=>r.status==="livre").length;
+    const emUso  = registros.filter(r=>r.status==="em_uso").length;
+    const taxa   = total>0 ? Math.round((emUso/total)*100) : 0;
+    document.getElementById("totalDesligados").textContent    = total;
+    document.getElementById("totalLivres").textContent        = livres;
+    document.getElementById("totalReatribuidos").textContent  = emUso;
+    document.getElementById("taxaAproveitamento").textContent = taxa+"%";
+    document.getElementById("tabCountDesligados").textContent = total;
+    const economiaMensal = emUso * config.valorLicenca;
+    let economiaTotal = 0;
+    registros.filter(r=>r.status==="em_uso").forEach(r=>{
+        const meses = Math.max(1, Math.floor(daysSince(r.dataReatribuicao||r.data)/30));
+        economiaTotal += meses * config.valorLicenca;
+    });
+    document.getElementById("economiaReais").textContent  = formatMoney(economiaTotal);
+    document.getElementById("economiaMensal").textContent = formatMoney(economiaMensal)+"/mês";
+}
+function updateFeriasSummary() {
+    const total    = ferias.length;
+    const livres   = ferias.filter(f=>f.status==="livre").length;
+    const usados   = ferias.filter(f=>f.status==="temp_uso").length;
+    const proximos = ferias.filter(f=>{ const d=daysUntil(f.retorno); return d>=0&&d<=7; }).length;
+    document.getElementById("totalFerias").textContent      = total;
+    document.getElementById("feriasLivres").textContent     = livres;
+    document.getElementById("feriasUsados").textContent     = usados;
+    document.getElementById("retornosProximos").textContent = proximos;
+    document.getElementById("tabCountFerias").textContent   = total;
+}
+function updateColabSummary() {
+    const total = colaboradores.length;
+    let ativos=0, frias=0, desls=0;
+    colaboradores.forEach(c=>{
+        const s = getStatusColab(c.nome);
+        if (s.status==="ativo")      ativos++;
+        else if (s.status==="ferias") frias++;
+        else desls++;
+    });
+    const equipes = new Set(colaboradores.map(c=>c.equipe)).size;
+    document.getElementById("totalColab").textContent         = total;
+    document.getElementById("colabAtivos").textContent        = ativos;
+    document.getElementById("colabFerias").textContent        = frias;
+    document.getElementById("colabDesligados").textContent    = desls;
+    document.getElementById("colabPorEquipe").textContent     = equipes;
+    document.getElementById("tabCountColaboradores").textContent = total;
+}
 
-    // ============ LICENÇAS ============
-    function updateLicencas() {
-        const emUso = registros.filter(r => r.status === "em_uso").length +
-                      ferias.filter(f => f.status === "temp_uso").length;
-        const total = config.totalLicencas || 0;
-        const disp = Math.max(0, total - emUso);
-        const pct = total > 0 ? (emUso / total) * 100 : 0;
-        document.getElementById("licencasUsadas").textContent = emUso;
-        document.getElementById("licencasTotal").textContent = total;
-        document.getElementById("licencasDisponiveis").textContent = disp;
-        const bar = document.getElementById("licencasBar");
-        bar.style.width = Math.min(pct, 100) + "%";
-        bar.classList.remove('warning', 'danger');
-        if (pct >= 90) bar.classList.add('danger');
-        else if (pct >= 75) bar.classList.add('warning');
-        const alerta = document.getElementById("licencasAlerta");
-        if (total === 0) alerta.textContent = "⚠️ Configure o total de licenças clicando em 'Configurar'";
-        else if (disp === 0) alerta.textContent = "🚨 ATENÇÃO: Todas as licenças estão em uso!";
-        else if (disp <= 3) alerta.textContent = `⚠️ Atenção: apenas ${disp} licença(s) disponível(is)`;
-        else alerta.textContent = "";
-    }
-
-    // ============ ALERTAS ============
-    function updateAlertas() {
-        const alertas = [];
-        ferias.forEach(f => {
-            const dias = daysUntil(f.retorno);
-            if (dias >= 0 && dias <= 3) {
-                if (f.status === "temp_uso") alertas.push(`<strong>${f.nome}</strong> retorna em ${dias} dia(s) — devolver licença de <strong>${f.usuarioTemp}</strong>`);
-                else if (dias === 0) alertas.push(`<strong>${f.nome}</strong> retorna hoje!`);
-            }
-        });
-        registros.forEach(r => {
-            if (r.status === "livre" && daysSince(r.data) >= 30) {
-                alertas.push(`Licença de <strong>${r.nome}</strong> livre há ${daysSince(r.data)} dias`);
-            }
-        });
-        const bar = document.getElementById("alertBar");
-        const content = document.getElementById("alertContent");
-        if (alertas.length > 0) {
-            bar.classList.remove("hidden");
-            content.innerHTML = alertas.slice(0, 3).join(" • ");
-        } else bar.classList.add("hidden");
-    }
-
-    // ============ CARDS ============
-    function updateSummary() {
-        const total = registros.length;
-        const livres = registros.filter(r => r.status === "livre").length;
-        const emUso = registros.filter(r => r.status === "em_uso").length;
-        const taxa = total > 0 ? Math.round((emUso / total) * 100) : 0;
-        document.getElementById("totalDesligados").textContent = total;
-        document.getElementById("totalLivres").textContent = livres;
-        document.getElementById("totalReatribuidos").textContent = emUso;
-        document.getElementById("taxaAproveitamento").textContent = taxa + "%";
-        document.getElementById("tabCountDesligados").textContent = total;
-        const economiaMensal = emUso * config.valorLicenca;
-        let economiaTotal = 0;
-        registros.filter(r => r.status === "em_uso").forEach(r => {
-            const meses = Math.max(1, Math.floor(daysSince(r.dataReatribuicao || r.data) / 30));
-            economiaTotal += meses * config.valorLicenca;
-        });
-        document.getElementById("economiaReais").textContent = formatMoney(economiaTotal);
-        document.getElementById("economiaMensal").textContent = formatMoney(economiaMensal) + "/mês";
-    }
-    function updateFeriasSummary() {
-        const total = ferias.length;
-        const livres = ferias.filter(f => f.status === "livre").length;
-        const usados = ferias.filter(f => f.status === "temp_uso").length;
-        const proximos = ferias.filter(f => { const d = daysUntil(f.retorno); return d >= 0 && d <= 7; }).length;
-        document.getElementById("totalFerias").textContent = total;
-        document.getElementById("feriasLivres").textContent = livres;
-        document.getElementById("feriasUsados").textContent = usados;
-        document.getElementById("retornosProximos").textContent = proximos;
-        document.getElementById("tabCountFerias").textContent = total;
-    }
-    // ✅ CARDS COLABORADORES
-    function updateColabSummary() {
-        const total = colaboradores.length;
-        let ativos = 0, ferIes = 0, desls = 0;
-        colaboradores.forEach(c => {
-            const s = getStatusColab(c.nome);
-            if (s.status === "ativo") ativos++;
-            else if (s.status === "ferias") ferIes++;
-            else desls++;
-        });
-        const equipesUnicas = new Set(colaboradores.map(c => c.equipe)).size;
-        document.getElementById("totalColab").textContent = total;
-        document.getElementById("colabAtivos").textContent = ativos;
-        document.getElementById("colabFerias").textContent = ferIes;
-        document.getElementById("colabDesligados").textContent = desls;
-        document.getElementById("colabPorEquipe").textContent = equipesUnicas;
-        document.getElementById("tabCountColaboradores").textContent = total;
-    }
-
-    // ============ CHARTS ============
-    function updateBarChart() {
-        const counts = {};
-        registros.forEach(r => { counts[r.equipe] = (counts[r.equipe] || 0) + 1; });
-        const max = Math.max(...Object.values(counts), 1);
-        document.getElementById("barChart").innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([equipe, count]) => {
-            const pct = Math.round((count/max)*100);
-            const color = equipeColors[equipe] || "#17c550";
-            return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
-        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
-    }
-    function updateStatusChart() {
-        const livres = registros.filter(r => r.status === "livre").length;
-        const emUso = registros.filter(r => r.status === "em_uso").length;
-        const fLivres = ferias.filter(f => f.status === "livre").length;
-        const total = (registros.length + ferias.length) || 1;
-        document.getElementById("statusChart").innerHTML = `
-            <div class="donut-item"><div class="donut-color" style="background:#17c550"></div><div class="donut-label">Livres (Desligados)</div><div class="donut-val">${livres}</div><div class="donut-pct">${Math.round((livres/total)*100)}%</div></div>
-            <div class="donut-item"><div class="donut-color" style="background:#3b82f6"></div><div class="donut-label">Reatribuídos</div><div class="donut-val">${emUso}</div><div class="donut-pct">${Math.round((emUso/total)*100)}%</div></div>
-            <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Livres (Férias)</div><div class="donut-val">${fLivres}</div><div class="donut-pct">${Math.round((fLivres/total)*100)}%</div></div>
-            <div style="margin-top:14px;padding-top:14px;border-top:1px solid #1b443c44">
-                <div class="donut-item"><div class="donut-color" style="background:#f59e0b"></div><div class="donut-label">Total Economizadas</div><div class="donut-val" style="color:#f59e0b">${emUso + ferias.filter(f=>f.status==="temp_uso").length}</div><div class="donut-pct"></div></div>
-            </div>`;
-    }
-    function updateTimeline() {
-        const allEvents = [
-            ...registros.map(r => ({...r, tipo: 'desligamento'})),
-            ...ferias.map(f => ({...f, data: f.inicio, tipo: 'ferias'}))
-        ].sort((a,b) => b.data.localeCompare(a.data)).slice(0,6);
-        document.getElementById("timelineChart").innerHTML = allEvents.map(r => {
-            if (r.tipo === 'ferias') {
-                const color = r.status === "livre" ? "#f97316" : "#06b6d4";
-                const text = r.status === "livre" ? `${r.nome} — <b style="color:#f97316">Férias (livre)</b>` : `${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
-                return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
-            } else {
-                const isLivre = r.status === "livre";
-                const color = isLivre ? "#17c550" : "#3b82f6";
-                const text = isLivre ? `${r.nome} — <b style="color:#17c550">Livre</b>` : `${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
-                return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
-            }
-        }).join("") || "<p style='color:#1b443c'>Sem movimentações</p>";
-    }
-    // ✅ CHARTS COLABORADORES
-    function updateColabCharts() {
-        // Por equipe
-        const counts = {};
-        colaboradores.forEach(c => { counts[c.equipe] = (counts[c.equipe] || 0) + 1; });
-        const max = Math.max(...Object.values(counts), 1);
-        document.getElementById("colabBarChart").innerHTML = Object.entries(counts).sort((a,b) => b[1]-a[1]).map(([equipe, count]) => {
-            const pct = Math.round((count/max)*100);
-            const color = equipeColors[equipe] || "#17c550";
-            return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
-        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
-
-        // Status
-        let ativos = 0, ferIes = 0, desls = 0;
-        colaboradores.forEach(c => {
-            const s = getStatusColab(c.nome);
-            if (s.status === "ativo") ativos++;
-            else if (s.status === "ferias") ferIes++;
-            else desls++;
-        });
-        const total = colaboradores.length || 1;
-        document.getElementById("colabStatusChart").innerHTML = `
-            <div class="donut-item"><div class="donut-color" style="background:#10b981"></div><div class="donut-label">Ativos</div><div class="donut-val">${ativos}</div><div class="donut-pct">${Math.round((ativos/total)*100)}%</div></div>
-            <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Em Férias</div><div class="donut-val">${ferIes}</div><div class="donut-pct">${Math.round((ferIes/total)*100)}%</div></div>
-            <div class="donut-item"><div class="donut-color" style="background:#ef4444"></div><div class="donut-label">Desligados</div><div class="donut-val">${desls}</div><div class="donut-pct">${Math.round((desls/total)*100)}%</div></div>
-        `;
-
-        // Cargos
-        const cargos = {};
-        colaboradores.forEach(c => {
-            const cg = c.cargo || "Sem cargo";
-            cargos[cg] = (cargos[cg] || 0) + 1;
-        });
-        const maxC = Math.max(...Object.values(cargos), 1);
-        document.getElementById("colabCargosChart").innerHTML = Object.entries(cargos).sort((a,b) => b[1]-a[1]).slice(0,5).map(([cargo, count]) => {
-            const pct = Math.round((count/maxC)*100);
-            return `<div class="bar-item"><div class="bar-label"><span>${cargo}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:#8b5cf6"></div></div></div>`;
-        }).join("") || "<p style='color:#1b443c'>Sem dados</p>";
-    }
-
-    function updateFilterEquipe() {
-        const sel = document.getElementById("filterEquipe");
-        const val = sel.value;
-        sel.innerHTML = `<option value="">Todas as Equipes</option>` + ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"].map(e => `<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
-    }
-
-    // ============ TABELAS ============
-    function renderTable() {
-        const search = document.getElementById("searchInput").value.toLowerCase();
-        const equipe = document.getElementById("filterEquipe").value;
-        const status = document.getElementById("filterStatus").value;
-        let filtrados = registros.filter(r => {
-            const s = r.nome.toLowerCase().includes(search) || r.equipe.toLowerCase().includes(search) || (r.novoUsuario && r.novoUsuario.toLowerCase().includes(search));
-            return s && (!equipe || r.equipe === equipe) && (!status || r.status === status);
-        });
-        document.getElementById("tableCount").textContent = `${filtrados.length} de ${registros.length} registros`;
-        document.getElementById("emptyState").style.display = filtrados.length ? "none" : "block";
-        document.getElementById("tableBody").innerHTML = filtrados.map((r, i) => {
-            const color = equipeColors[r.equipe] || "#17c550";
-            const initials = getInitials(r.nome);
-            const isLivre = r.status === "livre";
-            const diasLivre = daysSince(r.data);
-            let badgeDias = "";
-            if (isLivre) {
-                let cls = "ok";
-                if (diasLivre > 30) cls = "danger";
-                else if (diasLivre > 15) cls = "warning";
-                badgeDias = `<span class="badge-dias-livre ${cls}">${diasLivre}d livre</span>`;
-            }
-            const statusHtml = isLivre ? `<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>${badgeDias}` : `<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
-            const reatribuidoHtml = isLivre ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>` : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i><span class="new-user">${r.novoUsuario}</span><span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span></div>`;
-            const actionsHtml = isLivre
-                ? `<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button><button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
-                : `<button class="btn-icon btn-liberar" title="Liberar" onclick="liberarLicenca(${r.id})"><i data-lucide="lock-open" style="width:14px;height:14px"></i></button><button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistro(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
-            return `<tr><td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td><td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${r.nome}</strong><span>${r.cargo || "—"} ${r.obs ? " · " + r.obs : ""}</span></div></div></td><td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td><td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td><td>${statusHtml}</td><td>${reatribuidoHtml}</td><td><div class="action-btns">${actionsHtml}</div></td></tr>`;
-        }).join("");
-        lucide.createIcons();
-    }
-    function renderFeriasTable() {
-        const search = document.getElementById("searchFerias").value.toLowerCase();
-        const equipe = document.getElementById("filterEquipeFerias").value;
-        let filtrados = ferias.filter(f => {
-            const s = f.nome.toLowerCase().includes(search) || f.equipe.toLowerCase().includes(search) || (f.usuarioTemp && f.usuarioTemp.toLowerCase().includes(search));
-            return s && (!equipe || f.equipe === equipe);
-        });
-        document.getElementById("feriasTableCount").textContent = `${filtrados.length} de ${ferias.length} registros`;
-        document.getElementById("feriasEmptyState").style.display = filtrados.length ? "none" : "block";
-        document.getElementById("feriasTableBody").innerHTML = filtrados.map((f, i) => {
-            const color = equipeColors[f.equipe] || "#f97316";
-            const initials = getInitials(f.nome);
-            const isLivre = f.status === "livre";
-            const diasRetorno = daysUntil(f.retorno);
-            const retornoLabel = diasRetorno > 0 ? `Retorna em ${diasRetorno} dia${diasRetorno>1?'s':''}` : diasRetorno === 0 ? 'Retorna hoje' : 'Retorno vencido';
-            const statusHtml = isLivre ? `<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>` : `<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
-            const usandoHtml = isLivre ? `<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>` : `<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i><span class="temp-user">${f.usuarioTemp}</span></div>`;
-            const actionsHtml = isLivre
-                ? `<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button><button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
-                : `<button class="btn-icon btn-liberar" title="Devolver" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button><button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button><button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasRegistro(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
-            return `<tr><td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td><td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${f.nome}</strong><span style="color:#fb923c">${retornoLabel} ${f.obs ? " · " + f.obs : ""}</span></div></div></td><td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td><td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td><td>${statusHtml}</td><td>${usandoHtml}</td><td><div class="action-btns">${actionsHtml}</div></td></tr>`;
-        }).join("");
-        lucide.createIcons();
-    }
-    // ✅ TABELA COLABORADORES
-    function renderColabTable() {
-        const search = document.getElementById("searchColab").value.toLowerCase();
-        const equipe = document.getElementById("filterEquipeColab").value;
-        const status = document.getElementById("filterStatusColab").value;
-
-        let filtrados = colaboradores.filter(c => {
-            const s = c.nome.toLowerCase().includes(search) || (c.cargo && c.cargo.toLowerCase().includes(search)) || c.equipe.toLowerCase().includes(search);
-            const e = !equipe || c.equipe === equipe;
-            let st = true;
-            if (status) {
-                const stColab = getStatusColab(c.nome).status;
-                st = stColab === status;
-            }
-            return s && e && st;
-        });
-
-        document.getElementById("colabTableCount").textContent = `${filtrados.length} de ${colaboradores.length} colaboradores`;
-        document.getElementById("colabEmptyState").style.display = filtrados.length ? "none" : "block";
-
-        document.getElementById("colabTableBody").innerHTML = filtrados.map((c, i) => {
-            const color = equipeColors[c.equipe] || "#17c550";
-            const initials = getInitials(c.nome);
-            const statusInfo = getStatusColab(c.nome);
-
-            let statusHtml = "";
-            if (statusInfo.status === "ativo") statusHtml = `<span class="status-ativo"><span class="dot-emerald"></span> Ativo</span>`;
-            else if (statusInfo.status === "ferias") statusHtml = `<span class="status-ferias"><span class="dot-orange"></span> Em Férias</span>`;
-            else statusHtml = `<span class="status-desligado"><span class="dot-red"></span> Desligado</span>`;
-
-            return `<tr>
-                <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
-                <td><div class="cell-name"><div class="avatar" style="background:${color}">${initials}</div><div class="name-info"><strong>${c.nome}</strong><span>${statusInfo.info || "—"}</span></div></div></td>
-                <td style="color:#b8d8c8">${c.cargo || "—"}</td>
-                <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${c.equipe}</span></td>
-                <td>${statusHtml}</td>
-                <td style="color:#6dbb8b;font-size:12px">${c.obs || "—"}</td>
-                <td><div class="action-btns">
-                    <button class="btn-icon btn-edit" title="Editar" onclick="openModalColab(${c.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
-                    <button class="btn-icon btn-delete" title="Excluir" onclick="deleteColab(${c.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
-                </div></td>
-            </tr>`;
-        }).join("");
-        lucide.createIcons();
-    }
-
-    // ============ MODAIS ============
-    function toggleNovoUsuario() {
-        const val = document.getElementById("inputStatusLicenca").value;
-        document.getElementById("groupNovoUsuario").style.display = val === "em_uso" ? "block" : "none";
-        document.getElementById("groupDataReatribuicao").style.display = val === "em_uso" ? "block" : "none";
-    }
-    function toggleFeriasUsuario() {
-        const val = document.getElementById("inputFeriasStatus").value;
-        document.getElementById("groupFeriasUsuario").style.display = val === "temp_uso" ? "block" : "none";
-    }
-
-    // ✅ MODAL COLABORADOR
-    function openModalColab(id = null) {
-        editColabId = id;
-        if (id) {
-            const c = colaboradores.find(x => x.id === id);
-            document.getElementById("modalColabTitle").innerHTML = `<i data-lucide="pencil" style="width:18px;height:18px;color:#17c550"></i> Editar Colaborador`;
-            document.getElementById("inputColabNome").value = c.nome;
-            document.getElementById("inputColabCargo").value = c.cargo || "";
-            document.getElementById("inputColabEquipe").value = c.equipe;
-            document.getElementById("inputColabObs").value = c.obs || "";
-        } else {
-            document.getElementById("modalColabTitle").innerHTML = `<i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Novo Colaborador`;
-            document.getElementById("inputColabNome").value = "";
-            document.getElementById("inputColabCargo").value = "";
-            document.getElementById("inputColabEquipe").value = "";
-            document.getElementById("inputColabObs").value = "";
+// ============================================================
+//  CHARTS
+// ============================================================
+function updateBarChart() {
+    const counts={};
+    registros.forEach(r=>{ counts[r.equipe]=(counts[r.equipe]||0)+1; });
+    const max=Math.max(...Object.values(counts),1);
+    document.getElementById("barChart").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([equipe,count])=>{
+        const pct=Math.round((count/max)*100);
+        const color=equipeColors[equipe]||"#17c550";
+        return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
+    }).join("")||"<p style='color:#1b443c'>Sem dados</p>";
+}
+function updateStatusChart() {
+    const livres=registros.filter(r=>r.status==="livre").length;
+    const emUso =registros.filter(r=>r.status==="em_uso").length;
+    const fLivres=ferias.filter(f=>f.status==="livre").length;
+    const total=(registros.length+ferias.length)||1;
+    document.getElementById("statusChart").innerHTML=`
+        <div class="donut-item"><div class="donut-color" style="background:#17c550"></div><div class="donut-label">Livres (Desligados)</div><div class="donut-val">${livres}</div><div class="donut-pct">${Math.round((livres/total)*100)}%</div></div>
+        <div class="donut-item"><div class="donut-color" style="background:#3b82f6"></div><div class="donut-label">Reatribuídos</div><div class="donut-val">${emUso}</div><div class="donut-pct">${Math.round((emUso/total)*100)}%</div></div>
+        <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Livres (Férias)</div><div class="donut-val">${fLivres}</div><div class="donut-pct">${Math.round((fLivres/total)*100)}%</div></div>
+        <div style="margin-top:14px;padding-top:14px;border-top:1px solid #1b443c44">
+            <div class="donut-item"><div class="donut-color" style="background:#f59e0b"></div><div class="donut-label">Total Economizadas</div><div class="donut-val" style="color:#f59e0b">${emUso+ferias.filter(f=>f.status==="temp_uso").length}</div><div class="donut-pct"></div></div>
+        </div>`;
+}
+function updateTimeline() {
+    const all=[
+        ...registros.map(r=>({...r,tipo:'desligamento'})),
+        ...ferias.map(f=>({...f,data:f.inicio,tipo:'ferias'}))
+    ].sort((a,b)=>b.data.localeCompare(a.data)).slice(0,6);
+    document.getElementById("timelineChart").innerHTML=all.map(r=>{
+        if (r.tipo==='ferias') {
+            const color=r.status==="livre"?"#f97316":"#06b6d4";
+            const text=r.status==="livre"?`${r.nome} — <b style="color:#f97316">Férias (livre)</b>`:`${r.nome} → <b style="color:#06b6d4">${r.usuarioTemp} (temp.)</b>`;
+            return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
         }
-        document.getElementById("modalColab").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalColab() { document.getElementById("modalColab").classList.remove("active"); editColabId = null; }
-    function closeModalColabOutside(e) { if (e.target === document.getElementById("modalColab")) closeModalColab(); }
-    function saveColab() {
-        const nome = document.getElementById("inputColabNome").value.trim();
-        const cargo = document.getElementById("inputColabCargo").value.trim();
-        const equipe = document.getElementById("inputColabEquipe").value;
-        const obs = document.getElementById("inputColabObs").value.trim();
-        if (!nome || !equipe) { showToast("Preencha nome e equipe!", "#f59e0b"); return; }
-        const obj = { nome, cargo, equipe, obs };
-        if (editColabId) {
-            colaboradores[colaboradores.findIndex(c => c.id === editColabId)] = { id: editColabId, ...obj };
-            showToast("Colaborador atualizado!");
-        } else {
-            colaboradores.push({ id: nextColabId++, ...obj });
-            showToast("Colaborador adicionado!");
-        }
-        closeModalColab();
-        salvarDados();
-        refreshAll();
-    }
-    function deleteColab(id) {
-        const c = colaboradores.find(x => x.id === id);
-        if (confirm(`Remover "${c.nome}" do cadastro?`)) {
-            colaboradores = colaboradores.filter(x => x.id !== id);
-            showToast("Colaborador removido.", "#ef4444");
+        const isLivre=r.status==="livre";
+        const color=isLivre?"#17c550":"#3b82f6";
+        const text=isLivre?`${r.nome} — <b style="color:#17c550">Livre</b>`:`${r.nome} → <b style="color:#60a5fa">${r.novoUsuario}</b>`;
+        return `<div class="timeline-item"><div class="timeline-dot" style="background:${color}"></div><div class="timeline-info"><strong>${text}</strong><span>${formatDate(r.data)} · ${r.equipe}</span></div></div>`;
+    }).join("")||"<p style='color:#1b443c'>Sem movimentações</p>";
+}
+function updateColabCharts() {
+    // Por equipe
+    const counts={};
+    colaboradores.forEach(c=>{ counts[c.equipe]=(counts[c.equipe]||0)+1; });
+    const max=Math.max(...Object.values(counts),1);
+    document.getElementById("colabBarChart").innerHTML=Object.entries(counts).sort((a,b)=>b[1]-a[1]).map(([equipe,count])=>{
+        const pct=Math.round((count/max)*100);
+        const color=equipeColors[equipe]||"#17c550";
+        return `<div class="bar-item"><div class="bar-label"><span>${equipe}</span><span>${count}</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color}"></div></div></div>`;
+    }).join("")||"<p style='color:#1b443c'>Sem dados</p>";
+
+    // Status
+    let ativos=0,frias=0,desls=0;
+    colaboradores.forEach(c=>{
+        const s=getStatusColab(c.nome);
+        if (s.status==="ativo") ativos++;
+        else if (s.status==="ferias") frias++;
+        else desls++;
+    });
+    const total=colaboradores.length||1;
+    document.getElementById("colabStatusChart").innerHTML=`
+        <div class="donut-item"><div class="donut-color" style="background:#10b981"></div><div class="donut-label">Ativos c/ Licença</div><div class="donut-val">${ativos}</div><div class="donut-pct">${Math.round((ativos/total)*100)}%</div></div>
+        <div class="donut-item"><div class="donut-color" style="background:#f97316"></div><div class="donut-label">Em Férias</div><div class="donut-val">${frias}</div><div class="donut-pct">${Math.round((frias/total)*100)}%</div></div>
+        <div class="donut-item"><div class="donut-color" style="background:#ef4444"></div><div class="donut-label">Desligados</div><div class="donut-val">${desls}</div><div class="donut-pct">${Math.round((desls/total)*100)}%</div></div>`;
+
+    // Cargo por gênero
+    const masc=colaboradores.filter(c=>c.genero==="M").length;
+    const fem =colaboradores.filter(c=>c.genero==="F").length;
+    const maxG=Math.max(masc,fem,1);
+    document.getElementById("colabCargosChart").innerHTML=`
+        <div class="bar-item"><div class="bar-label"><span>👨 Vendedores (Masc.)</span><span style="color:#60a5fa">${masc}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((masc/maxG)*100)}%;background:#3b82f6"></div></div></div>
+        <div class="bar-item"><div class="bar-label"><span>👩 Vendedoras (Fem.)</span><span style="color:#f472b6">${fem}</span></div><div class="bar-track"><div class="bar-fill" style="width:${Math.round((fem/maxG)*100)}%;background:#ec4899"></div></div></div>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #1b443c44;font-size:12px;color:#6dbb8b">
+            <div style="display:flex;justify-content:space-between;align-items:center">
+                <span>Total colaboradores</span>
+                <strong style="color:#17c550">${colaboradores.length}</strong>
+            </div>
+        </div>`;
+}
+
+function updateFilterEquipe() {
+    const sel=document.getElementById("filterEquipe");
+    const val=sel.value;
+    sel.innerHTML=`<option value="">Todas as Equipes</option>`+
+        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+}
+
+// ============================================================
+//  BULK SELECTION — COLABORADORES
+// ============================================================
+function toggleAllColab(cb) {
+    selectedColabIds.clear();
+    if (cb.checked) filteredColabIds.forEach(id=>selectedColabIds.add(id));
+    updateBulkBarColab();
+    renderColabTable();
+}
+function toggleColabRow(id, checked) {
+    if (checked) selectedColabIds.add(id);
+    else selectedColabIds.delete(id);
+    updateBulkBarColab();
+    const allChecked = filteredColabIds.length>0 && filteredColabIds.every(id=>selectedColabIds.has(id));
+    document.getElementById("cbAllColab").checked = allChecked;
+}
+function updateBulkBarColab() {
+    const bar = document.getElementById("bulkBarColab");
+    document.getElementById("bulkColabCount").textContent = selectedColabIds.size;
+    if (selectedColabIds.size>0) bar.classList.remove("hidden");
+    else bar.classList.add("hidden");
+    lucide.createIcons();
+}
+function cancelBulkColab() {
+    selectedColabIds.clear();
+    document.getElementById("cbAllColab").checked=false;
+    updateBulkBarColab();
+    renderColabTable();
+}
+function deleteBulkColab() {
+    if (selectedColabIds.size===0) return;
+    const nomes = [...selectedColabIds].map(id=>{
+        const c=colaboradores.find(x=>x.id===id);
+        return c ? c.nome : "";
+    }).filter(Boolean);
+    openModalConfirm(
+        `Excluir ${selectedColabIds.size} colaborador(es)?`,
+        `Você está prestes a remover <strong>${selectedColabIds.size}</strong> colaborador(es) permanentemente.`,
+        nomes,
+        () => {
+            const ids=[...selectedColabIds];
+            colaboradores = colaboradores.filter(c=>!ids.includes(c.id));
+            selectedColabIds.clear();
+            document.getElementById("cbAllColab").checked=false;
+            updateBulkBarColab();
             salvarDados();
             refreshAll();
+            showToast(`${ids.length} colaborador(es) removido(s).`,"#ef4444");
         }
-    }
+    );
+}
 
-    // ✅ IMPORTAR EM MASSA
-    function openModalImportar() {
-        document.getElementById("inputImportar").value = "";
-        document.getElementById("inputEquipePadrao").value = "";
-        document.getElementById("inputCargoPadrao").value = "";
-        document.getElementById("modalImportar").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalImportar() { document.getElementById("modalImportar").classList.remove("active"); }
-    function closeModalImportarOutside(e) { if (e.target === document.getElementById("modalImportar")) closeModalImportar(); }
-    function importarColabs() {
-        const texto = document.getElementById("inputImportar").value.trim();
-        const equipePadrao = document.getElementById("inputEquipePadrao").value;
-        const cargoPadrao = document.getElementById("inputCargoPadrao").value.trim();
-        if (!texto) { showToast("Cole a lista primeiro!", "#f59e0b"); return; }
-
-        const linhas = texto.split("\n").map(l => l.trim()).filter(l => l);
-        let adicionados = 0, ignorados = 0;
-        linhas.forEach(linha => {
-            const partes = linha.split("|").map(p => p.trim());
-            const nome = partes[0];
-            const cargo = partes[1] || cargoPadrao || "";
-            const equipe = partes[2] || equipePadrao;
-
-            if (!nome || !equipe) { ignorados++; return; }
-            // Verifica duplicata
-            if (colaboradores.find(c => c.nome.toLowerCase() === nome.toLowerCase())) { ignorados++; return; }
-
-            colaboradores.push({ id: nextColabId++, nome, cargo, equipe, obs: "" });
-            adicionados++;
-        });
-        closeModalImportar();
-        salvarDados();
-        refreshAll();
-        showToast(`✅ ${adicionados} adicionado(s)${ignorados > 0 ? `, ${ignorados} ignorado(s)` : ""}`);
-    }
-
-    // MODAL DESLIGAMENTO
-    function openModal(id = null) {
-        editId = id;
-        const today = new Date().toISOString().split("T")[0];
-        if (id) {
-            const r = registros.find(x => x.id === id);
-            document.getElementById("inputNome").value = r.nome;
-            document.getElementById("inputEquipe").value = r.equipe;
-            document.getElementById("inputData").value = r.data;
-            document.getElementById("inputCargo").value = r.cargo || "";
-            document.getElementById("inputStatusLicenca").value = r.status;
-            document.getElementById("inputNovoUsuario").value = r.novoUsuario || "";
-            document.getElementById("inputDataReatribuicao").value = r.dataReatribuicao || "";
-            document.getElementById("inputObs").value = r.obs || "";
-        } else {
-            document.getElementById("inputNome").value = "";
-            document.getElementById("inputEquipe").value = "";
-            document.getElementById("inputData").value = today;
-            document.getElementById("inputCargo").value = "";
-            document.getElementById("inputStatusLicenca").value = "livre";
-            document.getElementById("inputNovoUsuario").value = "";
-            document.getElementById("inputDataReatribuicao").value = "";
-            document.getElementById("inputObs").value = "";
-        }
-        toggleNovoUsuario();
-        document.getElementById("modalOverlay").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModal() { document.getElementById("modalOverlay").classList.remove("active"); editId = null; }
-    function closeModalOutside(e) { if (e.target === document.getElementById("modalOverlay")) closeModal(); }
-    function saveRegistro() {
-        const nome = document.getElementById("inputNome").value.trim();
-        const equipe = document.getElementById("inputEquipe").value;
-        const data = document.getElementById("inputData").value;
-        const cargo = document.getElementById("inputCargo").value.trim();
-        const status = document.getElementById("inputStatusLicenca").value;
-        const novoUsuario = document.getElementById("inputNovoUsuario").value.trim();
-        const dataReatribuicao = document.getElementById("inputDataReatribuicao").value;
-        const obs = document.getElementById("inputObs").value.trim();
-        if (!nome || !equipe || !data) { showToast("Preencha os obrigatórios!", "#f59e0b"); return; }
-        if (status === "em_uso" && !novoUsuario) { showToast("Informe o novo usuário!", "#f59e0b"); return; }
-        const obj = { nome, equipe, data, cargo, status, novoUsuario: status==="em_uso"?novoUsuario:"", dataReatribuicao: status==="em_uso"?dataReatribuicao:"", obs };
-        if (editId) {
-            registros[registros.findIndex(r => r.id === editId)] = { id: editId, ...obj };
-            showToast("Registro atualizado!");
-        } else {
-            registros.push({ id: nextId++, ...obj });
-            showToast("Desligamento registrado!");
-        }
-        closeModal();
-        salvarDados();
-        refreshAll();
-    }
-
-    // MODAL FÉRIAS
-    function openModalFerias(id = null) {
-        editFeriasId = id;
-        const today = new Date().toISOString().split("T")[0];
-        if (id) {
-            const f = ferias.find(x => x.id === id);
-            document.getElementById("inputFeriasNome").value = f.nome;
-            document.getElementById("inputFeriasEquipe").value = f.equipe;
-            document.getElementById("inputFeriasInicio").value = f.inicio;
-            document.getElementById("inputFeriasRetorno").value = f.retorno;
-            document.getElementById("inputFeriasStatus").value = f.status;
-            document.getElementById("inputFeriasUsuarioTemp").value = f.usuarioTemp || "";
-            document.getElementById("inputFeriasObs").value = f.obs || "";
-        } else {
-            document.getElementById("inputFeriasNome").value = "";
-            document.getElementById("inputFeriasEquipe").value = "";
-            document.getElementById("inputFeriasInicio").value = today;
-            document.getElementById("inputFeriasRetorno").value = "";
-            document.getElementById("inputFeriasStatus").value = "livre";
-            document.getElementById("inputFeriasUsuarioTemp").value = "";
-            document.getElementById("inputFeriasObs").value = "";
-        }
-        toggleFeriasUsuario();
-        document.getElementById("modalFerias").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalFerias() { document.getElementById("modalFerias").classList.remove("active"); editFeriasId = null; }
-    function closeModalFeriasOutside(e) { if (e.target === document.getElementById("modalFerias")) closeModalFerias(); }
-    function saveFeriasRegistro() {
-        const nome = document.getElementById("inputFeriasNome").value.trim();
-        const equipe = document.getElementById("inputFeriasEquipe").value;
-        const inicio = document.getElementById("inputFeriasInicio").value;
-        const retorno = document.getElementById("inputFeriasRetorno").value;
-        const status = document.getElementById("inputFeriasStatus").value;
-        const usuarioTemp = document.getElementById("inputFeriasUsuarioTemp").value.trim();
-        const obs = document.getElementById("inputFeriasObs").value.trim();
-        if (!nome || !equipe || !inicio || !retorno) { showToast("Preencha os obrigatórios!", "#f59e0b"); return; }
-        if (status === "temp_uso" && !usuarioTemp) { showToast("Informe o temporário!", "#f59e0b"); return; }
-        const obj = { nome, equipe, inicio, retorno, status, usuarioTemp: status==="temp_uso"?usuarioTemp:"", obs };
-        if (editFeriasId) {
-            ferias[ferias.findIndex(f => f.id === editFeriasId)] = { id: editFeriasId, ...obj };
-            showToast("Férias atualizada!");
-        } else {
-            ferias.push({ id: nextFeriasId++, ...obj });
-            showToast("Férias registrada!");
-        }
-        closeModalFerias();
-        salvarDados();
-        refreshAll();
-    }
-
-    function openReatribuir(id) {
-        reatribuirId = id;
-        const r = registros.find(x => x.id === id);
-        document.getElementById("reatribuirInfo").textContent = `Reatribuir a licença de "${r.nome}" (${r.equipe}) para:`;
-        document.getElementById("reatribuirNome").value = "";
-        document.getElementById("reatribuirData").value = new Date().toISOString().split("T")[0];
-        document.getElementById("modalReatribuir").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalReatribuir() { document.getElementById("modalReatribuir").classList.remove("active"); reatribuirId = null; }
-    function closeModalReatribuirOutside(e) { if (e.target === document.getElementById("modalReatribuir")) closeModalReatribuir(); }
-    function confirmarReatribuicao() {
-        const nome = document.getElementById("reatribuirNome").value.trim();
-        const data = document.getElementById("reatribuirData").value;
-        if (!nome) { showToast("Informe o nome!", "#f59e0b"); return; }
-        const idx = registros.findIndex(r => r.id === reatribuirId);
-        registros[idx].status = "em_uso";
-        registros[idx].novoUsuario = nome;
-        registros[idx].dataReatribuicao = data;
-        closeModalReatribuir();
-        showToast(`Reatribuída para ${nome}!`);
-        salvarDados();
-        refreshAll();
-    }
-
-    function openEmprestar(id) {
-        emprestarId = id;
-        const f = ferias.find(x => x.id === id);
-        document.getElementById("emprestarInfo").textContent = `Emprestar licença de "${f.nome}" (${f.equipe}) para:`;
-        document.getElementById("emprestarNome").value = "";
-        document.getElementById("modalEmprestar").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalEmprestar() { document.getElementById("modalEmprestar").classList.remove("active"); emprestarId = null; }
-    function closeModalEmprestarOutside(e) { if (e.target === document.getElementById("modalEmprestar")) closeModalEmprestar(); }
-    function confirmarEmprestimo() {
-        const nome = document.getElementById("emprestarNome").value.trim();
-        if (!nome) { showToast("Informe o nome!", "#f59e0b"); return; }
-        const idx = ferias.findIndex(f => f.id === emprestarId);
-        ferias[idx].status = "temp_uso";
-        ferias[idx].usuarioTemp = nome;
-        closeModalEmprestar();
-        showToast(`Emprestada para ${nome}!`);
-        salvarDados();
-        refreshAll();
-    }
-
-    function devolverLicencaFerias(id) {
-        const f = ferias.find(x => x.id === id);
-        if (confirm(`Devolver licença de "${f.nome}"?`)) {
-            const idx = ferias.findIndex(x => x.id === id);
-            ferias[idx].status = "livre"; ferias[idx].usuarioTemp = "";
-            showToast("Devolvida!"); salvarDados(); refreshAll();
-        }
-    }
-    function retornoFerias(id) {
-        const f = ferias.find(x => x.id === id);
-        if (confirm(`"${f.nome}" retornou? Será removido.`)) {
-            ferias = ferias.filter(x => x.id !== id);
-            showToast("Retornou!"); salvarDados(); refreshAll();
-        }
-    }
-    function liberarLicenca(id) {
-        const r = registros.find(x => x.id === id);
-        if (confirm(`Liberar licença de "${r.nome}"?`)) {
-            const idx = registros.findIndex(x => x.id === id);
-            registros[idx].status = "livre"; registros[idx].novoUsuario = ""; registros[idx].dataReatribuicao = "";
-            showToast("Liberada!"); salvarDados(); refreshAll();
-        }
-    }
-    function deleteRegistro(id) {
-        if (confirm("Remover este registro?")) {
-            registros = registros.filter(x => x.id !== id);
-            showToast("Removido.", "#ef4444"); salvarDados(); refreshAll();
-        }
-    }
-    function deleteFeriasRegistro(id) {
-        if (confirm("Remover este registro?")) {
-            ferias = ferias.filter(x => x.id !== id);
-            showToast("Removido.", "#ef4444"); salvarDados(); refreshAll();
-        }
-    }
-
-    // CONFIG
-    function openModalConfig() {
-        document.getElementById("inputTotalLicencas").value = config.totalLicencas;
-        document.getElementById("inputValorLicenca").value = config.valorLicenca;
-        document.getElementById("modalConfig").classList.add("active");
-        lucide.createIcons();
-    }
-    function closeModalConfig() { document.getElementById("modalConfig").classList.remove("active"); }
-    function closeModalConfigOutside(e) { if (e.target === document.getElementById("modalConfig")) closeModalConfig(); }
-    function salvarConfig() {
-        config.totalLicencas = parseInt(document.getElementById("inputTotalLicencas").value) || 0;
-        config.valorLicenca = parseFloat(document.getElementById("inputValorLicenca").value) || 0;
-        salvarDados();
-        closeModalConfig();
-        showToast("Configurações salvas!");
-        refreshAll();
-    }
-
-    // EXPORTAR
-    function exportarExcel(tipo) {
-        const wb = XLSX.utils.book_new();
-        let dados = [], nome = "";
-        if (tipo === 'desligados') {
-            dados = registros.map(r => ({ "Nome": r.nome, "Cargo": r.cargo || "", "Equipe": r.equipe, "Data Desligamento": formatDate(r.data), "Status": r.status === "livre" ? "Livre" : "Em Uso", "Reatribuído para": r.novoUsuario || "", "Data Reatribuição": formatDate(r.dataReatribuicao), "Observações": r.obs || "" }));
-            nome = "Desligados";
-        } else if (tipo === 'ferias') {
-            dados = ferias.map(f => ({ "Nome": f.nome, "Equipe": f.equipe, "Início Férias": formatDate(f.inicio), "Retorno": formatDate(f.retorno), "Status": f.status === "livre" ? "Livre" : "Emprestado", "Usando Temporariamente": f.usuarioTemp || "", "Observações": f.obs || "" }));
-            nome = "Férias";
-        } else {
-            dados = colaboradores.map(c => { const s = getStatusColab(c.nome); return { "Nome": c.nome, "Cargo": c.cargo || "", "Equipe": c.equipe, "Status": s.status === "ativo" ? "Ativo" : s.status === "ferias" ? "Em Férias" : "Desligado", "Observações": c.obs || "" }; });
-            nome = "Colaboradores";
-        }
-        const ws = XLSX.utils.json_to_sheet(dados);
-        XLSX.utils.book_append_sheet(wb, ws, nome);
-        XLSX.writeFile(wb, `Corban_${tipo}_${new Date().toISOString().split("T")[0]}.xlsx`);
-        showToast("Excel exportado!");
-    }
-    function exportarPDF(tipo) {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
-        const hoje = new Date().toLocaleDateString("pt-BR");
-        doc.setFillColor(27, 68, 60);
-        doc.rect(0, 0, 220, 25, 'F');
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(16);
-        doc.text("Gestão de Licenças Corban", 14, 13);
-        doc.setFontSize(9);
-        const tit = tipo === 'desligados' ? 'Desligados' : tipo === 'ferias' ? 'Férias' : 'Colaboradores';
-        doc.text(`Relatório de ${tit} • Gerado em ${hoje}`, 14, 20);
-
-        if (tipo === 'desligados') {
-            const corpo = registros.map(r => [r.nome, r.equipe, formatDate(r.data), r.status === "livre" ? "Livre" : "Em Uso", r.novoUsuario || "—"]);
-            doc.autoTable({ startY: 32, head: [["Colaborador", "Equipe", "Data", "Status", "Reatribuído"]], body: corpo, theme: 'striped', headStyles: { fillColor: [23, 197, 80], textColor: 255 }, styles: { fontSize: 9 } });
-        } else if (tipo === 'ferias') {
-            const corpo = ferias.map(f => [f.nome, f.equipe, `${formatDate(f.inicio)} → ${formatDate(f.retorno)}`, f.status === "livre" ? "Livre" : "Emprestado", f.usuarioTemp || "—"]);
-            doc.autoTable({ startY: 32, head: [["Colaborador", "Equipe", "Período", "Status", "Temporário"]], body: corpo, theme: 'striped', headStyles: { fillColor: [249, 115, 22], textColor: 255 }, styles: { fontSize: 9 } });
-        } else {
-            const corpo = colaboradores.map(c => { const s = getStatusColab(c.nome); return [c.nome, c.cargo || "—", c.equipe, s.status === "ativo" ? "Ativo" : s.status === "ferias" ? "Em Férias" : "Desligado"]; });
-            doc.autoTable({ startY: 32, head: [["Nome", "Cargo", "Equipe", "Status"]], body: corpo, theme: 'striped', headStyles: { fillColor: [16, 185, 129], textColor: 255 }, styles: { fontSize: 9 } });
-        }
-        doc.save(`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.pdf`);
-        showToast("PDF exportado!");
-    }
-
-    // BACKUP
-    function fazerBackup() {
-        const backup = { registros, ferias, colaboradores, config, nextId, nextFeriasId, nextColabId, data: new Date().toISOString() };
-        const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
-        const a = document.createElement("a");
-        a.href = URL.createObjectURL(blob);
-        a.download = `corban_backup_${new Date().toISOString().split("T")[0]}.json`;
-        a.click();
-        showToast("Backup baixado!");
-    }
-    function restaurarBackup(event) {
-        const file = event.target.files[0];
-        if (!file) return;
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            try {
-                const dados = JSON.parse(e.target.result);
-                if (confirm("Restaurar backup? Os dados atuais serão substituídos.")) {
-                    if (dados.registros) registros = dados.registros;
-                    if (dados.ferias) ferias = dados.ferias;
-                    if (dados.colaboradores) colaboradores = dados.colaboradores;
-                    if (dados.config) config = dados.config;
-                    if (dados.nextId) nextId = dados.nextId;
-                    if (dados.nextFeriasId) nextFeriasId = dados.nextFeriasId;
-                    if (dados.nextColabId) nextColabId = dados.nextColabId;
-                    salvarDados();
-                    refreshAll();
-                    showToast("Backup restaurado!");
-                }
-            } catch (err) { showToast("Arquivo inválido!", "#ef4444"); }
-        };
-        reader.readAsText(file);
-        event.target.value = "";
-    }
-    function resetarTudo() {
-        if (confirm("⚠️ ATENÇÃO: Isso vai apagar TODOS os dados! Continuar?")) {
-            if (confirm("Tem certeza? Esta ação NÃO pode ser desfeita!")) {
-                localStorage.clear();
-                location.reload();
-            }
-        }
-    }
-
-    function showToast(msg, color = "#17c550") {
-        const t = document.getElementById("toast");
-        t.innerHTML = `<i data-lucide="check-circle" style="width:16px;height:16px"></i> ${msg}`;
-        t.style.background = color;
-        t.classList.add("show");
-        lucide.createIcons();
-        setTimeout(() => t.classList.remove("show"), 3000);
-    }
-
-    function refreshAll() {
-        updateSummary();
-        updateFeriasSummary();
-        updateColabSummary();
-        updateBarChart();
-        updateStatusChart();
-        updateTimeline();
-        updateColabCharts();
-        updateFilterEquipe();
-        renderTable();
-        renderFeriasTable();
-        renderColabTable();
-        updateLicencas();
-        updateAlertas();
-    }
-
-    setDate();
-    refreshAll();
+// ============================================================
+//  BULK SELECTION — DESLIGADOS
+// ============================================================
+function toggleAllDesligados(cb) {
+    selectedDesligadosIds.clear();
+    if (cb.checked) filteredDesligadosIds.forEach(id=>selectedDesligadosIds.add(id));
+    updateBulkBarDesligados();
+    renderTable();
+}
+function toggleDesligadoRow(id, checked) {
+    if (checked) selectedDesligadosIds.add(id);
+    else selectedDesligadosIds.delete(id);
+    updateBulkBarDesligados();
+    const allChecked=filteredDesligadosIds.length>0&&filteredDesligadosIds.every(id=>selectedDesligadosIds.has(id));
+    document.getElementById("cbAllDesligados").checked=allChecked;
+}
+function updateBulkBarDesligados() {
+    const bar=document.getElementById("bulkBarDesligados");
+    document.getElementById("bulkDesligadosCount").textContent=selectedDesligadosIds.size;
+    if (selectedDesligadosIds.size>0) bar.classList.remove("hidden");
+    else bar.classList.add("hidden");
     lucide.createIcons();
+}
+function cancelBulkDesligados() {
+    selectedDesligadosIds.clear();
+    document.getElementById("cbAllDesligados").checked=false;
+    updateBulkBarDesligados();
+    renderTable();
+}
+function deleteBulkDesligados() {
+    if (selectedDesligadosIds.size===0) return;
+    const nomes=[...selectedDesligadosIds].map(id=>{
+        const r=registros.find(x=>x.id===id);
+        return r ? r.nome : "";
+    }).filter(Boolean);
+    openModalConfirm(
+        `Excluir ${selectedDesligadosIds.size} registro(s)?`,
+        `Você está prestes a remover <strong>${selectedDesligadosIds.size}</strong> registro(s) de desligamento permanentemente.`,
+        nomes,
+        () => {
+            const ids=[...selectedDesligadosIds];
+            registros=registros.filter(r=>!ids.includes(r.id));
+            selectedDesligadosIds.clear();
+            document.getElementById("cbAllDesligados").checked=false;
+            updateBulkBarDesligados();
+            salvarDados();
+            refreshAll();
+            showToast(`${ids.length} registro(s) removido(s).`,"#ef4444");
+        }
+    );
+}
+
+// ============================================================
+//  BULK SELECTION — FÉRIAS
+// ============================================================
+function toggleAllFerias(cb) {
+    selectedFeriasIds.clear();
+    if (cb.checked) filteredFeriasIds.forEach(id=>selectedFeriasIds.add(id));
+    updateBulkBarFerias();
+    renderFeriasTable();
+}
+function toggleFeriasRow(id, checked) {
+    if (checked) selectedFeriasIds.add(id);
+    else selectedFeriasIds.delete(id);
+    updateBulkBarFerias();
+    const allChecked=filteredFeriasIds.length>0&&filteredFeriasIds.every(id=>selectedFeriasIds.has(id));
+    document.getElementById("cbAllFerias").checked=allChecked;
+}
+function updateBulkBarFerias() {
+    const bar=document.getElementById("bulkBarFerias");
+    document.getElementById("bulkFeriasCount").textContent=selectedFeriasIds.size;
+    if (selectedFeriasIds.size>0) bar.classList.remove("hidden");
+    else bar.classList.add("hidden");
+    lucide.createIcons();
+}
+function cancelBulkFerias() {
+    selectedFeriasIds.clear();
+    document.getElementById("cbAllFerias").checked=false;
+    updateBulkBarFerias();
+    renderFeriasTable();
+}
+function deleteBulkFerias() {
+    if (selectedFeriasIds.size===0) return;
+    const nomes=[...selectedFeriasIds].map(id=>{
+        const f=ferias.find(x=>x.id===id);
+        return f ? f.nome : "";
+    }).filter(Boolean);
+    openModalConfirm(
+        `Excluir ${selectedFeriasIds.size} registro(s) de férias?`,
+        `Você está prestes a remover <strong>${selectedFeriasIds.size}</strong> registro(s) de férias permanentemente.`,
+        nomes,
+        () => {
+            const ids=[...selectedFeriasIds];
+            ferias=ferias.filter(f=>!ids.includes(f.id));
+            selectedFeriasIds.clear();
+            document.getElementById("cbAllFerias").checked=false;
+            updateBulkBarFerias();
+            salvarDados();
+            refreshAll();
+            showToast(`${ids.length} registro(s) removido(s).`,"#ef4444");
+        }
+    );
+}
+
+// ============================================================
+//  MODAL CONFIRMAÇÃO
+// ============================================================
+function openModalConfirm(title, msg, names, onConfirm) {
+    document.getElementById("confirmTitle").innerHTML = title;
+    document.getElementById("confirmMsg").innerHTML   = msg;
+    document.getElementById("confirmNames").innerHTML = names.map(n=>`<span>• ${n}</span>`).join("");
+    pendingDeleteFn = onConfirm;
+    document.getElementById("confirmDeleteBtn").onclick = () => {
+        if (pendingDeleteFn) pendingDeleteFn();
+        closeModalConfirm();
+    };
+    document.getElementById("modalConfirmDelete").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalConfirm() {
+    document.getElementById("modalConfirmDelete").classList.remove("active");
+    pendingDeleteFn=null;
+}
+function closeModalConfirmOutside(e) {
+    if (e.target===document.getElementById("modalConfirmDelete")) closeModalConfirm();
+}
+
+// ============================================================
+//  RENDER — DESLIGADOS
+// ============================================================
+function renderTable() {
+    const search = document.getElementById("searchInput").value.toLowerCase();
+    const equipe = document.getElementById("filterEquipe").value;
+    const status = document.getElementById("filterStatus").value;
+    let filtrados = registros.filter(r=>{
+        const s=r.nome.toLowerCase().includes(search)||r.equipe.toLowerCase().includes(search)||(r.novoUsuario&&r.novoUsuario.toLowerCase().includes(search));
+        return s&&(!equipe||r.equipe===equipe)&&(!status||r.status===status);
+    });
+    filteredDesligadosIds = filtrados.map(r=>r.id);
+    const allChecked=filtrados.length>0&&filtrados.every(r=>selectedDesligadosIds.has(r.id));
+    document.getElementById("cbAllDesligados").checked=allChecked;
+    document.getElementById("tableCount").textContent=`${filtrados.length} de ${registros.length} registros`;
+    document.getElementById("emptyState").style.display=filtrados.length?"none":"block";
+    document.getElementById("tableBody").innerHTML=filtrados.map((r,i)=>{
+        const color=equipeColors[r.equipe]||"#17c550";
+        const isLivre=r.status==="livre";
+        const diasLivre=daysSince(r.data);
+        let badgeDias="";
+        if (isLivre) {
+            let cls="ok";
+            if (diasLivre>30) cls="danger";
+            else if (diasLivre>15) cls="warning";
+            badgeDias=`<span class="badge-dias-livre ${cls}">${diasLivre}d livre</span>`;
+        }
+        const statusHtml=isLivre
+            ?`<span class="status-livre"><span class="pulse"></span> Usuário Livre</span>${badgeDias}`
+            :`<span class="status-em-uso"><span class="dot-blue"></span> Em Uso</span>`;
+        const reatribuidoHtml=isLivre
+            ?`<span style="color:#6dbb8b;font-size:12px;font-style:italic">Aguardando reatribuição...</span>`
+            :`<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#17c550"></i><span class="new-user">${r.novoUsuario}</span><span style="color:#475569;font-size:10px">${formatDate(r.dataReatribuicao)}</span></div>`;
+        const actionsHtml=isLivre
+            ?`<button class="btn-icon btn-reatribuir" title="Reatribuir" onclick="openReatribuir(${r.id})"><i data-lucide="refresh-cw" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistroSingle(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+            :`<button class="btn-icon btn-liberar" title="Liberar" onclick="liberarLicenca(${r.id})"><i data-lucide="lock-open" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-edit" title="Editar" onclick="openModal(${r.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-delete" title="Excluir" onclick="deleteRegistroSingle(${r.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+        const isSelected=selectedDesligadosIds.has(r.id);
+        return `<tr class="${isSelected?'selected-row':''}">
+            <td><div class="cb-wrap"><input type="checkbox" class="row-cb" ${isSelected?"checked":""} onchange="toggleDesligadoRow(${r.id},this.checked)"></div></td>
+            <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
+            <td><div class="cell-name"><div class="avatar" style="background:${color}">${getInitials(r.nome)}</div><div class="name-info"><strong>${r.nome}</strong><span>${r.cargo||"—"} ${r.obs?" · "+r.obs:""}</span></div></div></td>
+            <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${r.equipe}</span></td>
+            <td style="white-space:nowrap;color:#b8d8c8">${formatDate(r.data)}</td>
+            <td>${statusHtml}</td>
+            <td>${reatribuidoHtml}</td>
+            <td><div class="action-btns">${actionsHtml}</div></td>
+        </tr>`;
+    }).join("");
+    lucide.createIcons();
+}
+
+// ============================================================
+//  RENDER — FÉRIAS
+// ============================================================
+function renderFeriasTable() {
+    const search = document.getElementById("searchFerias").value.toLowerCase();
+    const equipe = document.getElementById("filterEquipeFerias").value;
+    let filtrados = ferias.filter(f=>{
+        const s=f.nome.toLowerCase().includes(search)||f.equipe.toLowerCase().includes(search)||(f.usuarioTemp&&f.usuarioTemp.toLowerCase().includes(search));
+        return s&&(!equipe||f.equipe===equipe);
+    });
+    filteredFeriasIds=filtrados.map(f=>f.id);
+    const allChecked=filtrados.length>0&&filtrados.every(f=>selectedFeriasIds.has(f.id));
+    document.getElementById("cbAllFerias").checked=allChecked;
+    document.getElementById("feriasTableCount").textContent=`${filtrados.length} de ${ferias.length} registros`;
+    document.getElementById("feriasEmptyState").style.display=filtrados.length?"none":"block";
+    document.getElementById("feriasTableBody").innerHTML=filtrados.map((f,i)=>{
+        const color=equipeColors[f.equipe]||"#f97316";
+        const isLivre=f.status==="livre";
+        const diasRetorno=daysUntil(f.retorno);
+        const retornoLabel=diasRetorno>0?`Retorna em ${diasRetorno} dia${diasRetorno>1?'s':''}`:diasRetorno===0?'Retorna hoje':'Retorno vencido';
+        const statusHtml=isLivre
+            ?`<span class="status-ferias"><span class="dot-orange"></span> Livre (Férias)</span>`
+            :`<span class="status-em-uso"><span class="dot-blue"></span> Emprestado</span>`;
+        const usandoHtml=isLivre
+            ?`<span style="color:#6dbb8b;font-size:12px;font-style:italic">Disponível para empréstimo...</span>`
+            :`<div class="user-transfer"><i data-lucide="arrow-right" style="width:14px;height:14px;color:#f97316"></i><span class="temp-user">${f.usuarioTemp}</span></div>`;
+        const actionsHtml=isLivre
+            ?`<button class="btn-icon btn-reatribuir" title="Emprestar" onclick="openEmprestar(${f.id})" style="color:#f97316;background:#f9731620;border:1px solid #f9731630 !important"><i data-lucide="arrow-right-left" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasSingle(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`
+            :`<button class="btn-icon btn-liberar" title="Devolver" onclick="devolverLicencaFerias(${f.id})"><i data-lucide="undo-2" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-retorno" title="Retorno" onclick="retornoFerias(${f.id})"><i data-lucide="log-in" style="width:14px;height:14px"></i></button>
+              <button class="btn-icon btn-delete" title="Excluir" onclick="deleteFeriasSingle(${f.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>`;
+        const isSelected=selectedFeriasIds.has(f.id);
+        return `<tr class="${isSelected?'selected-row':''}">
+            <td><div class="cb-wrap"><input type="checkbox" class="row-cb" ${isSelected?"checked":""} onchange="toggleFeriasRow(${f.id},this.checked)"></div></td>
+            <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
+            <td><div class="cell-name"><div class="avatar" style="background:${color}">${getInitials(f.nome)}</div><div class="name-info"><strong>${f.nome}</strong><span style="color:#fb923c">${retornoLabel}${f.obs?" · "+f.obs:""}</span></div></div></td>
+            <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${f.equipe}</span></td>
+            <td style="white-space:nowrap;color:#b8d8c8;font-size:12px">${formatDate(f.inicio)} → ${formatDate(f.retorno)}</td>
+            <td>${statusHtml}</td>
+            <td>${usandoHtml}</td>
+            <td><div class="action-btns">${actionsHtml}</div></td>
+        </tr>`;
+    }).join("");
+    lucide.createIcons();
+}
+
+// ============================================================
+//  RENDER — COLABORADORES  ← PRINCIPAL COM NOVAS FUNCIONALIDADES
+// ============================================================
+function renderColabTable() {
+    const search = document.getElementById("searchColab").value.toLowerCase();
+    const equipe = document.getElementById("filterEquipeColab").value;
+    const status = document.getElementById("filterStatusColab").value;
+    const genero = document.getElementById("filterGeneroColab").value;
+
+    let filtrados = colaboradores.filter(c=>{
+        const s=c.nome.toLowerCase().includes(search)||(c.cargo&&c.cargo.toLowerCase().includes(search))||c.equipe.toLowerCase().includes(search);
+        const e=!equipe||c.equipe===equipe;
+        const g=!genero||(c.genero||"")=== genero;
+        let st=true;
+        if (status) {
+            const stColab=getStatusColab(c.nome).status;
+            st=stColab===status;
+        }
+        return s&&e&&g&&st;
+    });
+
+    filteredColabIds=filtrados.map(c=>c.id);
+    const allChecked=filtrados.length>0&&filtrados.every(c=>selectedColabIds.has(c.id));
+    document.getElementById("cbAllColab").checked=allChecked;
+    document.getElementById("colabTableCount").textContent=`${filtrados.length} de ${colaboradores.length} colaboradores`;
+    document.getElementById("colabEmptyState").style.display=filtrados.length?"none":"block";
+
+    document.getElementById("colabTableBody").innerHTML=filtrados.map((c,i)=>{
+        const color=equipeColors[c.equipe]||"#17c550";
+        const statusInfo=getStatusColab(c.nome);
+        const isAtivo=statusInfo.status==="ativo";
+
+        // ✅ STATUS COM BADGE DE LICENÇA ATIVA PARA ATIVOS
+        let statusHtml="";
+        if (isAtivo) {
+            statusHtml=`
+                <div style="display:flex;flex-direction:column;gap:5px;align-items:flex-start">
+                    <span class="status-ativo-licenca"><span class="dot-emerald"></span> Ativo</span>
+                    <span class="badge-licenca">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                        Licença Ativa
+                    </span>
+                </div>`;
+        } else if (statusInfo.status==="ferias") {
+            statusHtml=`<span class="status-ferias"><span class="dot-orange"></span> Em Férias</span>`;
+        } else {
+            statusHtml=`<span class="status-desligado"><span class="dot-red"></span> Desligado</span>`;
+        }
+
+        // ✅ CARGO POR GÊNERO
+        const cargoExibido = cargoByGenero(c.genero) || c.cargo || "—";
+
+        // ✅ BADGE DE GÊNERO
+        const generoHtml = c.genero==="M"
+            ? `<span class="gender-badge masc">♂ Masc.</span>`
+            : c.genero==="F"
+            ? `<span class="gender-badge fem">♀ Fem.</span>`
+            : `<span style="color:#475569;font-size:11px">—</span>`;
+
+        const isSelected=selectedColabIds.has(c.id);
+        return `<tr class="${isSelected?'selected-row':''}">
+            <td><div class="cb-wrap"><input type="checkbox" class="row-cb" ${isSelected?"checked":""} onchange="toggleColabRow(${c.id},this.checked)"></div></td>
+            <td style="color:#1b443c;font-size:12px;font-weight:700">${String(i+1).padStart(2,"0")}</td>
+            <td><div class="cell-name">
+                <div class="avatar" style="background:${color}">${getInitials(c.nome)}</div>
+                <div class="name-info"><strong>${c.nome}</strong><span>${statusInfo.info||"—"}</span></div>
+            </div></td>
+            <td>${generoHtml}</td>
+            <td style="color:#b8d8c8">${cargoExibido}</td>
+            <td><span class="badge-equipe" style="background:${color}18;color:${color};border:1px solid ${color}30">${c.equipe}</span></td>
+            <td>${statusHtml}</td>
+            <td style="color:#6dbb8b;font-size:12px">${c.obs||"—"}</td>
+            <td><div class="action-btns">
+                <button class="btn-icon btn-edit" title="Editar" onclick="openModalColab(${c.id})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+                <button class="btn-icon btn-delete" title="Excluir" onclick="deleteColabSingle(${c.id})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
+            </div></td>
+        </tr>`;
+    }).join("");
+    lucide.createIcons();
+}
+
+// ============================================================
+//  MODAIS — COLABORADOR
+// ============================================================
+function openModalColab(id=null) {
+    editColabId=id;
+    if (id) {
+        const c=colaboradores.find(x=>x.id===id);
+        document.getElementById("modalColabTitle").innerHTML=`<i data-lucide="pencil" style="width:18px;height:18px;color:#17c550"></i> Editar Colaborador`;
+        document.getElementById("inputColabNome").value   = c.nome;
+        document.getElementById("inputColabGenero").value = c.genero||"";
+        document.getElementById("inputColabCargo").value  = cargoByGenero(c.genero)||c.cargo||"";
+        document.getElementById("inputColabEquipe").value = c.equipe;
+        document.getElementById("inputColabObs").value    = c.obs||"";
+    } else {
+        document.getElementById("modalColabTitle").innerHTML=`<i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Novo Colaborador`;
+        document.getElementById("inputColabNome").value   ="";
+        document.getElementById("inputColabGenero").value ="";
+        document.getElementById("inputColabCargo").value  ="";
+        document.getElementById("inputColabEquipe").value ="";
+        document.getElementById("inputColabObs").value    ="";
+    }
+    document.getElementById("modalColab").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalColab() { document.getElementById("modalColab").classList.remove("active"); editColabId=null; }
+function closeModalColabOutside(e) { if (e.target===document.getElementById("modalColab")) closeModalColab(); }
+function saveColab() {
+    const nome  = document.getElementById("inputColabNome").value.trim();
+    const genero= document.getElementById("inputColabGenero").value;
+    const equipe= document.getElementById("inputColabEquipe").value;
+    const obs   = document.getElementById("inputColabObs").value.trim();
+    if (!nome||!equipe)  { showToast("Preencha nome e equipe!","#f59e0b"); return; }
+    if (!genero)          { showToast("Selecione o gênero!","#f59e0b"); return; }
+    const cargo = cargoByGenero(genero);
+    const obj   = { nome, cargo, genero, equipe, obs };
+    if (editColabId) {
+        colaboradores[colaboradores.findIndex(c=>c.id===editColabId)]={ id:editColabId, ...obj };
+        showToast("Colaborador atualizado!");
+    } else {
+        colaboradores.push({ id:nextColabId++, ...obj });
+        showToast("Colaborador adicionado!");
+    }
+    closeModalColab();
+    salvarDados();
+    refreshAll();
+}
+function deleteColabSingle(id) {
+    const c=colaboradores.find(x=>x.id===id);
+    openModalConfirm(
+        "Excluir colaborador?",
+        `Deseja remover <strong>${c.nome}</strong> permanentemente?`,
+        [c.nome],
+        () => {
+            colaboradores=colaboradores.filter(x=>x.id!==id);
+            showToast("Colaborador removido.","#ef4444");
+            salvarDados(); refreshAll();
+        }
+    );
+}
+
+// ============================================================
+//  IMPORTAR EM MASSA
+// ============================================================
+function openModalImportar() {
+    document.getElementById("inputImportar").value      ="";
+    document.getElementById("inputEquipePadrao").value  ="";
+    document.getElementById("inputGeneroPadrao").value  ="";
+    document.getElementById("modalImportar").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalImportar()         { document.getElementById("modalImportar").classList.remove("active"); }
+function closeModalImportarOutside(e) { if (e.target===document.getElementById("modalImportar")) closeModalImportar(); }
+function importarColabs() {
+    const texto        = document.getElementById("inputImportar").value.trim();
+    const equipePadrao = document.getElementById("inputEquipePadrao").value;
+    const generoPadrao = document.getElementById("inputGeneroPadrao").value;
+    if (!texto) { showToast("Cole a lista primeiro!","#f59e0b"); return; }
+
+    const linhas=texto.split("\n").map(l=>l.trim()).filter(l=>l);
+    let adicionados=0, ignorados=0;
+
+    linhas.forEach(linha=>{
+        const partes=linha.split("|").map(p=>p.trim());
+        const nome  = partes[0];
+        let genero  = (partes[1]||generoPadrao||"").toUpperCase();
+        const equipe= partes[2]||equipePadrao;
+
+        // Normaliza gênero
+        if (genero==="MASCULINO"||genero==="MASC") genero="M";
+        if (genero==="FEMININO"||genero==="FEM")   genero="F";
+
+        if (!nome||!equipe)  { ignorados++; return; }
+        if (colaboradores.find(c=>c.nome.toLowerCase()===nome.toLowerCase())) { ignorados++; return; }
+
+        const cargo=cargoByGenero(genero);
+        colaboradores.push({ id:nextColabId++, nome, cargo, genero, equipe, obs:"" });
+        adicionados++;
+    });
+
+    closeModalImportar();
+    salvarDados();
+    refreshAll();
+    showToast(`✅ ${adicionados} adicionado(s)${ignorados>0?`, ${ignorados} ignorado(s)`:""}`);
+}
+
+// ============================================================
+//  MODAL DESLIGAMENTO
+// ============================================================
+function toggleNovoUsuario() {
+    const val=document.getElementById("inputStatusLicenca").value;
+    document.getElementById("groupNovoUsuario").style.display     =val==="em_uso"?"block":"none";
+    document.getElementById("groupDataReatribuicao").style.display=val==="em_uso"?"block":"none";
+}
+function openModal(id=null) {
+    editId=id;
+    const today=new Date().toISOString().split("T")[0];
+    if (id) {
+        const r=registros.find(x=>x.id===id);
+        document.getElementById("inputNome").value              =r.nome;
+        document.getElementById("inputEquipe").value            =r.equipe;
+        document.getElementById("inputData").value              =r.data;
+        document.getElementById("inputCargo").value             =r.cargo||"";
+        document.getElementById("inputStatusLicenca").value     =r.status;
+        document.getElementById("inputNovoUsuario").value       =r.novoUsuario||"";
+        document.getElementById("inputDataReatribuicao").value  =r.dataReatribuicao||"";
+        document.getElementById("inputObs").value               =r.obs||"";
+    } else {
+        document.getElementById("inputNome").value              ="";
+        document.getElementById("inputEquipe").value            ="";
+        document.getElementById("inputData").value              =today;
+        document.getElementById("inputCargo").value             ="";
+        document.getElementById("inputStatusLicenca").value     ="livre";
+        document.getElementById("inputNovoUsuario").value       ="";
+        document.getElementById("inputDataReatribuicao").value  ="";
+        document.getElementById("inputObs").value               ="";
+    }
+    toggleNovoUsuario();
+    document.getElementById("modalOverlay").classList.add("active");
+    lucide.createIcons();
+}
+function closeModal()           { document.getElementById("modalOverlay").classList.remove("active"); editId=null; }
+function closeModalOutside(e)   { if (e.target===document.getElementById("modalOverlay")) closeModal(); }
+function saveRegistro() {
+    const nome             =document.getElementById("inputNome").value.trim();
+    const equipe           =document.getElementById("inputEquipe").value;
+    const data             =document.getElementById("inputData").value;
+    const cargo            =document.getElementById("inputCargo").value.trim();
+    const status           =document.getElementById("inputStatusLicenca").value;
+    const novoUsuario      =document.getElementById("inputNovoUsuario").value.trim();
+    const dataReatribuicao =document.getElementById("inputDataReatribuicao").value;
+    const obs              =document.getElementById("inputObs").value.trim();
+    if (!nome||!equipe||!data) { showToast("Preencha os obrigatórios!","#f59e0b"); return; }
+    if (status==="em_uso"&&!novoUsuario) { showToast("Informe o novo usuário!","#f59e0b"); return; }
+    const obj={nome,equipe,data,cargo,status,novoUsuario:status==="em_uso"?novoUsuario:"",dataReatribuicao:status==="em_uso"?dataReatribuicao:"",obs};
+    if (editId) {
+        registros[registros.findIndex(r=>r.id===editId)]={id:editId,...obj};
+        showToast("Registro atualizado!");
+    } else {
+        registros.push({id:nextId++,...obj});
+        showToast("Desligamento registrado!");
+    }
+    closeModal(); salvarDados(); refreshAll();
+}
+
+// ============================================================
+//  MODAL FÉRIAS
+// ============================================================
+function toggleFeriasUsuario() {
+    const val=document.getElementById("inputFeriasStatus").value;
+    document.getElementById("groupFeriasUsuario").style.display=val==="temp_uso"?"block":"none";
+}
+function openModalFerias(id=null) {
+    editFeriasId=id;
+    const today=new Date().toISOString().split("T")[0];
+    if (id) {
+        const f=ferias.find(x=>x.id===id);
+        document.getElementById("inputFeriasNome").value      =f.nome;
+        document.getElementById("inputFeriasEquipe").value    =f.equipe;
+        document.getElementById("inputFeriasInicio").value    =f.inicio;
+        document.getElementById("inputFeriasRetorno").value   =f.retorno;
+        document.getElementById("inputFeriasStatus").value    =f.status;
+        document.getElementById("inputFeriasUsuarioTemp").value=f.usuarioTemp||"";
+        document.getElementById("inputFeriasObs").value       =f.obs||"";
+    } else {
+        document.getElementById("inputFeriasNome").value      ="";
+        document.getElementById("inputFeriasEquipe").value    ="";
+        document.getElementById("inputFeriasInicio").value    =today;
+        document.getElementById("inputFeriasRetorno").value   ="";
+        document.getElementById("inputFeriasStatus").value    ="livre";
+        document.getElementById("inputFeriasUsuarioTemp").value="";
+        document.getElementById("inputFeriasObs").value       ="";
+    }
+    toggleFeriasUsuario();
+    document.getElementById("modalFerias").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalFerias()           { document.getElementById("modalFerias").classList.remove("active"); editFeriasId=null; }
+function closeModalFeriasOutside(e)   { if (e.target===document.getElementById("modalFerias")) closeModalFerias(); }
+function saveFeriasRegistro() {
+    const nome       =document.getElementById("inputFeriasNome").value.trim();
+    const equipe     =document.getElementById("inputFeriasEquipe").value;
+    const inicio     =document.getElementById("inputFeriasInicio").value;
+    const retorno    =document.getElementById("inputFeriasRetorno").value;
+    const status     =document.getElementById("inputFeriasStatus").value;
+    const usuarioTemp=document.getElementById("inputFeriasUsuarioTemp").value.trim();
+    const obs        =document.getElementById("inputFeriasObs").value.trim();
+    if (!nome||!equipe||!inicio||!retorno) { showToast("Preencha os obrigatórios!","#f59e0b"); return; }
+    if (status==="temp_uso"&&!usuarioTemp) { showToast("Informe o temporário!","#f59e0b"); return; }
+    const obj={nome,equipe,inicio,retorno,status,usuarioTemp:status==="temp_uso"?usuarioTemp:"",obs};
+    if (editFeriasId) {
+        ferias[ferias.findIndex(f=>f.id===editFeriasId)]={id:editFeriasId,...obj};
+        showToast("Férias atualizada!");
+    } else {
+        ferias.push({id:nextFeriasId++,...obj});
+        showToast("Férias registrada!");
+    }
+    closeModalFerias(); salvarDados(); refreshAll();
+}
+
+// ============================================================
+//  REATRIBUIR / LIBERAR / EMPRESTAR / DEVOLVER / RETORNO
+// ============================================================
+function openReatribuir(id) {
+    reatribuirId=id;
+    const r=registros.find(x=>x.id===id);
+    document.getElementById("reatribuirInfo").textContent=`Reatribuir a licença de "${r.nome}" (${r.equipe}) para:`;
+    document.getElementById("reatribuirNome").value="";
+    document.getElementById("reatribuirData").value=new Date().toISOString().split("T")[0];
+    document.getElementById("modalReatribuir").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalReatribuir()           { document.getElementById("modalReatribuir").classList.remove("active"); reatribuirId=null; }
+function closeModalReatribuirOutside(e)   { if (e.target===document.getElementById("modalReatribuir")) closeModalReatribuir(); }
+function confirmarReatribuicao() {
+    const nome=document.getElementById("reatribuirNome").value.trim();
+    const data=document.getElementById("reatribuirData").value;
+    if (!nome) { showToast("Informe o nome!","#f59e0b"); return; }
+    const idx=registros.findIndex(r=>r.id===reatribuirId);
+    registros[idx].status="em_uso"; registros[idx].novoUsuario=nome; registros[idx].dataReatribuicao=data;
+    closeModalReatribuir(); showToast(`Reatribuída para ${nome}!`); salvarDados(); refreshAll();
+}
+function openEmprestar(id) {
+    emprestarId=id;
+    const f=ferias.find(x=>x.id===id);
+    document.getElementById("emprestarInfo").textContent=`Emprestar licença de "${f.nome}" (${f.equipe}) para:`;
+    document.getElementById("emprestarNome").value="";
+    document.getElementById("modalEmprestar").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalEmprestar()           { document.getElementById("modalEmprestar").classList.remove("active"); emprestarId=null; }
+function closeModalEmprestarOutside(e)   { if (e.target===document.getElementById("modalEmprestar")) closeModalEmprestar(); }
+function confirmarEmprestimo() {
+    const nome=document.getElementById("emprestarNome").value.trim();
+    if (!nome) { showToast("Informe o nome!","#f59e0b"); return; }
+    const idx=ferias.findIndex(f=>f.id===emprestarId);
+    ferias[idx].status="temp_uso"; ferias[idx].usuarioTemp=nome;
+    closeModalEmprestar(); showToast(`Emprestada para ${nome}!`); salvarDados(); refreshAll();
+}
+function devolverLicencaFerias(id) {
+    const f=ferias.find(x=>x.id===id);
+    openModalConfirm("Devolver licença?",`Devolver licença de <strong>${f.nome}</strong>?`,[f.nome],()=>{
+        const idx=ferias.findIndex(x=>x.id===id);
+        ferias[idx].status="livre"; ferias[idx].usuarioTemp="";
+        showToast("Devolvida!"); salvarDados(); refreshAll();
+    });
+}
+function retornoFerias(id) {
+    const f=ferias.find(x=>x.id===id);
+    openModalConfirm("Confirmar retorno?",`<strong>${f.nome}</strong> retornou das férias? O registro será removido.`,[f.nome],()=>{
+        ferias=ferias.filter(x=>x.id!==id);
+        showToast("Retorno registrado!"); salvarDados(); refreshAll();
+    });
+}
+function liberarLicenca(id) {
+    const r=registros.find(x=>x.id===id);
+    openModalConfirm("Liberar licença?",`Liberar a licença de <strong>${r.nome}</strong>?`,[r.nome],()=>{
+        const idx=registros.findIndex(x=>x.id===id);
+        registros[idx].status="livre"; registros[idx].novoUsuario=""; registros[idx].dataReatribuicao="";
+        showToast("Liberada!"); salvarDados(); refreshAll();
+    });
+}
+function deleteRegistroSingle(id) {
+    const r=registros.find(x=>x.id===id);
+    openModalConfirm("Remover registro?",`Remover o registro de <strong>${r.nome}</strong> permanentemente?`,[r.nome],()=>{
+        registros=registros.filter(x=>x.id!==id);
+        showToast("Removido.","#ef4444"); salvarDados(); refreshAll();
+    });
+}
+function deleteFeriasSingle(id) {
+    const f=ferias.find(x=>x.id===id);
+    openModalConfirm("Remover registro?",`Remover o registro de férias de <strong>${f.nome}</strong>?`,[f.nome],()=>{
+        ferias=ferias.filter(x=>x.id!==id);
+        showToast("Removido.","#ef4444"); salvarDados(); refreshAll();
+    });
+}
+
+// ============================================================
+//  CONFIG
+// ============================================================
+function openModalConfig() {
+    document.getElementById("inputTotalLicencas").value=config.totalLicencas;
+    document.getElementById("inputValorLicenca").value =config.valorLicenca;
+    document.getElementById("modalConfig").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalConfig()           { document.getElementById("modalConfig").classList.remove("active"); }
+function closeModalConfigOutside(e)   { if (e.target===document.getElementById("modalConfig")) closeModalConfig(); }
+function salvarConfig() {
+    config.totalLicencas=parseInt(document.getElementById("inputTotalLicencas").value)||0;
+    config.valorLicenca =parseFloat(document.getElementById("inputValorLicenca").value)||0;
+    salvarDados(); closeModalConfig(); showToast("Configurações salvas!"); refreshAll();
+}
+
+// ============================================================
+//  EXPORTAR
+// ============================================================
+function exportarExcel(tipo) {
+    const wb=XLSX.utils.book_new();
+    let dados=[],nome="";
+    if (tipo==='desligados') {
+        dados=registros.map(r=>({ "Nome":r.nome,"Cargo":r.cargo||"","Equipe":r.equipe,"Data Desligamento":formatDate(r.data),"Status":r.status==="livre"?"Livre":"Em Uso","Reatribuído para":r.novoUsuario||"","Data Reatribuição":formatDate(r.dataReatribuicao),"Observações":r.obs||"" }));
+        nome="Desligados";
+    } else if (tipo==='ferias') {
+        dados=ferias.map(f=>({ "Nome":f.nome,"Equipe":f.equipe,"Início":formatDate(f.inicio),"Retorno":formatDate(f.retorno),"Status":f.status==="livre"?"Livre":"Emprestado","Temporário":f.usuarioTemp||"","Observações":f.obs||"" }));
+        nome="Férias";
+    } else {
+        dados=colaboradores.map(c=>{ const s=getStatusColab(c.nome); return {"Nome":c.nome,"Gênero":c.genero==="M"?"Masculino":c.genero==="F"?"Feminino":"—","Cargo":cargoByGenero(c.genero)||c.cargo||"","Equipe":c.equipe,"Status":s.status==="ativo"?"Ativo":s.status==="ferias"?"Em Férias":"Desligado","Licença Ativa":s.status==="ativo"?"Sim":"Não","Observações":c.obs||""} });
+        nome="Colaboradores";
+    }
+    const ws=XLSX.utils.json_to_sheet(dados);
+    XLSX.utils.book_append_sheet(wb,ws,nome);
+    XLSX.writeFile(wb,`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.xlsx`);
+    showToast("Excel exportado!");
+}
+function exportarPDF(tipo) {
+    const { jsPDF }=window.jspdf;
+    const doc=new jsPDF();
+    const hoje=new Date().toLocaleDateString("pt-BR");
+    doc.setFillColor(27,68,60);
+    doc.rect(0,0,220,25,'F');
+    doc.setTextColor(255,255,255);
+    doc.setFontSize(16);
+    doc.text("Gestão de Licenças Corban",14,13);
+    doc.setFontSize(9);
+    const tit=tipo==='desligados'?'Desligados':tipo==='ferias'?'Férias':'Colaboradores';
+    doc.text(`Relatório de ${tit} • Gerado em ${hoje}`,14,20);
+    if (tipo==='desligados') {
+        const corpo=registros.map(r=>[r.nome,r.equipe,formatDate(r.data),r.status==="livre"?"Livre":"Em Uso",r.novoUsuario||"—"]);
+        doc.autoTable({startY:32,head:[["Colaborador","Equipe","Data","Status","Reatribuído"]],body:corpo,theme:'striped',headStyles:{fillColor:[23,197,80],textColor:255},styles:{fontSize:9}});
+    } else if (tipo==='ferias') {
+        const corpo=ferias.map(f=>[f.nome,f.equipe,`${formatDate(f.inicio)} → ${formatDate(f.retorno)}`,f.status==="livre"?"Livre":"Emprestado",f.usuarioTemp||"—"]);
+        doc.autoTable({startY:32,head:[["Colaborador","Equipe","Período","Status","Temporário"]],body:corpo,theme:'striped',headStyles:{fillColor:[249,115,22],textColor:255},styles:{fontSize:9}});
+    } else {
+        const corpo=colaboradores.map(c=>{ const s=getStatusColab(c.nome); return [c.nome,c.genero==="M"?"♂ Masc.":"♀ Fem.",cargoByGenero(c.genero)||c.cargo||"—",c.equipe,s.status==="ativo"?"✅ Ativo c/ Licença":s.status==="ferias"?"Em Férias":"Desligado"] });
+        doc.autoTable({startY:32,head:[["Nome","Gênero","Cargo","Equipe","Status"]],body:corpo,theme:'striped',headStyles:{fillColor:[16,185,129],textColor:255},styles:{fontSize:9}});
+    }
+    doc.save(`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.pdf`);
+    showToast("PDF exportado!");
+}
+
+// ============================================================
+//  BACKUP / RESTAURAR / RESETAR
+// ============================================================
+function fazerBackup() {
+    const backup={ registros,ferias,colaboradores,config,nextId,nextFeriasId,nextColabId,data:new Date().toISOString() };
+    const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+    const a=document.createElement("a");
+    a.href=URL.createObjectURL(blob);
+    a.download=`corban_backup_${new Date().toISOString().split("T")[0]}.json`;
+    a.click();
+    showToast("Backup baixado!");
+}
+function restaurarBackup(event) {
+    const file=event.target.files[0];
+    if (!file) return;
+    const reader=new FileReader();
+    reader.onload=function(e) {
+        try {
+            const dados=JSON.parse(e.target.result);
+            openModalConfirm("Restaurar backup?","Os dados atuais serão substituídos pelo backup selecionado.",["Todos os dados atuais serão perdidos!"],()=>{
+                if (dados.registros)     registros    =dados.registros;
+                if (dados.ferias)        ferias       =dados.ferias;
+                if (dados.colaboradores) colaboradores=dados.colaboradores;
+                if (dados.config)        config       =dados.config;
+                if (dados.nextId)        nextId       =dados.nextId;
+                if (dados.nextFeriasId)  nextFeriasId =dados.nextFeriasId;
+                if (dados.nextColabId)   nextColabId  =dados.nextColabId;
+                salvarDados(); refreshAll(); showToast("Backup restaurado!");
+            });
+        } catch(err) { showToast("Arquivo inválido!","#ef4444"); }
+    };
+    reader.readAsText(file);
+    event.target.value="";
+}
+function resetarTudo() {
+    openModalConfirm(
+        "⚠️ Resetar sistema?",
+        "Isso vai apagar <strong>TODOS</strong> os dados permanentemente. Esta ação não pode ser desfeita!",
+        ["Todos os colaboradores","Todos os desligamentos","Todos os registros de férias","Todas as configurações"],
+        ()=>{ localStorage.clear(); location.reload(); }
+    );
+}
+
+// ============================================================
+//  TOAST
+// ============================================================
+function showToast(msg,color="#17c550") {
+    const t=document.getElementById("toast");
+    t.innerHTML=`<i data-lucide="check-circle" style="width:16px;height:16px"></i> ${msg}`;
+    t.style.background=color;
+    t.classList.add("show");
+    lucide.createIcons();
+    setTimeout(()=>t.classList.remove("show"),3000);
+}
+
+// ============================================================
+//  FILTER EQUIPE DESLIGADOS
+// ============================================================
+function updateFilterEquipe() {
+    const sel=document.getElementById("filterEquipe");
+    const val=sel.value;
+    sel.innerHTML=`<option value="">Todas as Equipes</option>`+
+        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+}
+
+// ============================================================
+//  REFRESH ALL
+// ============================================================
+function refreshAll() {
+    updateSummary();
+    updateFeriasSummary();
+    updateColabSummary();
+    updateBarChart();
+    updateStatusChart();
+    updateTimeline();
+    updateColabCharts();
+    updateFilterEquipe();
+    renderTable();
+    renderFeriasTable();
+    renderColabTable();
+    updateLicencas();
+    updateAlertas();
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+setDate();
+refreshAll();
+lucide.createIcons();
 </script>
 </body>
 </html>
