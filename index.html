@@ -840,6 +840,29 @@
             </select>
         </div>
         <div class="form-group">
+            <label><i data-lucide="activity" style="width:12px;height:12px"></i> Status *</label>
+            <select id="inputColabStatus" onchange="toggleColabStatusFields()">
+                <option value="ativo">Ativo (com licença)</option>
+                <option value="ferias">Em Férias</option>
+                <option value="desligado">Desligado</option>
+            </select>
+            <div class="form-hint">Ao escolher Férias ou Desligado, o sistema atualiza automaticamente as abas correspondentes e libera/ocupa a licença.</div>
+        </div>
+        <div class="form-row" id="groupColabFerias" style="display:none">
+            <div class="form-group">
+                <label><i data-lucide="calendar" style="width:12px;height:12px"></i> Início das Férias *</label>
+                <input type="date" id="inputColabFeriasInicio">
+            </div>
+            <div class="form-group">
+                <label><i data-lucide="calendar-check" style="width:12px;height:12px"></i> Previsão de Retorno *</label>
+                <input type="date" id="inputColabFeriasRetorno">
+            </div>
+        </div>
+        <div class="form-group" id="groupColabDesligamento" style="display:none">
+            <label><i data-lucide="calendar-x" style="width:12px;height:12px"></i> Data de Desligamento *</label>
+            <input type="date" id="inputColabDataDesligamento">
+        </div>
+        <div class="form-group">
             <label><i data-lucide="message-square" style="width:12px;height:12px"></i> Observações</label>
             <input type="text" id="inputColabObs" placeholder="Alguma nota...">
         </div>
@@ -1241,6 +1264,11 @@ function cargoByGenero(genero) {
 function atualizarCargoGenero() {
     const g = document.getElementById("inputColabGenero").value;
     document.getElementById("inputColabCargo").value = cargoByGenero(g);
+}
+function toggleColabStatusFields() {
+    const val = document.getElementById("inputColabStatus").value;
+    document.getElementById("groupColabFerias").style.display       = val === "ferias"    ? "grid"  : "none";
+    document.getElementById("groupColabDesligamento").style.display = val === "desligado" ? "block" : "none";
 }
 function detectarGeneroPorNome(nome) {
     const primeiro = nome.trim().split(" ")[0].toLowerCase();
@@ -1964,6 +1992,7 @@ function cadastrarOrfao(nome, equipe, genero) {
 // ============================================================
 function openModalColab(id=null) {
     editColabId=id;
+    const today=new Date().toISOString().split("T")[0];
     if (id) {
         const c=colaboradores.find(x=>x.id===id);
         document.getElementById("modalColabTitle").innerHTML=`<i data-lucide="pencil" style="width:18px;height:18px;color:#17c550"></i> Editar Colaborador`;
@@ -1972,6 +2001,15 @@ function openModalColab(id=null) {
         document.getElementById("inputColabCargo").value  = cargoByGenero(c.genero)||c.cargo||"";
         document.getElementById("inputColabEquipe").value = c.equipe;
         document.getElementById("inputColabObs").value    = c.obs||"";
+
+        const statusAtual = getStatusColab(c.nome).status;
+        document.getElementById("inputColabStatus").value = statusAtual;
+
+        const ferItem = ferias.find(f => f.nome.toLowerCase() === c.nome.toLowerCase());
+        const desItem = registros.find(r => r.nome.toLowerCase() === c.nome.toLowerCase());
+        document.getElementById("inputColabFeriasInicio").value     = ferItem ? ferItem.inicio : today;
+        document.getElementById("inputColabFeriasRetorno").value    = ferItem ? ferItem.retorno : "";
+        document.getElementById("inputColabDataDesligamento").value = desItem ? desItem.data : today;
     } else {
         document.getElementById("modalColabTitle").innerHTML=`<i data-lucide="user-plus" style="width:18px;height:18px;color:#17c550"></i> Novo Colaborador`;
         document.getElementById("inputColabNome").value   ="";
@@ -1979,21 +2017,36 @@ function openModalColab(id=null) {
         document.getElementById("inputColabCargo").value  ="";
         document.getElementById("inputColabEquipe").value ="";
         document.getElementById("inputColabObs").value    ="";
+        document.getElementById("inputColabStatus").value ="ativo";
+        document.getElementById("inputColabFeriasInicio").value     = today;
+        document.getElementById("inputColabFeriasRetorno").value    = "";
+        document.getElementById("inputColabDataDesligamento").value = today;
     }
+    toggleColabStatusFields();
     document.getElementById("modalColab").classList.add("active");
     lucide.createIcons();
 }
 function closeModalColab() { document.getElementById("modalColab").classList.remove("active"); editColabId=null; }
 function closeModalColabOutside(e) { if (e.target===document.getElementById("modalColab")) closeModalColab(); }
 function saveColab() {
-    const nome  = document.getElementById("inputColabNome").value.trim();
-    const genero= document.getElementById("inputColabGenero").value;
-    const equipe= document.getElementById("inputColabEquipe").value;
-    const obs   = document.getElementById("inputColabObs").value.trim();
+    const nome   = document.getElementById("inputColabNome").value.trim();
+    const genero = document.getElementById("inputColabGenero").value;
+    const equipe = document.getElementById("inputColabEquipe").value;
+    const obs    = document.getElementById("inputColabObs").value.trim();
+    const status = document.getElementById("inputColabStatus").value;
+    const feriasInicio  = document.getElementById("inputColabFeriasInicio").value;
+    const feriasRetorno = document.getElementById("inputColabFeriasRetorno").value;
+    const dataDesligamento = document.getElementById("inputColabDataDesligamento").value;
+
     if (!nome||!equipe)  { showToast("Preencha nome e equipe!","#f59e0b"); return; }
     if (!genero)          { showToast("Selecione o gênero!","#f59e0b"); return; }
+    if (status==="ferias" && (!feriasInicio||!feriasRetorno)) { showToast("Informe início e retorno das férias!","#f59e0b"); return; }
+    if (status==="desligado" && !dataDesligamento) { showToast("Informe a data de desligamento!","#f59e0b"); return; }
+
     const cargo = cargoByGenero(genero);
     const obj   = { nome, cargo, genero, equipe, obs };
+    const nomeAntigo = editColabId ? colaboradores.find(c=>c.id===editColabId).nome : null;
+
     if (editColabId) {
         colaboradores[colaboradores.findIndex(c=>c.id===editColabId)]={ id:editColabId, ...obj };
         showToast("Colaborador atualizado!");
@@ -2005,9 +2058,43 @@ function saveColab() {
         colaboradores.push({ id:nextColabId++, ...obj });
         showToast("Colaborador adicionado!");
     }
+
+    sincronizarStatusColab(nomeAntigo, nome, equipe, status, { feriasInicio, feriasRetorno, dataDesligamento, cargo });
+
     closeModalColab();
     salvarDados();
     refreshAll();
+}
+
+// ============================================================
+//  SINCRONIZA STATUS DO COLABORADOR COM AS ABAS DESLIGADOS/FÉRIAS
+// ============================================================
+function sincronizarStatusColab(nomeAntigo, nomeNovo, equipe, status, datas) {
+    const nomeBusca = (nomeAntigo || nomeNovo).toLowerCase();
+    const ferIdx = ferias.findIndex(f => f.nome.toLowerCase() === nomeBusca);
+    const desIdx = registros.findIndex(r => r.nome.toLowerCase() === nomeBusca);
+
+    if (status === "ferias") {
+        // Garante que não existe registro de desligamento concorrente
+        if (desIdx !== -1) registros.splice(desIdx, 1);
+        if (ferIdx !== -1) {
+            ferias[ferIdx] = { ...ferias[ferIdx], nome:nomeNovo, equipe, inicio:datas.feriasInicio, retorno:datas.feriasRetorno };
+        } else {
+            ferias.push({ id:nextFeriasId++, nome:nomeNovo, equipe, inicio:datas.feriasInicio, retorno:datas.feriasRetorno, status:"livre", usuarioTemp:"", obs:"Gerado automaticamente a partir do cadastro do colaborador" });
+        }
+    } else if (status === "desligado") {
+        // Garante que não existe registro de férias concorrente
+        if (ferIdx !== -1) ferias.splice(ferIdx, 1);
+        if (desIdx !== -1) {
+            registros[desIdx] = { ...registros[desIdx], nome:nomeNovo, equipe, data:datas.dataDesligamento };
+        } else {
+            registros.push({ id:nextId++, nome:nomeNovo, equipe, data:datas.dataDesligamento, cargo:datas.cargo||"", status:"livre", novoUsuario:"", dataReatribuicao:"", obs:"Gerado automaticamente a partir do cadastro do colaborador" });
+        }
+    } else {
+        // Ativo: remove qualquer vínculo de férias/desligamento e libera a licença
+        if (ferIdx !== -1) ferias.splice(ferIdx, 1);
+        if (desIdx !== -1) registros.splice(desIdx, 1);
+    }
 }
 function deleteColabSingle(id) {
     const c=colaboradores.find(x=>x.id===id);
