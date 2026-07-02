@@ -1556,7 +1556,7 @@ function updateFilterEquipe() {
     const sel=document.getElementById("filterEquipe");
     const val=sel.value;
     sel.innerHTML=`<option value="">Todas as Equipes</option>`+
-        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara" "Gois Promotora" "Treinamento"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
 }
 
 // ============================================================
