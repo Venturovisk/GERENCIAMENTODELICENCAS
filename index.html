@@ -516,6 +516,8 @@
             <option value="Equipe Lavínia">Equipe Lavínia</option>
             <option value="Equipe Matheus">Equipe Matheus</option>
             <option value="Equipe Nayara">Equipe Nayara</option>
+            <option value="Gois Promotora">Gois Promotora</option>
+            <option value="Treinamento">Treinamento</option>
         </select>
         <select class="filter-select" id="filterStatusColab" onchange="renderColabTable()">
             <option value="">Todos os Status</option>
@@ -756,6 +758,8 @@
             <option value="Equipe Lavínia">Equipe Lavínia</option>
             <option value="Equipe Matheus">Equipe Matheus</option>
             <option value="Equipe Nayara">Equipe Nayara</option>
+            <option value="Gois Promotora">Gois Promotora</option>
+            <option value="Treinamento">Treinamento</option>
         </select>
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('ferias')">
@@ -837,6 +841,8 @@
                 <option value="Equipe Lavínia">Equipe Lavínia</option>
                 <option value="Equipe Matheus">Equipe Matheus</option>
                 <option value="Equipe Nayara">Equipe Nayara</option>
+                <option value="Gois Promotora">Gois Promotora</option>
+                <option value="Treinamento">Treinamento</option>
             </select>
         </div>
         <div class="form-group">
@@ -906,6 +912,8 @@
                     <option value="Equipe Lavínia">Equipe Lavínia</option>
                     <option value="Equipe Matheus">Equipe Matheus</option>
                     <option value="Equipe Nayara">Equipe Nayara</option>
+                    <option value="Gois Promotora">Gois Promotora</option>
+                    <option value="Treinamento">Treinamento</option>
                 </select>
             </div>
             <div class="form-group">
@@ -969,6 +977,8 @@
                     <option value="Equipe Lavínia">Equipe Lavínia</option>
                     <option value="Equipe Matheus">Equipe Matheus</option>
                     <option value="Equipe Nayara">Equipe Nayara</option>
+                    <option value="Gois Promotora">Gois Promotora</option>
+                    <option value="Treinamento">Treinamento</option>
                 </select>
             </div>
         </div>
@@ -1059,6 +1069,8 @@
                     <option value="Equipe Lavínia">Equipe Lavínia</option>
                     <option value="Equipe Matheus">Equipe Matheus</option>
                     <option value="Equipe Nayara">Equipe Nayara</option>
+                    <option value="Gois Promotora">Gois Promotora</option>
+                    <option value="Treinamento">Treinamento</option>
                 </select>
             </div>
         </div>
@@ -1251,6 +1263,8 @@ const equipeColors = {
     "Equipe Lavínia": "#8b5cf6",
     "Equipe Matheus": "#3b82f6",
     "Equipe Nayara":  "#ec4899",
+    "Gois Promotora": "#f59e0b",
+    "Treinamento":    "#06b6d4",
 };
 
 // ============================================================
@@ -1556,7 +1570,7 @@ function updateFilterEquipe() {
     const sel=document.getElementById("filterEquipe");
     const val=sel.value;
     sel.innerHTML=`<option value="">Todas as Equipes</option>`+
-        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara" "Gois Promotora" "Treinamento"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
 }
 
 // ============================================================
@@ -2160,7 +2174,7 @@ function importarColabs() {
         // Se equipe veio na segunda posição (formato: Nome | Equipe)
         if (!equipe && partes[1]) {
             const p1 = partes[1];
-            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"];
+            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara", "Gois Promotora", "Treinamento"];
             const match = equipesValidas.find(e => 
                 e.toLowerCase() === p1.toLowerCase() ||
                 e.toLowerCase().replace("equipe ", "") === p1.toLowerCase()
@@ -2174,7 +2188,7 @@ function importarColabs() {
 
         // Normaliza nome de equipe
         if (equipe) {
-            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara"];
+            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara", "Gois Promotora", "Treinamento"];
             const equipeMatch = equipesValidas.find(e => 
                 e.toLowerCase() === equipe.toLowerCase() ||
                 e.toLowerCase().replace("equipe ", "") === equipe.toLowerCase()
@@ -2436,13 +2450,13 @@ function exportarExcel(tipo) {
     const wb=XLSX.utils.book_new();
     let dados=[],nome="";
     if (tipo==='desligados') {
-        dados=registros.map(r=>({ "Nome":r.nome,"Cargo":r.cargo||"","Equipe":r.equipe,"Data Desligamento":formatDate(r.data),"Status":r.status==="livre"?"Livre":"Em Uso","Reatribuído para":r.novoUsuario||"","Data Reatribuição":formatDate(r.dataReatribuicao),"Observações":r.obs||"" }));
+        dados=registros.map((r,i)=>({ "#":i+1,"Nome":r.nome,"Cargo":r.cargo||"","Equipe":r.equipe,"Data Desligamento":formatDate(r.data),"Status":r.status==="livre"?"Livre":"Em Uso","Reatribuído para":r.novoUsuario||"","Data Reatribuição":formatDate(r.dataReatribuicao),"Observações":r.obs||"" }));
         nome="Desligados";
     } else if (tipo==='ferias') {
-        dados=ferias.map(f=>({ "Nome":f.nome,"Equipe":f.equipe,"Início":formatDate(f.inicio),"Retorno":formatDate(f.retorno),"Status":f.status==="livre"?"Livre":"Emprestado","Temporário":f.usuarioTemp||"","Observações":f.obs||"" }));
+        dados=ferias.map((f,i)=>({ "#":i+1,"Nome":f.nome,"Equipe":f.equipe,"Início":formatDate(f.inicio),"Retorno":formatDate(f.retorno),"Status":f.status==="livre"?"Livre":"Emprestado","Temporário":f.usuarioTemp||"","Observações":f.obs||"" }));
         nome="Férias";
     } else {
-        dados=colaboradores.map(c=>{ const s=getStatusColab(c.nome); return {"Nome":c.nome,"Gênero":c.genero==="M"?"Masculino":c.genero==="F"?"Feminino":"—","Cargo":cargoByGenero(c.genero)||c.cargo||"","Equipe":c.equipe,"Status":s.status==="ativo"?"Ativo":s.status==="ferias"?"Em Férias":"Desligado","Licença Ativa":s.status==="ativo"?"Sim":"Não","Observações":c.obs||""} });
+        dados=colaboradores.map((c,i)=>{ const s=getStatusColab(c.nome); return {"#":i+1,"Nome":c.nome,"Gênero":c.genero==="M"?"Masculino":c.genero==="F"?"Feminino":"—","Cargo":cargoByGenero(c.genero)||c.cargo||"","Equipe":c.equipe,"Status":s.status==="ativo"?"Ativo":s.status==="ferias"?"Em Férias":"Desligado","Licença Ativa":s.status==="ativo"?"Sim":"Não","Observações":c.obs||""} });
         nome="Colaboradores";
     }
     const ws=XLSX.utils.json_to_sheet(dados);
@@ -2463,14 +2477,14 @@ function exportarPDF(tipo) {
     const tit=tipo==='desligados'?'Desligados':tipo==='ferias'?'Férias':'Colaboradores';
     doc.text(`Relatório de ${tit} • Gerado em ${hoje}`,14,20);
     if (tipo==='desligados') {
-        const corpo=registros.map(r=>[r.nome,r.equipe,formatDate(r.data),r.status==="livre"?"Livre":"Em Uso",r.novoUsuario||"—"]);
-        doc.autoTable({startY:32,head:[["Colaborador","Equipe","Data","Status","Reatribuído"]],body:corpo,theme:'striped',headStyles:{fillColor:[23,197,80],textColor:255},styles:{fontSize:9}});
+        const corpo=registros.map((r,i)=>[i+1,r.nome,r.equipe,formatDate(r.data),r.status==="livre"?"Livre":"Em Uso",r.novoUsuario||"—"]);
+        doc.autoTable({startY:32,head:[["#","Colaborador","Equipe","Data","Status","Reatribuído"]],body:corpo,theme:'striped',headStyles:{fillColor:[23,197,80],textColor:255},styles:{fontSize:9},columnStyles:{0:{cellWidth:10,halign:'center'}}});
     } else if (tipo==='ferias') {
-        const corpo=ferias.map(f=>[f.nome,f.equipe,`${formatDate(f.inicio)} → ${formatDate(f.retorno)}`,f.status==="livre"?"Livre":"Emprestado",f.usuarioTemp||"—"]);
-        doc.autoTable({startY:32,head:[["Colaborador","Equipe","Período","Status","Temporário"]],body:corpo,theme:'striped',headStyles:{fillColor:[249,115,22],textColor:255},styles:{fontSize:9}});
+        const corpo=ferias.map((f,i)=>[i+1,f.nome,f.equipe,`${formatDate(f.inicio)} → ${formatDate(f.retorno)}`,f.status==="livre"?"Livre":"Emprestado",f.usuarioTemp||"—"]);
+        doc.autoTable({startY:32,head:[["#","Colaborador","Equipe","Período","Status","Temporário"]],body:corpo,theme:'striped',headStyles:{fillColor:[249,115,22],textColor:255},styles:{fontSize:9},columnStyles:{0:{cellWidth:10,halign:'center'}}});
     } else {
-        const corpo=colaboradores.map(c=>{ const s=getStatusColab(c.nome); return [c.nome,c.genero==="M"?"Masc.":"Fem.",cargoByGenero(c.genero)||c.cargo||"—",c.equipe,s.status==="ativo"?"Ativo c/ Licenca":s.status==="ferias"?"Em Ferias":"Desligado"] });
-        doc.autoTable({startY:32,head:[["Nome","Gênero","Cargo","Equipe","Status"]],body:corpo,theme:'striped',headStyles:{fillColor:[16,185,129],textColor:255},styles:{fontSize:9}});
+        const corpo=colaboradores.map((c,i)=>{ const s=getStatusColab(c.nome); return [i+1,c.nome,c.genero==="M"?"Masc.":"Fem.",cargoByGenero(c.genero)||c.cargo||"—",c.equipe,s.status==="ativo"?"Ativo c/ Licenca":s.status==="ferias"?"Em Ferias":"Desligado"] });
+        doc.autoTable({startY:32,head:[["#","Nome","Gênero","Cargo","Equipe","Status"]],body:corpo,theme:'striped',headStyles:{fillColor:[16,185,129],textColor:255},styles:{fontSize:9},columnStyles:{0:{cellWidth:10,halign:'center'}}});
     }
     doc.save(`Corban_${tipo}_${new Date().toISOString().split("T")[0]}.pdf`);
     showToast("PDF exportado!");
