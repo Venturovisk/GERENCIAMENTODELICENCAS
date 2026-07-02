@@ -191,6 +191,30 @@
         }
         .btn-export:hover { background: #1b443c; color: #17c550; border-color: #17c550; }
 
+        .view-toggle-group { display: flex; background: #122a24; border: 1px solid #1b443c; border-radius: 10px; padding: 3px; gap: 2px; }
+        .view-toggle-btn {
+            padding: 9px 14px; background: transparent; border: none; border-radius: 8px;
+            color: #6dbb8b; font-size: 12px; font-weight: 600; cursor: pointer;
+            display: flex; align-items: center; gap: 6px; transition: all 0.2s; white-space: nowrap;
+        }
+        .view-toggle-btn:hover { color: #b8d8c8; }
+        .view-toggle-btn.active { background: linear-gradient(135deg,#17c550,#1b443c); color: #fff; box-shadow: 0 4px 12px rgba(23,197,80,0.25); }
+
+        .team-columns-section { padding: 0 30px 30px; }
+        .team-columns-section.hidden, .table-section.hidden { display: none; }
+        .team-columns { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; align-items: start; }
+        .team-column { background: linear-gradient(145deg,#122a24,#0e1f1a); border-radius: 16px; border: 1px solid #1b443c; overflow: hidden; }
+        .team-col-header { display: flex; align-items: center; gap: 9px; padding: 14px 16px; border-bottom: 1px solid; background: #0a1612; }
+        .team-col-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .team-col-title { font-size: 13px; font-weight: 700; color: #fff; flex: 1; }
+        .team-col-count { font-size: 11px; font-weight: 700; padding: 2px 9px; border-radius: 20px; }
+        .team-col-body { padding: 10px; display: flex; flex-direction: column; gap: 8px; max-height: 560px; overflow-y: auto; }
+        .team-col-item { display: flex; align-items: center; gap: 10px; padding: 9px 10px; background: #0a1612; border-radius: 10px; border: 1px solid #1b443c44; }
+        .team-col-item-info { display: flex; flex-direction: column; min-width: 0; }
+        .team-col-item-info strong { font-size: 12.5px; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; align-items: center; gap: 5px; }
+        .team-col-item-info span { font-size: 11px; color: #6dbb8b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .team-col-empty { padding: 20px 10px; text-align: center; color: #475569; font-size: 12px; font-style: italic; }
+
         .table-section { padding: 0 30px 30px; }
         .table-header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px; }
         .table-title { font-size: 15px; font-weight: 600; color: #fff; display: flex; align-items: center; gap: 8px; }
@@ -544,9 +568,17 @@
         <button class="btn-action" onclick="openModalColab()">
             <i data-lucide="user-plus" style="width:16px;height:16px"></i> Novo Colaborador
         </button>
+        <div class="view-toggle-group">
+            <button class="view-toggle-btn active" id="viewToggleColabTable" onclick="setColabView('table')">
+                <i data-lucide="table" style="width:14px;height:14px"></i> Tabela
+            </button>
+            <button class="view-toggle-btn" id="viewToggleColabColumns" onclick="setColabView('columns')">
+                <i data-lucide="columns-3" style="width:14px;height:14px"></i> Colunas por Equipe
+            </button>
+        </div>
     </div>
 
-    <div class="table-section">
+    <div class="table-section" id="colabTableSection">
         <div class="table-header-row">
             <div class="table-title">
                 <i data-lucide="users" style="width:18px;height:18px;color:#17c550"></i>
@@ -575,6 +607,10 @@
                 <p style="font-size:14px">Nenhum colaborador cadastrado. Clique em "Novo Colaborador" ou "Importar em Massa".</p>
             </div>
         </div>
+    </div>
+
+    <div class="team-columns-section hidden" id="colabColumnsSection">
+        <div class="team-columns" id="colabColumnsView"></div>
     </div>
 </div>
 
@@ -669,9 +705,17 @@
         <button class="btn-action" onclick="openModal()">
             <i data-lucide="plus" style="width:16px;height:16px"></i> Registrar Desligamento
         </button>
+        <div class="view-toggle-group">
+            <button class="view-toggle-btn active" id="viewToggleDesligadosTable" onclick="setDesligadosView('table')">
+                <i data-lucide="table" style="width:14px;height:14px"></i> Tabela
+            </button>
+            <button class="view-toggle-btn" id="viewToggleDesligadosColumns" onclick="setDesligadosView('columns')">
+                <i data-lucide="columns-3" style="width:14px;height:14px"></i> Colunas por Equipe
+            </button>
+        </div>
     </div>
 
-    <div class="table-section">
+    <div class="table-section" id="desligadosTableSection">
         <div class="table-header-row">
             <div class="table-title">
                 <i data-lucide="clipboard-list" style="width:18px;height:18px;color:#17c550"></i>
@@ -699,6 +743,10 @@
                 <p style="font-size:14px">Nenhum registro encontrado.</p>
             </div>
         </div>
+    </div>
+
+    <div class="team-columns-section hidden" id="desligadosColumnsSection">
+        <div class="team-columns" id="desligadosColumnsView"></div>
     </div>
 </div>
 
@@ -772,9 +820,17 @@
         <button class="btn-action secondary" onclick="openModalFerias()">
             <i data-lucide="sun" style="width:16px;height:16px"></i> Registrar Férias
         </button>
+        <div class="view-toggle-group">
+            <button class="view-toggle-btn active" id="viewToggleFeriasTable" onclick="setFeriasView('table')">
+                <i data-lucide="table" style="width:14px;height:14px"></i> Tabela
+            </button>
+            <button class="view-toggle-btn" id="viewToggleFeriasColumns" onclick="setFeriasView('columns')">
+                <i data-lucide="columns-3" style="width:14px;height:14px"></i> Colunas por Equipe
+            </button>
+        </div>
     </div>
 
-    <div class="table-section">
+    <div class="table-section" id="feriasTableSection">
         <div class="table-header-row">
             <div class="table-title">
                 <i data-lucide="sun" style="width:18px;height:18px;color:#f97316"></i>
@@ -802,6 +858,10 @@
                 <p style="font-size:14px">Nenhum colaborador em férias.</p>
             </div>
         </div>
+    </div>
+
+    <div class="team-columns-section hidden" id="feriasColumnsSection">
+        <div class="team-columns" id="feriasColumnsView"></div>
     </div>
 </div>
 
@@ -1255,6 +1315,10 @@ let selectedFeriasIds     = new Set();
 let filteredColabIds      = [];
 let filteredDesligadosIds = [];
 let filteredFeriasIds     = [];
+let colabViewMode      = "table";
+let desligadosViewMode = "table";
+let feriasViewMode     = "table";
+const equipeOrder = ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento"];
 let pendingDeleteFn = null;
 
 carregarDados();
@@ -1756,6 +1820,128 @@ function closeModalConfirmOutside(e) {
 // ============================================================
 //  RENDER DESLIGADOS
 // ============================================================
+// ============================================================
+//  VISUALIZAÇÃO EM COLUNAS POR EQUIPE (COLABORADORES, DESLIGADOS, FÉRIAS)
+// ============================================================
+function groupByEquipe(items, getEquipe) {
+    const groups = {};
+    items.forEach(it => {
+        const eq = getEquipe(it) || "Sem Equipe";
+        if (!groups[eq]) groups[eq] = [];
+        groups[eq].push(it);
+    });
+    const keys = Object.keys(groups).sort((a, b) => {
+        const ia = equipeOrder.indexOf(a), ib = equipeOrder.indexOf(b);
+        if (ia === -1 && ib === -1) return a.localeCompare(b);
+        if (ia === -1) return 1;
+        if (ib === -1) return -1;
+        return ia - ib;
+    });
+    return keys.map(k => ({ equipe: k, items: groups[k] }));
+}
+
+function setColabView(mode) {
+    colabViewMode = mode;
+    document.getElementById("viewToggleColabTable").classList.toggle("active", mode === "table");
+    document.getElementById("viewToggleColabColumns").classList.toggle("active", mode === "columns");
+    document.getElementById("colabTableSection").classList.toggle("hidden", mode !== "table");
+    document.getElementById("colabColumnsSection").classList.toggle("hidden", mode !== "columns");
+    renderColabTable();
+}
+
+function setDesligadosView(mode) {
+    desligadosViewMode = mode;
+    document.getElementById("viewToggleDesligadosTable").classList.toggle("active", mode === "table");
+    document.getElementById("viewToggleDesligadosColumns").classList.toggle("active", mode === "columns");
+    document.getElementById("desligadosTableSection").classList.toggle("hidden", mode !== "table");
+    document.getElementById("desligadosColumnsSection").classList.toggle("hidden", mode !== "columns");
+    renderTable();
+}
+
+function setFeriasView(mode) {
+    feriasViewMode = mode;
+    document.getElementById("viewToggleFeriasTable").classList.toggle("active", mode === "table");
+    document.getElementById("viewToggleFeriasColumns").classList.toggle("active", mode === "columns");
+    document.getElementById("feriasTableSection").classList.toggle("hidden", mode !== "table");
+    document.getElementById("feriasColumnsSection").classList.toggle("hidden", mode !== "columns");
+    renderFeriasTable();
+}
+
+function renderTeamColumns(containerId, filtrados, opts) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const groups = groupByEquipe(filtrados, opts.getEquipe);
+    if (!groups.length) {
+        container.innerHTML = `<div class="team-col-empty" style="grid-column:1/-1;padding:40px">Nenhum registro encontrado.</div>`;
+        return;
+    }
+    container.innerHTML = groups.map(g => {
+        const color = equipeColors[g.equipe] || "#17c550";
+        const itemsHtml = g.items.map(it => opts.renderItem(it, color)).join("");
+        return `<div class="team-column">
+            <div class="team-col-header" style="border-color:${color}40">
+                <span class="team-col-dot" style="background:${color}"></span>
+                <span class="team-col-title">${g.equipe}</span>
+                <span class="team-col-count" style="background:${color}20;color:${color}">${g.items.length}</span>
+            </div>
+            <div class="team-col-body">${itemsHtml || '<div class="team-col-empty">Nenhum registro</div>'}</div>
+        </div>`;
+    }).join("");
+}
+
+function renderColabColumns(filtrados) {
+    renderTeamColumns("colabColumnsView", filtrados, {
+        getEquipe: c => c.equipe,
+        renderItem: (c, color) => {
+            const statusInfo = getStatusColab(c.nome);
+            const cargoExibido = cargoByGenero(c.genero) || c.cargo || "—";
+            const statusLabel = statusInfo.status === "ativo" ? "Ativo" : statusInfo.status === "ferias" ? "Em Férias" : "Desligado";
+            const orfaoTag = c._orfao ? `<span class="badge-orfao" style="font-size:9px">Não cadastrado</span>` : "";
+            return `<div class="team-col-item">
+                <div class="avatar" style="width:28px;height:28px;font-size:11px;background:${color}">${getInitials(c.nome)}</div>
+                <div class="team-col-item-info">
+                    <strong>${c.nome}${orfaoTag}</strong>
+                    <span>${cargoExibido} · ${statusLabel}</span>
+                </div>
+            </div>`;
+        }
+    });
+}
+
+function renderDesligadosColumns(filtrados) {
+    renderTeamColumns("desligadosColumnsView", filtrados, {
+        getEquipe: r => r.equipe,
+        renderItem: (r, color) => {
+            const isLivre = r.status === "livre";
+            const info = isLivre ? `Livre desde ${formatDate(r.data)}` : `Com ${r.novoUsuario}`;
+            return `<div class="team-col-item">
+                <div class="avatar" style="width:28px;height:28px;font-size:11px;background:${color}">${getInitials(r.nome)}</div>
+                <div class="team-col-item-info">
+                    <strong>${r.nome}</strong>
+                    <span>${info}</span>
+                </div>
+            </div>`;
+        }
+    });
+}
+
+function renderFeriasColumns(filtrados) {
+    renderTeamColumns("feriasColumnsView", filtrados, {
+        getEquipe: f => f.equipe,
+        renderItem: (f, color) => {
+            const isLivre = f.status === "livre";
+            const info = isLivre ? `${formatDate(f.inicio)} → ${formatDate(f.retorno)}` : `Emprestado a ${f.usuarioTemp}`;
+            return `<div class="team-col-item">
+                <div class="avatar" style="width:28px;height:28px;font-size:11px;background:${color}">${getInitials(f.nome)}</div>
+                <div class="team-col-item-info">
+                    <strong>${f.nome}</strong>
+                    <span>${info}</span>
+                </div>
+            </div>`;
+        }
+    });
+}
+
 function renderTable() {
     const search = document.getElementById("searchInput").value.toLowerCase();
     const equipe = document.getElementById("filterEquipe").value;
@@ -1805,6 +1991,7 @@ function renderTable() {
             <td><div class="action-btns">${actionsHtml}</div></td>
         </tr>`;
     }).join("");
+    renderDesligadosColumns(filtrados);
     lucide.createIcons();
 }
 
@@ -1853,6 +2040,7 @@ function renderFeriasTable() {
             <td><div class="action-btns">${actionsHtml}</div></td>
         </tr>`;
     }).join("");
+    renderFeriasColumns(filtrados);
     lucide.createIcons();
 }
 
@@ -1977,6 +2165,7 @@ function renderColabTable() {
             <td><div class="action-btns">${actionsHtml}</div></td>
         </tr>`;
     }).join("");
+    renderColabColumns(filtrados);
     lucide.createIcons();
 }
 
