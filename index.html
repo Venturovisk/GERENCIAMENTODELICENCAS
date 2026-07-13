@@ -1521,31 +1521,29 @@ function updateFeriasSummary() {
     document.getElementById("tabCountFerias").textContent   = total;
 }
 function updateColabSummary() {
-    const total = colaboradores.length;
-    let ativos=0, frias=0, desls=0;
-    colaboradores.forEach(c=>{
-        const s = getStatusColab(c.nome);
-        if (s.status==="ativo")      ativos++;
-        else if (s.status==="ferias") frias++;
-        else if (s.status==="desligado") desls++;
-    });
-    const desligadosForaDoCadastro = registros.filter(r => 
-        !colaboradores.some(c => c.nome.toLowerCase() === r.nome.toLowerCase())
-    ).length;
-    const feriasForaDoCadastro = ferias.filter(f => 
-        !colaboradores.some(c => c.nome.toLowerCase() === f.nome.toLowerCase())
-    ).length;
-    desls += desligadosForaDoCadastro;
-    frias += feriasForaDoCadastro;
 
-    const equipes = new Set(colaboradores.map(c=>c.equipe)).size;
-    document.getElementById("totalColab").textContent         = total + desligadosForaDoCadastro + feriasForaDoCadastro;
-    document.getElementById("colabAtivos").textContent        = ativos;
-    document.getElementById("colabFerias").textContent        = frias;
-    document.getElementById("colabDesligados").textContent    = desls;
-    document.getElementById("colabPorEquipe").textContent     = equipes;
-    document.getElementById("tabCountColaboradores").textContent = total + desligadosForaDoCadastro + feriasForaDoCadastro;
-}
+    // Remove nomes duplicados
+    const colaboradoresUnicos = colaboradores.filter((c, index, array) =>
+        index === array.findIndex(x =>
+            x.nome.trim().toLowerCase() === c.nome.trim().toLowerCase()
+        )
+    );
+
+    let ativos = 0;
+    let frias = 0;
+    let desls = 0;
+
+    colaboradoresUnicos.forEach(c => {
+        const status = getStatusColab(c.nome).status;
+
+        if (status === "ativo") {
+            ativos++;
+        } else if (status === "ferias") {
+            frias++;
+        } else if (status === "desligado") {
+            desls++;
+        }
+    });
 
 // ============================================================
 //  CHARTS
