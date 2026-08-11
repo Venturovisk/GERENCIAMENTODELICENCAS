@@ -375,6 +375,17 @@
         }
         .toast.show { transform: translateY(0); opacity: 1; }
 
+        .team-manager-list { display:flex; flex-direction:column; gap:10px; margin-top:8px; }
+        .team-manager-item { display:flex; align-items:center; gap:10px; padding:12px; background:#0a1612; border:1px solid #1b443c; border-radius:10px; }
+        .team-manager-item .team-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+        .team-manager-item .team-name { flex:1; color:#fff; font-size:13px; font-weight:700; }
+        .team-manager-item .team-members { color:#6dbb8b; font-size:11px; margin-right:6px; }
+        .team-manager-item input { flex:1; min-width:120px; padding:8px 10px; background:#0a0f0d; border:1px solid #17c550; border-radius:8px; color:#fff; font-size:13px; outline:none; }
+        .team-manager-actions { display:flex; gap:5px; }
+        .team-manager-actions button { min-width:32px; height:32px; padding:0 9px; border-radius:8px; border:1px solid #1b443c; background:#122a24; color:#b8d8c8; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:5px; }
+        .team-manager-actions button:hover { border-color:#17c550; color:#17c550; }
+        .team-manager-actions .save-team:hover { border-color:#17c550; color:#17c550; }
+        .team-manager-actions .delete-team:hover { border-color:#ef4444; color:#ef4444; }
         .empty-state { text-align: center; padding: 50px 20px; color: #1b443c; }
 
         .gender-badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
@@ -537,11 +548,11 @@
         </div>
         <select class="filter-select" id="filterEquipeColab" onchange="renderColabTable()">
             <option value="">Todas as Equipes</option>
-            <option value="Equipe Lavínia">Equipe Lavínia</option>
-            <option value="Equipe Matheus">Equipe Matheus</option>
-            <option value="Equipe Nayara">Equipe Nayara</option>
-            <option value="Gois Promotora">Gois Promotora</option>
-            <option value="Treinamento">Treinamento</option>
+            
+            
+            
+            
+            
         </select>
         <select class="filter-select" id="filterStatusColab" onchange="renderColabTable()">
             <option value="">Todos os Status</option>
@@ -564,6 +575,9 @@
         </div>
         <button class="btn-action purple" onclick="openModalImportar()">
             <i data-lucide="upload" style="width:16px;height:16px"></i> Importar em Massa
+        </button>
+        <button class="btn-action secondary" onclick="openModalEquipes()">
+            <i data-lucide="users-round" style="width:16px;height:16px"></i> Gerenciar Equipes
         </button>
         <button class="btn-action" onclick="openModalColab()">
             <i data-lucide="user-plus" style="width:16px;height:16px"></i> Novo Colaborador
@@ -803,11 +817,11 @@
         </div>
         <select class="filter-select" id="filterEquipeFerias" onchange="renderFeriasTable()">
             <option value="">Todas as Equipes</option>
-            <option value="Equipe Lavínia">Equipe Lavínia</option>
-            <option value="Equipe Matheus">Equipe Matheus</option>
-            <option value="Equipe Nayara">Equipe Nayara</option>
-            <option value="Gois Promotora">Gois Promotora</option>
-            <option value="Treinamento">Treinamento</option>
+            
+            
+            
+            
+            
         </select>
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('ferias')">
@@ -898,11 +912,7 @@
             <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
             <select id="inputColabEquipe">
                 <option value="">Selecione...</option>
-                <option value="Equipe Lavínia">Equipe Lavínia</option>
-                <option value="Equipe Matheus">Equipe Matheus</option>
-                <option value="Equipe Nayara">Equipe Nayara</option>
-                <option value="Gois Promotora">Gois Promotora</option>
-                <option value="Treinamento">Treinamento</option>
+                <!-- EQUIPES_DINAMICAS -->
             </select>
         </div>
         <div class="form-group">
@@ -969,11 +979,7 @@
                 <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe Padrão (se não informada)</label>
                 <select id="inputEquipePadrao">
                     <option value="">Nenhuma</option>
-                    <option value="Equipe Lavínia">Equipe Lavínia</option>
-                    <option value="Equipe Matheus">Equipe Matheus</option>
-                    <option value="Equipe Nayara">Equipe Nayara</option>
-                    <option value="Gois Promotora">Gois Promotora</option>
-                    <option value="Treinamento">Treinamento</option>
+                    <!-- EQUIPES_DINAMICAS -->
                 </select>
             </div>
             <div class="form-group">
@@ -1034,11 +1040,7 @@
                 <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
                 <select id="inputEquipe">
                     <option value="">Selecione...</option>
-                    <option value="Equipe Lavínia">Equipe Lavínia</option>
-                    <option value="Equipe Matheus">Equipe Matheus</option>
-                    <option value="Equipe Nayara">Equipe Nayara</option>
-                    <option value="Gois Promotora">Gois Promotora</option>
-                    <option value="Treinamento">Treinamento</option>
+                    <!-- EQUIPES_DINAMICAS -->
                 </select>
             </div>
         </div>
@@ -1126,11 +1128,7 @@
                 <label><i data-lucide="users" style="width:12px;height:12px"></i> Equipe *</label>
                 <select id="inputFeriasEquipe">
                     <option value="">Selecione...</option>
-                    <option value="Equipe Lavínia">Equipe Lavínia</option>
-                    <option value="Equipe Matheus">Equipe Matheus</option>
-                    <option value="Equipe Nayara">Equipe Nayara</option>
-                    <option value="Gois Promotora">Gois Promotora</option>
-                    <option value="Treinamento">Treinamento</option>
+                    <!-- EQUIPES_DINAMICAS -->
                 </select>
             </div>
         </div>
@@ -1214,6 +1212,32 @@
     </div>
 </div>
 
+<!-- GERENCIAMENTO DE EQUIPES -->
+<div class="modal-overlay" id="modalEquipes" onclick="closeModalEquipesOutside(event)">
+    <div class="modal wide">
+        <div class="modal-header">
+            <h2><i data-lucide="users-round" style="width:18px;height:18px;color:#17c550"></i> Gerenciar Equipes</h2>
+            <button class="modal-close" onclick="closeModalEquipes()"><i data-lucide="x" style="width:16px;height:16px"></i></button>
+        </div>
+        <div class="import-info">
+            <strong>Importante:</strong> alterar o nome de uma equipe atualiza automaticamente os colaboradores,
+            desligados e registros de férias vinculados a ela. Nenhum colaborador será excluído.
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label><i data-lucide="plus" style="width:12px;height:12px"></i> Nova Equipe</label>
+                <input type="text" id="inputNovaEquipe" placeholder="Ex.: FÊNIX">
+            </div>
+            <div class="form-group" style="display:flex;align-items:flex-end">
+                <button class="btn-save" style="margin-top:0" onclick="adicionarEquipe()">
+                    <i data-lucide="plus-circle" style="width:16px;height:16px"></i> Adicionar Equipe
+                </button>
+            </div>
+        </div>
+        <div id="listaEquipesGerenciar"></div>
+    </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1244,7 +1268,7 @@ function salvarDados() {
         const dados = {
             registros, ferias, colaboradores,
             nextId, nextFeriasId, nextColabId,
-            config
+            config, equipeOrder
         };
         _setStorage('corban_registros',     JSON.stringify(registros));
         _setStorage('corban_ferias',        JSON.stringify(ferias));
@@ -1253,6 +1277,7 @@ function salvarDados() {
         _setStorage('corban_nextFeriasId',  String(nextFeriasId));
         _setStorage('corban_nextColabId',   String(nextColabId));
         _setStorage('corban_config',        JSON.stringify(config));
+        _setStorage('corban_equipes',        JSON.stringify(equipeOrder));
         console.log('✅ Dados salvos:', dados);
         return true;
     } catch (err) {
@@ -1318,7 +1343,7 @@ let filteredFeriasIds     = [];
 let colabViewMode      = "table";
 let desligadosViewMode = "table";
 let feriasViewMode     = "table";
-const equipeOrder = ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento"];
+let equipeOrder = ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento","FÊNIX"];
 let pendingDeleteFn = null;
 
 carregarDados();
@@ -1329,6 +1354,7 @@ const equipeColors = {
     "Equipe Nayara":  "#ec4899",
     "Gois Promotora": "#f59e0b",
     "Treinamento":    "#06b6d4",
+    "FÊNIX":           "#f97316",
 };
 
 // ============================================================
@@ -1630,11 +1656,144 @@ function updateColabCharts() {
         </div>`;
 }
 
+function escapeHtml(value) {
+    return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function normalizarEquipeNome(nome) {
+    return nome.trim().replace(/\\s+/g," ");
+}
+function equipeExiste(nome, ignorar="") {
+    return equipeOrder.some(e => e.toLowerCase() === nome.toLowerCase() && e.toLowerCase() !== ignorar.toLowerCase());
+}
+function getEquipeColor(equipe) {
+    if (!equipeColors[equipe]) {
+        const palette=["#8b5cf6","#3b82f6","#ec4899","#f59e0b","#06b6d4","#f97316","#10b981","#eab308","#14b8a6","#a855f7"];
+        let hash=0; for (let i=0;i<equipe.length;i++) hash=(hash*31+equipe.charCodeAt(i))>>>0;
+        equipeColors[equipe]=palette[hash%palette.length];
+    }
+    return equipeColors[equipe];
+}
+function updateAllTeamSelects() {
+    const ids = ["inputEquipe","inputColabEquipe","inputEquipePadrao"];
+    ids.forEach(id => {
+        const sel=document.getElementById(id);
+        if (!sel) return;
+        const atual=sel.value;
+        const first = id==="inputEquipePadrao" ? '<option value="">Nenhuma</option>' : '<option value="">Selecione...</option>';
+        sel.innerHTML = first + equipeOrder.map(e=>`<option value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join("");
+        if (equipeOrder.includes(atual)) sel.value=atual;
+    });
+}
 function updateFilterEquipe() {
     const sel=document.getElementById("filterEquipe");
     const val=sel.value;
     sel.innerHTML=`<option value="">Todas as Equipes</option>`+
-        ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento"].map(e=>`<option ${val===e?"selected":""} value="${e}">${e}</option>`).join("");
+        equipeOrder.map(e=>`<option ${val===e?"selected":""} value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join("");
+    updateAllTeamSelects();
+}
+function openModalEquipes() {
+    document.getElementById("inputNovaEquipe").value="";
+    renderEquipesManager();
+    document.getElementById("modalEquipes").classList.add("active");
+    lucide.createIcons();
+}
+function closeModalEquipes() { document.getElementById("modalEquipes").classList.remove("active"); }
+function closeModalEquipesOutside(e) { if (e.target===document.getElementById("modalEquipes")) closeModalEquipes(); }
+function renderEquipesManager() {
+    const box=document.getElementById("listaEquipesGerenciar");
+    if (!box) return;
+    box.innerHTML = '<div class="team-manager-list">' + equipeOrder.map((e,i)=>{
+        const qtd = colaboradores.filter(c=>c.equipe===e).length;
+        const qtdDes = registros.filter(r=>r.equipe===e).length;
+        const qtdFer = ferias.filter(f=>f.equipe===e).length;
+        const totalVinculos=qtd+qtdDes+qtdFer;
+        const color=getEquipeColor(e);
+        return `<div class="team-manager-item" id="teamManagerItem${i}">
+            <span class="team-dot" style="background:${color}"></span>
+            <span class="team-name">${escapeHtml(e)}</span>
+            <span class="team-members">${totalVinculos} vínculo(s)</span>
+            <div class="team-manager-actions">
+                <button title="Renomear equipe" onclick="editarEquipe(${i})"><i data-lucide="pencil" style="width:14px;height:14px"></i></button>
+                <button class="delete-team" title="Excluir equipe" onclick="excluirEquipe(${i})"><i data-lucide="trash-2" style="width:14px;height:14px"></i></button>
+            </div>
+        </div>`;
+    }).join("") + '</div>';
+    lucide.createIcons();
+}
+function adicionarEquipe() {
+    const nome=normalizarEquipeNome(document.getElementById("inputNovaEquipe").value);
+    if (!nome) { showToast("Informe o nome da equipe!","#f59e0b"); return; }
+    if (equipeExiste(nome)) { showToast("Essa equipe já existe!","#f59e0b"); return; }
+    equipeOrder.push(nome);
+    getEquipeColor(nome);
+    salvarDados();
+    updateFilterEquipe();
+    renderEquipesManager();
+    document.getElementById("inputNovaEquipe").value="";
+    showToast(`Equipe "${nome}" adicionada!`);
+}
+function editarEquipe(index) {
+    const item=document.getElementById("teamManagerItem"+index);
+    if (!item) return;
+    const nomeAtual=equipeOrder[index];
+    item.querySelector(".team-name").outerHTML=`<input id="teamEditInput${index}" value="${escapeHtml(nomeAtual)}" maxlength="80">`;
+    item.querySelector(".team-manager-actions").innerHTML=`
+        <button class="save-team" title="Salvar" onclick="salvarNomeEquipe(${index})"><i data-lucide="check" style="width:14px;height:14px"></i></button>
+        <button title="Cancelar" onclick="renderEquipesManager()"><i data-lucide="x" style="width:14px;height:14px"></i></button>`;
+    const input=document.getElementById("teamEditInput"+index);
+    input.focus(); input.select();
+    lucide.createIcons();
+}
+function salvarNomeEquipe(index) {
+    const nomeAntigo=equipeOrder[index];
+    const input=document.getElementById("teamEditInput"+index);
+    const novoNome=normalizarEquipeNome(input ? input.value : "");
+    if (!novoNome) { showToast("Informe o nome da equipe!","#f59e0b"); return; }
+    if (equipeExiste(novoNome,nomeAntigo)) { showToast("Já existe uma equipe com esse nome!","#f59e0b"); return; }
+    if (novoNome===nomeAntigo) { renderEquipesManager(); return; }
+
+    colaboradores.forEach(c=>{ if(c.equipe===nomeAntigo) c.equipe=novoNome; });
+    registros.forEach(r=>{ if(r.equipe===nomeAntigo) r.equipe=novoNome; });
+    ferias.forEach(f=>{ if(f.equipe===nomeAntigo) f.equipe=novoNome; });
+    equipeOrder[index]=novoNome;
+    if (equipeColors[nomeAntigo]) {
+        equipeColors[novoNome]=equipeColors[nomeAntigo];
+        delete equipeColors[nomeAntigo];
+    } else getEquipeColor(novoNome);
+
+    salvarDados();
+    updateFilterEquipe();
+    renderEquipesManager();
+    refreshAll();
+    showToast(`Equipe renomeada para "${novoNome}".`);
+}
+function excluirEquipe(index) {
+    const nome=equipeOrder[index];
+    const vinculos = colaboradores.filter(c=>c.equipe===nome).length +
+                     registros.filter(r=>r.equipe===nome).length +
+                     ferias.filter(f=>f.equipe===nome).length;
+    if (vinculos>0) {
+        showToast(`Não é possível excluir "${nome}": existem ${vinculos} vínculo(s). Renomeie a equipe ou transfira os registros primeiro.`,"#f59e0b");
+        return;
+    }
+    if (equipeOrder.length<=1) {
+        showToast("O sistema precisa ter pelo menos uma equipe.","#f59e0b");
+        return;
+    }
+    openModalConfirm(
+        `Excluir a equipe "${nome}"?`,
+        "A equipe está sem colaboradores ou registros vinculados. Nenhum colaborador será excluído.",
+        [nome],
+        ()=>{
+            equipeOrder.splice(index,1);
+            delete equipeColors[nome];
+            salvarDados();
+            updateFilterEquipe();
+            renderEquipesManager();
+            refreshAll();
+            showToast(`Equipe "${nome}" excluída.`,"#ef4444");
+        }
+    );
 }
 
 // ============================================================
@@ -2363,7 +2522,7 @@ function importarColabs() {
         // Se equipe veio na segunda posição (formato: Nome | Equipe)
         if (!equipe && partes[1]) {
             const p1 = partes[1];
-            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara", "Gois Promotora", "Treinamento"];
+            const equipesValidas = equipeOrder;
             const match = equipesValidas.find(e => 
                 e.toLowerCase() === p1.toLowerCase() ||
                 e.toLowerCase().replace("equipe ", "") === p1.toLowerCase()
@@ -2377,7 +2536,7 @@ function importarColabs() {
 
         // Normaliza nome de equipe
         if (equipe) {
-            const equipesValidas = ["Equipe Lavínia", "Equipe Matheus", "Equipe Nayara", "Gois Promotora", "Treinamento"];
+            const equipesValidas = equipeOrder;
             const equipeMatch = equipesValidas.find(e => 
                 e.toLowerCase() === equipe.toLowerCase() ||
                 e.toLowerCase().replace("equipe ", "") === equipe.toLowerCase()
@@ -2683,7 +2842,7 @@ function exportarPDF(tipo) {
 //  BACKUP / RESTAURAR / RESETAR
 // ============================================================
 function fazerBackup() {
-    const backup={ registros,ferias,colaboradores,config,nextId,nextFeriasId,nextColabId,data:new Date().toISOString() };
+    const backup={ registros,ferias,colaboradores,config,equipeOrder,nextId,nextFeriasId,nextColabId,data:new Date().toISOString() };
     const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
     const a=document.createElement("a");
     a.href=URL.createObjectURL(blob);
@@ -2703,6 +2862,8 @@ function restaurarBackup(event) {
                 if (dados.ferias)        ferias       =dados.ferias;
                 if (dados.colaboradores) colaboradores=dados.colaboradores;
                 if (dados.config)        config       =dados.config;
+                if (Array.isArray(dados.equipeOrder) && dados.equipeOrder.length) equipeOrder = dados.equipeOrder;
+                if (!equipeOrder.includes("FÊNIX")) equipeOrder.push("FÊNIX");
                 if (dados.nextId)        nextId       =dados.nextId;
                 if (dados.nextFeriasId)  nextFeriasId =dados.nextFeriasId;
                 if (dados.nextColabId)   nextColabId  =dados.nextColabId;
