@@ -548,11 +548,6 @@
         </div>
         <select class="filter-select" id="filterEquipeColab" onchange="renderColabTable()">
             <option value="">Todas as Equipes</option>
-            
-            
-            
-            
-            
         </select>
         <select class="filter-select" id="filterStatusColab" onchange="renderColabTable()">
             <option value="">Todos os Status</option>
@@ -817,11 +812,6 @@
         </div>
         <select class="filter-select" id="filterEquipeFerias" onchange="renderFeriasTable()">
             <option value="">Todas as Equipes</option>
-            
-            
-            
-            
-            
         </select>
         <div class="export-group">
             <button class="btn-export" onclick="exportarExcel('ferias')">
@@ -958,11 +948,11 @@
         <div class="import-info">
             <strong>📋 Formatos aceitos (um colaborador por linha):</strong><br><br>
             <strong style="color:#17c550">✅ Formato 1 — Completo:</strong>
-            <code style="display:block;margin:4px 0;padding:6px;color:#17c550">João Silva | M | Equipe Lavínia</code>
+            <code style="display:block;margin:4px 0;padding:6px;color:#17c550">João Silva | M | EQUIPE FÊNIX</code>
             <strong style="color:#17c550">✅ Formato 2 — Apenas nome (usa padrões abaixo):</strong>
             <code style="display:block;margin:4px 0;padding:6px;color:#17c550">João Silva<br>Maria Souza<br>Pedro Costa</code>
             <strong style="color:#17c550">✅ Formato 3 — Nome + Equipe:</strong>
-            <code style="display:block;margin:4px 0;padding:6px;color:#17c550">João Silva | Equipe Lavínia</code>
+            <code style="display:block;margin:4px 0;padding:6px;color:#17c550">João Silva | EQUIPE FÊNIX</code>
             <p style="margin-top:10px;color:#fbbf24">
                 💡 <strong>Separadores aceitos:</strong> <code>|</code> <code>;</code> <code>,</code> ou <strong>TAB</strong><br>
                 💡 <strong>Gênero automático:</strong> se não informado, detecta pelo final do nome (terminado em "a" = Feminino)<br>
@@ -972,7 +962,7 @@
         </div>
         <div class="form-group">
             <label><i data-lucide="list" style="width:12px;height:12px"></i> Cole a Lista Aqui</label>
-            <textarea id="inputImportar" placeholder="João Silva | M | Equipe Lavínia&#10;Maria Souza | F | Equipe Matheus&#10;Pedro Costa | M | Equipe Nayara"></textarea>
+            <textarea id="inputImportar" placeholder="João Silva | M | EQUIPE FÊNIX&#10;Maria Souza | F | EQUIPE TITÃS&#10;Pedro Costa | M | EQUIPE NAYARA"></textarea>
         </div>
         <div class="form-row">
             <div class="form-group">
@@ -1221,12 +1211,13 @@
         </div>
         <div class="import-info">
             <strong>Importante:</strong> alterar o nome de uma equipe atualiza automaticamente os colaboradores,
-            desligados e registros de férias vinculados a ela. Nenhum colaborador será excluído.
+            desligados e registros de férias vinculados a ela. Nenhum colaborador será excluído.<br>
+            <strong>Novas equipes</strong> são salvas em maiúsculas com o prefixo <code>EQUIPE</code> (ex.: <code>EQUIPE FÊNIX</code>).
         </div>
         <div class="form-row">
             <div class="form-group">
                 <label><i data-lucide="plus" style="width:12px;height:12px"></i> Nova Equipe</label>
-                <input type="text" id="inputNovaEquipe" placeholder="Ex.: FÊNIX">
+                <input type="text" id="inputNovaEquipe" placeholder="Ex.: EQUIPE FÊNIX">
             </div>
             <div class="form-group" style="display:flex;align-items:flex-end">
                 <button class="btn-save" style="margin-top:0" onclick="adicionarEquipe()">
@@ -1296,6 +1287,7 @@ function carregarDados() {
         const nFId= _getStorage('corban_nextFeriasId');
         const nCId= _getStorage('corban_nextColabId');
         const cfg = _getStorage('corban_config');
+        const eq  = _getStorage('corban_equipes');
         
         if (reg)  registros     = JSON.parse(reg);
         if (fer)  ferias        = JSON.parse(fer);
@@ -1304,31 +1296,35 @@ function carregarDados() {
         if (nFId) nextFeriasId  = parseInt(nFId);
         if (nCId) nextColabId   = parseInt(nCId);
         if (cfg)  config        = JSON.parse(cfg);
+        if (eq) {
+            const arr = JSON.parse(eq);
+            if (Array.isArray(arr) && arr.length) equipeOrder = arr;
+        }
         
-        console.log('✅ Dados carregados:', { registros, ferias, colaboradores, config });
-        return true;
+        console.log('✅ Dados carregados:', { registros, ferias, colaboradores, config, equipeOrder });
     } catch (err) {
         console.error('❌ Erro ao carregar:', err);
-        return false;
     }
+    if (migrarEquipesAntigas()) salvarDados();
+    return true;
 }
 // ============================================================
 //  DADOS INICIAIS
 // ============================================================
 let registros = [
-    { id:1, nome:"Isabelle Ferreira", cargo:"Vendedora", genero:"F", equipe:"Equipe Lavínia",  data:"2025-04-15", status:"livre",  novoUsuario:"", dataReatribuicao:"", obs:"" },
-    { id:2, nome:"Ruth Oliveira",     cargo:"Vendedora", genero:"F", equipe:"Equipe Matheus",  data:"2025-03-20", status:"em_uso", novoUsuario:"Matheus Henrique", dataReatribuicao:"2025-03-25", obs:"" },
+    { id:1, nome:"Isabelle Ferreira", cargo:"Vendedora", genero:"F", equipe:"EQUIPE FÊNIX",  data:"2025-04-15", status:"livre",  novoUsuario:"", dataReatribuicao:"", obs:"" },
+    { id:2, nome:"Ruth Oliveira",     cargo:"Vendedora", genero:"F", equipe:"EQUIPE TITÃS",  data:"2025-03-20", status:"em_uso", novoUsuario:"Matheus Henrique", dataReatribuicao:"2025-03-25", obs:"" },
 ];
 let ferias = [
-    { id:1, nome:"Carla Mendes", equipe:"Equipe Lavínia", inicio:"2025-07-01", retorno:"2025-07-30", status:"livre", usuarioTemp:"", obs:"" },
+    { id:1, nome:"Carla Mendes", equipe:"EQUIPE FÊNIX", inicio:"2025-07-01", retorno:"2025-07-30", status:"livre", usuarioTemp:"", obs:"" },
 ];
 let colaboradores = [
-    { id:1, nome:"Lavínia Santos",   cargo:"Líder de Equipe", genero:"F", equipe:"Equipe Lavínia",  obs:"" },
-    { id:2, nome:"Matheus Henrique", cargo:"Líder de Equipe", genero:"M", equipe:"Equipe Matheus",  obs:"" },
-    { id:3, nome:"Nayara Costa",     cargo:"Líder de Equipe", genero:"F", equipe:"Equipe Nayara",   obs:"" },
-    { id:4, nome:"Ana Paula",        cargo:"Vendedora",        genero:"F", equipe:"Equipe Matheus",  obs:"" },
-    { id:5, nome:"Camila Santos",    cargo:"Vendedora",        genero:"F", equipe:"Equipe Nayara",   obs:"" },
-    { id:6, nome:"João Silva",       cargo:"Vendedor",         genero:"M", equipe:"Equipe Lavínia",  obs:"" },
+    { id:1, nome:"Lavínia Santos",   cargo:"Líder de Equipe", genero:"F", equipe:"EQUIPE FÊNIX",  obs:"" },
+    { id:2, nome:"Matheus Henrique", cargo:"Líder de Equipe", genero:"M", equipe:"EQUIPE TITÃS",  obs:"" },
+    { id:3, nome:"Nayara Costa",     cargo:"Líder de Equipe", genero:"F", equipe:"EQUIPE NAYARA", obs:"" },
+    { id:4, nome:"Ana Paula",        cargo:"Vendedora",        genero:"F", equipe:"EQUIPE TITÃS",  obs:"" },
+    { id:5, nome:"Camila Santos",    cargo:"Vendedora",        genero:"F", equipe:"EQUIPE NAYARA", obs:"" },
+    { id:6, nome:"João Silva",       cargo:"Vendedor",         genero:"M", equipe:"EQUIPE FÊNIX",  obs:"" },
 ];
 let config      = { totalLicencas: 50, valorLicenca: 150.00 };
 let editId      = null, editFeriasId = null, editColabId = null;
@@ -1343,18 +1339,69 @@ let filteredFeriasIds     = [];
 let colabViewMode      = "table";
 let desligadosViewMode = "table";
 let feriasViewMode     = "table";
-let equipeOrder = ["Equipe Lavínia","Equipe Matheus","Equipe Nayara","Gois Promotora","Treinamento","FÊNIX"];
+let equipeOrder = ["EQUIPE FÊNIX","EQUIPE TITÃS","EQUIPE NAYARA","EQUIPE GOIS PROMOTORA","EQUIPE TREINAMENTO"];
 let pendingDeleteFn = null;
+
+// ============================================================
+//  EQUIPES — PADRÕES E MIGRAÇÃO DOS NOMES ANTIGOS
+//  Edite a lista abaixo para definir as equipes iniciais.
+//  Depois pode adicionar/renomear pelo botão "Gerenciar Equipes".
+// ============================================================
+const EQUIPES_PADRAO = ["EQUIPE FÊNIX","EQUIPE TITÃS","EQUIPE NAYARA","EQUIPE GOIS PROMOTORA","EQUIPE TREINAMENTO"];
+
+// Nomes antigos -> nomes novos (ajuste aqui se quiser outro destino)
+const MAPA_EQUIPAS_ANTIGAS = {
+    "equipe lavínia":  "EQUIPE FÊNIX",
+    "equipe matheus":  "EQUIPE TITÃS",
+    "equipe nayara":   "EQUIPE NAYARA",
+    "gois promotora":  "EQUIPE GOIS PROMOTORA",
+    "treinamento":     "EQUIPE TREINAMENTO",
+    "fênix":           "EQUIPE FÊNIX",
+    "titãs":           "EQUIPE TITÃS",
+};
+
+function migrarNomeEquipe(nome) {
+    if (!nome) return nome;
+    const chave = String(nome).trim().toLowerCase().replace(/\s+/g, " ");
+    return MAPA_EQUIPAS_ANTIGAS[chave] || nome;
+}
+
+function migrarEquipesAntigas(forcar = false) {
+    if (!forcar && _getStorage("corban_migracao_equipes_v2") === "1") return false;
+
+    let encontrouAntiga = false, mudou = false;
+    [registros, ferias, colaboradores].forEach(lista => {
+        lista.forEach(item => {
+            const novo = migrarNomeEquipe(item.equipe);
+            if (novo !== item.equipe) { item.equipe = novo; encontrouAntiga = true; mudou = true; }
+        });
+    });
+
+    const ordem = [];
+    equipeOrder.forEach(e => {
+        const novo = migrarNomeEquipe(e);
+        if (novo !== e) { encontrouAntiga = true; mudou = true; }
+        if (!ordem.some(x => x.toLowerCase() === novo.toLowerCase())) ordem.push(novo);
+    });
+
+    if (encontrouAntiga) {
+        EQUIPES_PADRAO.forEach(e => {
+            if (!ordem.some(x => x.toLowerCase() === e.toLowerCase())) { ordem.push(e); mudou = true; }
+        });
+    }
+    equipeOrder = ordem.length ? ordem : [...EQUIPES_PADRAO];
+    _setStorage("corban_migracao_equipes_v2", "1");
+    return mudou;
+}
 
 carregarDados();
 
 const equipeColors = {
-    "Equipe Lavínia": "#8b5cf6",
-    "Equipe Matheus": "#3b82f6",
-    "Equipe Nayara":  "#ec4899",
-    "Gois Promotora": "#f59e0b",
-    "Treinamento":    "#06b6d4",
-    "FÊNIX":           "#f97316",
+    "EQUIPE FÊNIX":          "#8b5cf6",
+    "EQUIPE TITÃS":          "#3b82f6",
+    "EQUIPE NAYARA":         "#ec4899",
+    "EQUIPE GOIS PROMOTORA": "#f59e0b",
+    "EQUIPE TREINAMENTO":    "#06b6d4",
 };
 
 // ============================================================
@@ -1660,7 +1707,10 @@ function escapeHtml(value) {
     return String(value ?? "").replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
 }
 function normalizarEquipeNome(nome) {
-    return nome.trim().replace(/\\s+/g," ");
+    let n = String(nome || "").trim().replace(/\s+/g, " ").toUpperCase();
+    if (!n) return "";
+    if (n !== "EQUIPE" && !n.startsWith("EQUIPE ")) n = "EQUIPE " + n;
+    return n;
 }
 function equipeExiste(nome, ignorar="") {
     return equipeOrder.some(e => e.toLowerCase() === nome.toLowerCase() && e.toLowerCase() !== ignorar.toLowerCase());
@@ -1674,7 +1724,7 @@ function getEquipeColor(equipe) {
     return equipeColors[equipe];
 }
 function updateAllTeamSelects() {
-    const ids = ["inputEquipe","inputColabEquipe","inputEquipePadrao"];
+    const ids = ["inputEquipe","inputColabEquipe","inputEquipePadrao","inputFeriasEquipe"];
     ids.forEach(id => {
         const sel=document.getElementById(id);
         if (!sel) return;
@@ -1685,10 +1735,13 @@ function updateAllTeamSelects() {
     });
 }
 function updateFilterEquipe() {
-    const sel=document.getElementById("filterEquipe");
-    const val=sel.value;
-    sel.innerHTML=`<option value="">Todas as Equipes</option>`+
-        equipeOrder.map(e=>`<option ${val===e?"selected":""} value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join("");
+    ["filterEquipe","filterEquipeColab","filterEquipeFerias"].forEach(id => {
+        const sel=document.getElementById(id);
+        if (!sel) return;
+        const val=sel.value;
+        sel.innerHTML=`<option value="">Todas as Equipes</option>`+
+            equipeOrder.map(e=>`<option ${val===e?"selected":""} value="${escapeHtml(e)}">${escapeHtml(e)}</option>`).join("");
+    });
     updateAllTeamSelects();
 }
 function openModalEquipes() {
@@ -2863,7 +2916,7 @@ function restaurarBackup(event) {
                 if (dados.colaboradores) colaboradores=dados.colaboradores;
                 if (dados.config)        config       =dados.config;
                 if (Array.isArray(dados.equipeOrder) && dados.equipeOrder.length) equipeOrder = dados.equipeOrder;
-                if (!equipeOrder.includes("FÊNIX")) equipeOrder.push("FÊNIX");
+                migrarEquipesAntigas(true);
                 if (dados.nextId)        nextId       =dados.nextId;
                 if (dados.nextFeriasId)  nextFeriasId =dados.nextFeriasId;
                 if (dados.nextColabId)   nextColabId  =dados.nextColabId;
